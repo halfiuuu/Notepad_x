@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/tna_save"
+        android:icon="@drawable/save"
+        android:title="@string/save"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/tna_change_title"
+        android:title="@string/change_title"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/tna_save_exit"
+        android:title="@string/save_n_exit"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/tna_delete"
+        android:title="@string/delete_note"
+        app:showAsAction="never" />
+</menu>

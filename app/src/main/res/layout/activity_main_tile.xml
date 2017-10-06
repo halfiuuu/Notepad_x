@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<halfardawid.notepadx.layouts.SquareRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/amt_whole"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/placeholder_colorTile"
+    style="@style/Widget.AppCompat.Button.Colored">
+
+    <RelativeLayout
+        android:id="@+id/amt_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/placeholder_colorTile_top"
+        android:padding="2pt">
+
+        <TextView
+            android:id="@+id/amt_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="Placeholder"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/amt_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/amt_top_bar">
+
+    </RelativeLayout>
+</halfardawid.notepadx.layouts.SquareRelativeLayout>

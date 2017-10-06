@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Notepad+x</string>
+    <string name="mam_addnote">Add a note</string>
+    <string name="mam_delete">Delete all</string>
+    <string name="confirm">Confirm</string>
+    <string name="are_you_sure_delete_all">Are you sure you want to delete every single note you\'ve stored here?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="loading_went_wrong">Loading of the note went terribly wrong... You kind of should report it, that should not happen, like... at all.</string>
+    <string name="change_title">Change title</string>
+    <string name="save_n_exit">Save and exit</string>
+    <string name="delete_note">Delete this note</string>
+    <string name="save">Save</string>
+    <string name="exit">Exit</string>
+    <string name="input_new_title">Input new title</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
+    <string name="saving_went_bad">Saving didn\'t go as planned, note did not get saved. ;(</string>
+    <string name="saved">Saved note</string>
+</resources>
