@@ -11,14 +11,16 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.GridView;
+import android.widget.Toast;
 
-import java.util.UUID;
+import java.lang.reflect.InvocationTargetException;
 
 import halfardawid.notepadx.util.note.Note;
 import halfardawid.notepadx.util.note.NoteAdapter;
 import halfardawid.notepadx.util.note.NoteList;
 import halfardawid.notepadx.R;
-import halfardawid.notepadx.util.note.TextNote;
+import halfardawid.notepadx.util.note.NoteTypePair;
+import halfardawid.notepadx.util.note.types.TextNote;
 
 public final class MainActivity extends AppCompatActivity {
 
@@ -78,8 +80,39 @@ public final class MainActivity extends AppCompatActivity {
     }
 
     private boolean add_new_note() {
-        startActivityForResult(TextNote.getNewIntent(this),NOTE_EDITOR_RESULT);
-        return true;
+        try {
+            final NoteTypePair[] ntp = Note.getPossibleNotes(this);
+            final MainActivity t=this;
+            String[] strings = new String[ntp.length];
+            for (int a = 0; a < ntp.length; a++) {
+                strings[a] = ntp[a].get_name_type(this);
+            }
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.choose_note_type)
+                    .setItems(strings, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            try {
+                                Intent i=ntp[which].get_editor_intent(getApplicationContext());
+                                if(i==null) Toast.makeText(t, R.string.no_editor_what, Toast.LENGTH_SHORT).show();
+                                else t.startActivityForResult(i,NOTE_EDITOR_RESULT);
+                            } catch (Exception e) {
+                                t.notify(e);
+                            }
+                        }
+                    }).create().show();
+
+
+            //startActivityForResult(TextNote.getNewIntent(this),NOTE_EDITOR_RESULT);
+        }catch(Exception e){
+            notify(e);
+        }finally{
+            return true;
+        }
+    }
+
+    private void notify(Exception e) {
+        Log.wtf(TAG,"build failure, or something...",e);
+        Toast.makeText(this, R.string.sorry_error, Toast.LENGTH_LONG).show();
     }
 
     private void initGridView(@IdRes int id){

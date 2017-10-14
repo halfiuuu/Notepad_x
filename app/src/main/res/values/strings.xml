@@ -17,4 +17,9 @@
     <string name="cancel">Cancel</string>
     <string name="saving_went_bad">Saving didn\'t go as planned, note did not get saved. ;(</string>
     <string name="saved">Saved note</string>
+    <string name="text_note">Text note</string>
+    <string name="choose_note_type">Pick a type of note</string>
+    <string name="sorry_error">I\'m sorry, but whoever built this, didn\'t test this... An error occured! :(</string>
+    <string name="sketch_note">Sketch</string>
+    <string name="no_editor_what">This is odd... There should be an editor, yet i couldn\'t find it...</string>
 </resources>

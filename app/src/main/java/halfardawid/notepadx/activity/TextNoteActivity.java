@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -21,7 +20,7 @@ import java.io.IOException;
 import halfardawid.notepadx.R;
 import halfardawid.notepadx.util.exceptions.NoSuchNoteTypeException;
 import halfardawid.notepadx.util.note.Note;
-import halfardawid.notepadx.util.note.TextNote;
+import halfardawid.notepadx.util.note.types.TextNote;
 
 public final class TextNoteActivity extends AppCompatActivity {
 

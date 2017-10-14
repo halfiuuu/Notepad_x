@@ -1,7 +1,8 @@
-package halfardawid.notepadx.util.note;
+package halfardawid.notepadx.util.note.types;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.IdRes;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,10 +19,13 @@ import java.util.zip.Inflater;
 import halfardawid.notepadx.R;
 import halfardawid.notepadx.activity.TextNoteActivity;
 import halfardawid.notepadx.util.exceptions.NoSuchNoteTypeException;
+import halfardawid.notepadx.util.note.Note;
+
 
 public final class TextNote extends Note {
 
     public final static String TYPE="txt";
+    public final static int NAME_TYPE=R.string.text_note;
     String data;
 
     public TextNote(UUID uuid, String data,String title) throws JSONException{

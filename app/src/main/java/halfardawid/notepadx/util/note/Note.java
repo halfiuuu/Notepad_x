@@ -3,7 +3,6 @@ package halfardawid.notepadx.util.note;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,14 +16,51 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
 import halfardawid.notepadx.R;
 import halfardawid.notepadx.activity.MainActivity;
 import halfardawid.notepadx.util.exceptions.NoSuchNoteTypeException;
+import halfardawid.notepadx.util.note.types.SketchNote;
+import halfardawid.notepadx.util.note.types.TextNote;
+
+/**
+ * note to self, i guess...
+ *
+ * Important stuff, a note class to be processable requires additional static components such as:
+
+ public final static String TYPE="txt"; --------------------,_____________________________________,
+                                                            for type recognition in I/O operations
+
+ public final static int NAME_TYPE=R.string.text_note; -----,___________________________________________,
+                                                            for automatic listing of possible note types
+
+ public static Intent getNewIntent(Context con) ------------,___________________________________________________________________,
+                                                            Simply for opening the editor for the note without any data included
+
+ Also, a constructor with (UUID uuid,String data,String title) is a necessity for loading from file
+
+ */
 
 public abstract class Note {
+
+    public static final java.lang.Class types[]={TextNote.class, SketchNote.class};
+
+    public static NoteTypePair[] getPossibleNotes(Context con){
+        List<NoteTypePair> list=new ArrayList<NoteTypePair>();
+        for(Class cl:types){
+            try {
+                list.add(new NoteTypePair(con,cl));
+            } catch (NoSuchFieldException|IllegalAccessException|NoSuchMethodException e) {
+                Log.wtf(TAG,"Omg what a noob wrote this code? Urghhh! (possible notes list fuckup)",e);
+            }
+        }
+        return list.toArray(new NoteTypePair[list.size()]);
+    }
 
     public static final String TAG = "NOTE_CLASS";
 
@@ -33,7 +69,7 @@ public abstract class Note {
     public static final String TYPE = "tp";
 
     public static final String UUID_EXTRA="UUID";
-    public static final int FLAGS=Base64.NO_PADDING|Base64.NO_WRAP|Base64.NO_CLOSE;
+    //public static final int FLAGS=Base64.NO_PADDING|Base64.NO_WRAP|Base64.NO_CLOSE;
 
     protected String title="";
     protected UUID uuid;
@@ -112,10 +148,19 @@ public abstract class Note {
         String data = object.getString(DATA);
         String type = object.getString(TYPE);
         UUID uuid=UUID.fromString(file.getName());
-        switch(type){
+
+        for(NoteTypePair typePair:getPossibleNotes(null)) {
+            try {
+                if(!typePair.is(type))continue;
+                return typePair.build(uuid,data,title);
+            } catch (NoSuchFieldException|IllegalAccessException|NoSuchMethodException|InvocationTargetException|InstantiationException e) {
+                Log.wtf(TAG,"Yea, those errors are unacceptable, but still accounted for i guess...",e);
+            }
+        }
+        /*switch(type){
             case TextNote.TYPE:
                 return new TextNote(uuid,data,title);
-        }
+        }*/
         throw new NoSuchNoteTypeException(type);
     }
 

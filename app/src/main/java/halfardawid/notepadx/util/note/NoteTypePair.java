@@ -1,0 +1,51 @@
+package halfardawid.notepadx.util.note;
+
+import android.content.Context;
+import android.content.Intent;
+import android.support.annotation.NonNull;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.UUID;
+
+public final class NoteTypePair {
+    public final Class type;
+    public final String name;
+
+    public NoteTypePair(Context con, Class tp) throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException {
+        type = tp;
+        name = (con != null) ? get_name_type(con) : "No context provided";
+        //kind of temporary fail-safe... or rather fail->instant
+        get_new_intent_method();
+        get_type();
+    }
+
+    public Intent get_editor_intent(Context con) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        return (Intent) get_new_intent_method().invoke(null, con);
+    }
+
+    public String get_type() throws NoSuchFieldException, IllegalAccessException {
+        return (String) type.getDeclaredField("TYPE").get(null);
+    }
+
+    private Method get_new_intent_method() throws NoSuchMethodException {
+        return type.getDeclaredMethod("getNewIntent", Context.class);
+    }
+
+    public String get_name_type(Context con) throws IllegalAccessException, NoSuchFieldException {
+        return con.getString(get_name_type_field(type).getInt(null));
+    }
+
+    private Field get_name_type_field(Class tp) throws NoSuchFieldException {
+        return tp.getDeclaredField("NAME_TYPE");
+    }
+
+    public boolean is(String type) throws NoSuchFieldException, IllegalAccessException {
+        return type.equals(get_type());
+    }
+
+    public Note build(UUID uuid, String data, String title) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        return (Note) type.getConstructor(UUID.class,String.class,String.class).newInstance(uuid,data,title);
+    }
+}
