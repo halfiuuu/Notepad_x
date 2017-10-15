@@ -20,36 +20,18 @@ import java.io.IOException;
 import halfardawid.notepadx.R;
 import halfardawid.notepadx.util.exceptions.NoSuchNoteTypeException;
 import halfardawid.notepadx.util.note.Note;
+import halfardawid.notepadx.util.note.types.SketchNote;
 import halfardawid.notepadx.util.note.types.TextNote;
 
-public final class TextNoteActivity extends GenericNoteActivity<TextNote> {
+public class SketchActivity extends GenericNoteActivity<SketchNote> {
+    public static final String TAG="SKETCH_EDITOR";
 
-    public final String TAG="TEXTNOTE_ACTIVITY";
-
-    private EditText editText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_text_note);
-        bindElements();
-        loadIntentData(TextNote.class);
-        refreshDataToView();
+        setContentView(R.layout.activity_sketch);
+        loadIntentData(SketchNote.class);
     }
-
-    private void bindElements(){
-        editText=(EditText)findViewById(R.id.atn_note_editor);
-    }
-
-    private void refreshDataToView(){
-        if(editText==null){
-            Log.wtf(TAG,"called refresh with null element, good job dummy...");
-            return;
-        }
-        editText.setText(note.getText());
-        setTitle(note.getTitle());
-    }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -86,6 +68,6 @@ public final class TextNoteActivity extends GenericNoteActivity<TextNote> {
 
     @Override
     protected void prepareForSave() {
-        note.setText(editText.getText().toString());
+
     }
 }

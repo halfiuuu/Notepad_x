@@ -42,6 +42,9 @@ import halfardawid.notepadx.util.note.types.TextNote;
  public static Intent getNewIntent(Context con) ------------,___________________________________________________________________,
                                                             Simply for opening the editor for the note without any data included
 
+ public static T(ex:note) mk_new() -------------------------,__________________________________________________________,
+                                                            For generic methods in activities, returns a blank of type
+
  Also, a constructor with (UUID uuid,String data,String title) is a necessity for loading from file
 
  */
@@ -50,16 +53,16 @@ public abstract class Note {
 
     public static final java.lang.Class types[]={TextNote.class, SketchNote.class};
 
-    public static NoteTypePair[] getPossibleNotes(Context con){
-        List<NoteTypePair> list=new ArrayList<NoteTypePair>();
+    public static NoteType[] getPossibleNotes(Context con){
+        List<NoteType> list=new ArrayList<NoteType>();
         for(Class cl:types){
             try {
-                list.add(new NoteTypePair(con,cl));
+                list.add(new NoteType(con,cl));
             } catch (NoSuchFieldException|IllegalAccessException|NoSuchMethodException e) {
                 Log.wtf(TAG,"Omg what a noob wrote this code? Urghhh! (possible notes list fuckup)",e);
             }
         }
-        return list.toArray(new NoteTypePair[list.size()]);
+        return list.toArray(new NoteType[list.size()]);
     }
 
     public static final String TAG = "NOTE_CLASS";
@@ -149,7 +152,7 @@ public abstract class Note {
         String type = object.getString(TYPE);
         UUID uuid=UUID.fromString(file.getName());
 
-        for(NoteTypePair typePair:getPossibleNotes(null)) {
+        for(NoteType typePair:getPossibleNotes(null)) {
             try {
                 if(!typePair.is(type))continue;
                 return typePair.build(uuid,data,title);

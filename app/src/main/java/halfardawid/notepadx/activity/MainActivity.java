@@ -13,14 +13,11 @@ import android.view.MenuItem;
 import android.widget.GridView;
 import android.widget.Toast;
 
-import java.lang.reflect.InvocationTargetException;
-
 import halfardawid.notepadx.util.note.Note;
 import halfardawid.notepadx.util.note.NoteAdapter;
 import halfardawid.notepadx.util.note.NoteList;
 import halfardawid.notepadx.R;
-import halfardawid.notepadx.util.note.NoteTypePair;
-import halfardawid.notepadx.util.note.types.TextNote;
+import halfardawid.notepadx.util.note.NoteType;
 
 public final class MainActivity extends AppCompatActivity {
 
@@ -81,7 +78,7 @@ public final class MainActivity extends AppCompatActivity {
 
     private boolean add_new_note() {
         try {
-            final NoteTypePair[] ntp = Note.getPossibleNotes(this);
+            final NoteType[] ntp = Note.getPossibleNotes(this);
             final MainActivity t=this;
             String[] strings = new String[ntp.length];
             for (int a = 0; a < ntp.length; a++) {

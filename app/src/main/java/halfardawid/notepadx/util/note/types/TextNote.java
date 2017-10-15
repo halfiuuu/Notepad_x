@@ -49,6 +49,9 @@ public final class TextNote extends Note {
         return TYPE;
     }
 
+    public static Note mk_new(){
+        return new TextNote();
+    }
 
     public Intent getEditIntent(Context con) {
         Intent in=getNewIntent(con);

@@ -9,11 +9,16 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.UUID;
 
-public final class NoteTypePair {
+public final class NoteType {
+
+    public static final String TYPE = "TYPE";
+    public static final String GET_NEW_INTENT = "getNewIntent";
+    public static final String NAME_TYPE = "NAME_TYPE";
+
     public final Class type;
     public final String name;
 
-    public NoteTypePair(Context con, Class tp) throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException {
+    public NoteType(Context con, Class tp) throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException {
         type = tp;
         name = (con != null) ? get_name_type(con) : "No context provided";
         //kind of temporary fail-safe... or rather fail->instant
@@ -26,11 +31,11 @@ public final class NoteTypePair {
     }
 
     public String get_type() throws NoSuchFieldException, IllegalAccessException {
-        return (String) type.getDeclaredField("TYPE").get(null);
+        return (String) type.getDeclaredField(TYPE).get(null);
     }
 
     private Method get_new_intent_method() throws NoSuchMethodException {
-        return type.getDeclaredMethod("getNewIntent", Context.class);
+        return type.getDeclaredMethod(GET_NEW_INTENT, Context.class);
     }
 
     public String get_name_type(Context con) throws IllegalAccessException, NoSuchFieldException {
@@ -38,7 +43,7 @@ public final class NoteTypePair {
     }
 
     private Field get_name_type_field(Class tp) throws NoSuchFieldException {
-        return tp.getDeclaredField("NAME_TYPE");
+        return tp.getDeclaredField(NAME_TYPE);
     }
 
     public boolean is(String type) throws NoSuchFieldException, IllegalAccessException {
