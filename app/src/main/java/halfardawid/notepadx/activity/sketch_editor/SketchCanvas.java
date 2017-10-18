@@ -16,11 +16,6 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import halfardawid.notepadx.util.vectors.Vector2i;
 
-import static halfardawid.notepadx.util.vectors.Vector2i.OUT_OF_BOUNDS.BOTTOM;
-import static halfardawid.notepadx.util.vectors.Vector2i.OUT_OF_BOUNDS.TOP;
-import static halfardawid.notepadx.util.vectors.Vector2i.OUT_OF_BOUNDS.LEFT;
-import static halfardawid.notepadx.util.vectors.Vector2i.OUT_OF_BOUNDS.RIGHT;
-import static halfardawid.notepadx.util.vectors.Vector2i.OUT_OF_BOUNDS.NONE;
 
 public class SketchCanvas extends View {
     private static final String TAG = "SKETCH_CANVAS";
@@ -33,11 +28,11 @@ public class SketchCanvas extends View {
 
     private Bitmap makeClearBitmap(Vector2i s){
         Bitmap b=Bitmap.createBitmap(s.x,s.y, Bitmap.Config.ARGB_8888);
-        /*for(int x=0;x<s.x;x++){
+        for(int x=0;x<s.x;x++){
             for(int y=0;y<s.y;y++){
-                b.setPixel(x,y,Color.BLUE);
+                b.setPixel(x,y,Color.RED);
             }
-        }*/
+        }
         return b;
     }
 
@@ -46,11 +41,11 @@ public class SketchCanvas extends View {
 
     private int brush_width=10;
 
-    private Vector2i size=new Vector2i(1000,1000);
-    private int steps=500;
+    private Vector2i size=new Vector2i(100,100);
+    private int steps=50;
 
     private Bitmap bitmap;
-    private Vector2i offset=new Vector2i(0,0);
+    private Vector2i offset=new Vector2i(100,100);
 
     @Override
     protected void onDraw(Canvas c){
@@ -101,59 +96,44 @@ public class SketchCanvas extends View {
     }
 
     private void drawPixel(Vector2i pos, int c) {
-        Vector2i pob = expandIfNeeded(pos);
-        bitmap.setPixel(pob.x, pob.y, c);
+        Vector2i np=new Vector2i(pos);
+        np.sub(offset);
+        expandIfNeeded(np);
+        np=new Vector2i(pos);
+        np.sub(offset);
+        bitmap.setPixel(np.x, np.y, c);
     }
 
     @NonNull
-    private Vector2i expandIfNeeded(Vector2i pos) {
-        Vector2i pob;
-        Vector2i expansion=null;
-        for (; ; ) {
-            pob = new Vector2i(pos);
-            pob.add(offset);
-            Vector2i.OUT_OF_BOUNDS bounds = pob.checkInBounds(size);
-            if (bounds == NONE) break;
-            Vector2i e=calc_expand(bounds);
-            if(expansion==null)expansion=e;
-            else expansion.add(e);
-            //Log.d(TAG,"Bitmap expansion needed, "+expansion);
-        }
-        if(expansion!=null) {
-            Bitmap b = makeClearBitmap(size);
-            copyOnBitmap(expansion, b);
-            bitmap = b;
-            Log.d(TAG,"Bitmap expanded");
-        }
-        return pob;
+    private void expandIfNeeded(Vector2i pos) {
+        Vector2i changes = pos.checkInBounds(size,steps);
+        if(changes.isNone())return;
+        //Log.d(TAG,"Changes needed for "+pos+" as "+changes);
+        Vector2i addSize=new Vector2i(changes);
+        addSize.abs();
+        addSize.add(size);
+        //Log.d(TAG,"sum size "+addSize);
+        Bitmap b = makeClearBitmap(addSize);
+        Vector2i f=new Vector2i(changes);
+        f.cutAllPositive();
+        f.abs();
+        //Log.d(TAG,"new offset "+f);
+        copyOnBitmap(f, b);
+        bitmap = b;
+        //Log.d(TAG,"Bitmap expanded");
+        offset.sub(f);
+        size.copy(addSize);
     }
 
-    private Vector2i calc_expand(Vector2i.OUT_OF_BOUNDS bounds) {
-            if (bounds == TOP || bounds == BOTTOM) {
-                size.y += steps;
-            } else if (bounds == LEFT || bounds == RIGHT) {
-                size.x += steps;
-            }
-            return getOffsetBitmap(bounds);
-    }
 
     private void copyOnBitmap(Vector2i o, Bitmap b) {
-        for(int x=0;x<bitmap.getWidth();x++)
-            for(int y=0;y<bitmap.getHeight();y++)
-                b.setPixel(x+o.x,y+o.y,bitmap.getPixel(x,y));
-    }
-
-    private Vector2i getOffsetBitmap(Vector2i.OUT_OF_BOUNDS bounds) {
-        switch(bounds){
-            case TOP:
-                offset.y+=steps;
-                return new Vector2i(0,steps);
-            case LEFT:
-                offset.x+=steps;
-                return new Vector2i(steps,0);
-            default:
-                return new Vector2i(0,0);
-        }
+        //Log.d(TAG, b.getWidth()+"/"+b.getHeight()+" new bitmap");
+        //Log.d(TAG, bitmap.getWidth()+"/"+bitmap.getHeight()+" old bitmap +"+size);
+        for(int x=0;x<size.x;x++)
+            for(int y=0;y<size.y;y++) {
+                //Log.d(TAG,"copy "+x+"/"+y+" to "+(x+o.x)+"/"+(y+o.y));
+                b.setPixel(x + o.x, y + o.y, bitmap.getPixel(x, y));
+            }
     }
 
     private void moveEvent(Vector2i pos, int action) {
