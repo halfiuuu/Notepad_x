@@ -23,7 +23,7 @@ public class SketchCanvas extends View {
 
     public SketchCanvas(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        bitmap=makeClearBitmap(size);
+        bitmap=makeClearBitmap(default_size);
     }
 
     private Bitmap makeClearBitmap(Vector2i s){
@@ -41,11 +41,11 @@ public class SketchCanvas extends View {
 
     private int brush_width=10;
 
-    private Vector2i size=new Vector2i(100,100);
-    private int steps=50;
+    private int steps=250;
 
     private Bitmap bitmap;
     private Vector2i offset=new Vector2i(100,100);
+    private static final Vector2i default_size=new Vector2i(1000,1000);
 
     @Override
     protected void onDraw(Canvas c){
@@ -106,12 +106,12 @@ public class SketchCanvas extends View {
 
     @NonNull
     private void expandIfNeeded(Vector2i pos) {
-        Vector2i changes = pos.checkInBounds(size,steps);
+        Vector2i changes = pos.checkInBounds(new Vector2i(bitmap),steps);
         if(changes.isNone())return;
         //Log.d(TAG,"Changes needed for "+pos+" as "+changes);
         Vector2i addSize=new Vector2i(changes);
         addSize.abs();
-        addSize.add(size);
+        addSize.add(new Vector2i(bitmap));
         //Log.d(TAG,"sum size "+addSize);
         Bitmap b = makeClearBitmap(addSize);
         Vector2i f=new Vector2i(changes);
@@ -122,15 +122,14 @@ public class SketchCanvas extends View {
         bitmap = b;
         //Log.d(TAG,"Bitmap expanded");
         offset.sub(f);
-        size.copy(addSize);
     }
 
 
     private void copyOnBitmap(Vector2i o, Bitmap b) {
         //Log.d(TAG, b.getWidth()+"/"+b.getHeight()+" new bitmap");
         //Log.d(TAG, bitmap.getWidth()+"/"+bitmap.getHeight()+" old bitmap +"+size);
-        for(int x=0;x<size.x;x++)
-            for(int y=0;y<size.y;y++) {
+        for(int x=0;x<bitmap.getWidth();x++)
+            for(int y=0;y<bitmap.getHeight();y++) {
                 //Log.d(TAG,"copy "+x+"/"+y+" to "+(x+o.x)+"/"+(y+o.y));
                 b.setPixel(x + o.x, y + o.y, bitmap.getPixel(x, y));
             }
@@ -147,7 +146,5 @@ public class SketchCanvas extends View {
     public void setBitmap(Bitmap arg0){
         if(arg0==null)return;
         bitmap=arg0.copy(Bitmap.Config.ARGB_8888,true);
-        size.x=bitmap.getWidth();
-        size.y=bitmap.getHeight();
     }
 }

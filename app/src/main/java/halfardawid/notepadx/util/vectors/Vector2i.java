@@ -1,6 +1,7 @@
 package halfardawid.notepadx.util.vectors;
 
 
+import android.graphics.Bitmap;
 import android.util.Log;
 
 public class Vector2i {
@@ -15,6 +16,11 @@ public class Vector2i {
         x=ax;
         y=ay;
 
+    }
+
+    public Vector2i(Bitmap bitmap) {
+        x=bitmap.getWidth();
+        y=bitmap.getHeight();
     }
 
     public void copy(Vector2i a){
