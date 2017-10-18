@@ -147,5 +147,7 @@ public class SketchCanvas extends View {
     public void setBitmap(Bitmap arg0){
         if(arg0==null)return;
         bitmap=arg0.copy(Bitmap.Config.ARGB_8888,true);
+        size.x=bitmap.getWidth();
+        size.y=bitmap.getHeight();
     }
 }
