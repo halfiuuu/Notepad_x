@@ -22,4 +22,9 @@
     <string name="sorry_error">I\'m sorry, but whoever built this, didn\'t test this... An error occured! :(</string>
     <string name="sketch_note">Sketch</string>
     <string name="no_editor_what">This is odd... There should be an editor, yet i couldn\'t find it...</string>
+    <string name="change_color">Change color</string>
+    <string name="select_brush">Select brush</string>
+    <string name="color_palette">Color palette</string>
+    <string name="toggle_eraser">Toggle eraser</string>
+    <string name="move_mode">Move view</string>
 </resources>

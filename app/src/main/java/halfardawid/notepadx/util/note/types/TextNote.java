@@ -2,36 +2,33 @@ package halfardawid.notepadx.util.note.types;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.IdRes;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
 import org.json.JSONException;
 
-import java.io.FileNotFoundException;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 import java.util.UUID;
-import java.util.zip.Inflater;
 
 import halfardawid.notepadx.R;
-import halfardawid.notepadx.activity.TextNoteActivity;
-import halfardawid.notepadx.util.exceptions.NoSuchNoteTypeException;
+import halfardawid.notepadx.activity.generic.TextNoteActivity;
 import halfardawid.notepadx.util.note.Note;
 
 
 public final class TextNote extends Note {
 
     public final static String TYPE="txt";
+    @SuppressWarnings("unused")
     public final static int NAME_TYPE=R.string.text_note;
     String data;
 
+    //Those are used, but Android Studio isn't smart enough to see it coming.
+    @SuppressWarnings("unused")
     public TextNote(UUID uuid, String data,String title) throws JSONException{
         super(uuid, data,title);
     }
 
+    @SuppressWarnings("unused")
     public TextNote(){
         super();
     }
@@ -47,10 +44,6 @@ public final class TextNote extends Note {
     @Override
     public String getType() {
         return TYPE;
-    }
-
-    public static Note mk_new(){
-        return new TextNote();
     }
 
     public Intent getEditIntent(Context con) {
@@ -70,7 +63,7 @@ public final class TextNote extends Note {
 
     @Override
     public void setData(String arg) {
-        setText(arg);
+        setText((arg!=null)?arg:"");
     }
 
     @Override

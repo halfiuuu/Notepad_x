@@ -1,25 +1,14 @@
-package halfardawid.notepadx.activity;
+package halfardawid.notepadx.activity.generic;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
-import android.widget.Toast;
-
-import org.json.JSONException;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
 import halfardawid.notepadx.R;
-import halfardawid.notepadx.util.exceptions.NoSuchNoteTypeException;
-import halfardawid.notepadx.util.note.Note;
+import halfardawid.notepadx.activity.generic.GenericNoteActivity;
 import halfardawid.notepadx.util.note.types.TextNote;
 
 public final class TextNoteActivity extends GenericNoteActivity<TextNote> {
@@ -40,7 +29,7 @@ public final class TextNoteActivity extends GenericNoteActivity<TextNote> {
         editText=(EditText)findViewById(R.id.atn_note_editor);
     }
 
-    private void refreshDataToView(){
+    public void refreshDataToView(){
         if(editText==null){
             Log.wtf(TAG,"called refresh with null element, good job dummy...");
             return;
@@ -54,29 +43,14 @@ public final class TextNoteActivity extends GenericNoteActivity<TextNote> {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.textnoteactivity, menu);
+        inflater.inflate(R.menu.generic_note_editor_menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.tna_change_title:
-                return changeTitleDialog();
-            case R.id.tna_delete:
-                note.deleteFile(this);
-                this.finish();
-                return false;
-            case R.id.tna_save:
-                saveNote();
-                return false;
-            case R.id.tna_save_exit:
-                saveNote();
-                this.finish();
-                return false;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+        if(!handleGenericTasks(item))return super.onOptionsItemSelected(item);
+        return true;
     }
 
     @Override
@@ -85,7 +59,7 @@ public final class TextNoteActivity extends GenericNoteActivity<TextNote> {
     }
 
     @Override
-    protected void prepareForSave() {
+    public void prepareForSave() {
         note.setText(editText.getText().toString());
     }
 }

@@ -1,25 +1,30 @@
-package halfardawid.notepadx.activity;
+package halfardawid.notepadx.activity.generic;
 
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.UUID;
 
 import halfardawid.notepadx.R;
 import halfardawid.notepadx.util.exceptions.NoSuchNoteTypeException;
 import halfardawid.notepadx.util.note.Note;
-import halfardawid.notepadx.util.note.types.SketchNote;
 
 abstract public class GenericNoteActivity<T extends Note> extends AppCompatActivity {
+    private static final String TAG = "GENERIC_NOTE";
+    public static final String NOTE_JSON_DATA = "NOTE_JSON_DATA";
+    public static final String NOTE_UUID = "NOTE_UUID";
     public T note;
     protected void loadIntentData(Class<T> ref) {
         Intent intent=getIntent();
@@ -31,7 +36,7 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
                 note=ref.newInstance();
             } catch (Exception e1) {
                 Log.wtf(getTag(),"What the bloody hell...?",e);
-                finish();
+                quit();
                 return;
             }
             Log.wtf(getTag(),"Loading note went terribly wrong",e);
@@ -67,7 +72,73 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
         setTitle(s);
     }
 
-    abstract protected void prepareForSave();
+    abstract public void refreshDataToView();
+    abstract public void prepareForSave();
+
+    protected boolean handleGenericTasks(MenuItem item){
+        switch (item.getItemId()) {
+            case R.id.gnam_change_title:
+                changeTitleDialog();
+                break;
+            case R.id.gnam_delete:
+                deleteNote();
+                break;
+            case R.id.gnem_save:
+                saveNote();
+                break;
+            case R.id.gnam_save_exit:
+                saveAndQuit();
+                break;
+            default:
+                return false;
+        }
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        quit();
+    }
+
+
+    private void saveAndQuit() {
+        saveNote();
+        quit();
+    }
+
+    protected void deleteNote() {
+        note.deleteFile(this);
+        quit();
+    }
+
+    private void quit() {
+        this.finish();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle s) {
+        super.onSaveInstanceState(s);
+        prepareForSave();
+        try {
+            s.putString(NOTE_JSON_DATA,note.getParsedFileData());
+        } catch (JSONException e) {
+            Log.wtf(TAG,"Okey, json parsing blew up on saving...",e);
+        }
+        s.putString(NOTE_UUID,note.getUUID());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle s) {
+        super.onRestoreInstanceState(s);
+        try {
+            String nuuid=s.getString(NOTE_UUID);
+            UUID uuid=(nuuid!=null)?UUID.fromString(s.getString(NOTE_UUID)):null;
+            note=(T)Note.getNote(new JSONObject(s.getString(NOTE_JSON_DATA)), uuid);
+        } catch (JSONException|NoSuchNoteTypeException e) {
+            Log.wtf(TAG,"Okey, json parsing blew up on loading...",e);
+        }
+        refreshDataToView();
+    }
 
     public void saveNote() {
         prepareForSave();

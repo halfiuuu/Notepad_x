@@ -2,6 +2,7 @@ package halfardawid.notepadx.util.note;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -42,10 +43,8 @@ import halfardawid.notepadx.util.note.types.TextNote;
  public static Intent getNewIntent(Context con) ------------,___________________________________________________________________,
                                                             Simply for opening the editor for the note without any data included
 
- public static T(ex:note) mk_new() -------------------------,__________________________________________________________,
-                                                            For generic methods in activities, returns a blank of type
-
  Also, a constructor with (UUID uuid,String data,String title) is a necessity for loading from file
+ Obviously a constructor with () is also required, as a mean of creating blanks
 
  */
 
@@ -115,12 +114,12 @@ public abstract class Note {
     }
 
     @NonNull
-    private final String getParsedFileData() throws JSONException{
+    public final String getParsedFileData() throws JSONException{
         JSONObject obj=new JSONObject();
         obj.put(TITLE,getTitle());
         obj.put(TYPE,getType());
         obj.put(DATA,getData());
-        Log.d(TAG,uuid.toString()+":"+obj.toString());
+        Log.d(TAG,((uuid!=null)?uuid.toString():"unsaved note")+":"+obj.toString());
         return obj.toString();
     }
 
@@ -147,23 +146,22 @@ public abstract class Note {
     public final static Note loadNote(File file) throws JSONException, FileNotFoundException,NoSuchNoteTypeException {
         JSONObject object = getContent(file);
         Log.d(TAG,"loading "+file.getName()+", "+object.toString());
-        String title = object.has(TITLE)?object.getString(TITLE):"";
-        String data = object.getString(DATA);
-        String type = object.getString(TYPE);
-        UUID uuid=UUID.fromString(file.getName());
+        return getNote(object,UUID.fromString(file.getName()));
+    }
 
+    @NonNull
+    public static Note getNote(JSONObject object,UUID uuid) throws JSONException, NoSuchNoteTypeException {
+        String title = object.has(TITLE)?object.getString(TITLE):"";
+        String data = (object.has(DATA))?object.getString(DATA):null;
+        String type = object.getString(TYPE);
         for(NoteType typePair:getPossibleNotes(null)) {
             try {
                 if(!typePair.is(type))continue;
                 return typePair.build(uuid,data,title);
-            } catch (NoSuchFieldException|IllegalAccessException|NoSuchMethodException|InvocationTargetException|InstantiationException e) {
+            } catch (NoSuchFieldException|IllegalAccessException|NoSuchMethodException|InvocationTargetException |InstantiationException e) {
                 Log.wtf(TAG,"Yea, those errors are unacceptable, but still accounted for i guess...",e);
             }
         }
-        /*switch(type){
-            case TextNote.TYPE:
-                return new TextNote(uuid,data,title);
-        }*/
         throw new NoSuchNoteTypeException(type);
     }
 
@@ -209,4 +207,7 @@ public abstract class Note {
         title=arg;
     }
 
+    public String getUUID() {
+        return (uuid!=null)?uuid.toString():null;
+    }
 }
