@@ -53,7 +53,7 @@ public abstract class Note {
     public static final java.lang.Class types[]={TextNote.class, SketchNote.class};
 
     public static NoteType[] getPossibleNotes(Context con){
-        List<NoteType> list=new ArrayList<NoteType>();
+        List<NoteType> list=new ArrayList<>();
         for(Class cl:types){
             try {
                 list.add(new NoteType(con,cl));
@@ -153,7 +153,7 @@ public abstract class Note {
     }
 
     @NonNull
-    private final File getFile(Context context) {
+    private File getFile(Context context) {
         return new File(context.getFilesDir(), uuid.toString());
     }
 
@@ -167,12 +167,12 @@ public abstract class Note {
         setTitle(title);
     }
 
-    public final static Note loadNote(Context con, String uuid) throws FileNotFoundException, NoSuchNoteTypeException, JSONException {
+    public static Note loadNote(Context con, String uuid) throws FileNotFoundException, NoSuchNoteTypeException, JSONException {
         return loadNote(new File(con.getFilesDir(),uuid));
     }
 
     //IMPORTANT::BAE>BAY
-    public final static Note loadNote(File file) throws JSONException, FileNotFoundException,NoSuchNoteTypeException {
+    public static Note loadNote(File file) throws JSONException, FileNotFoundException,NoSuchNoteTypeException {
         JSONObject object = getContent(file);
         Log.d(TAG,"loading "+file.getName()+", "+object.toString());
         return getNote(object,UUID.fromString(file.getName()));
@@ -197,17 +197,17 @@ public abstract class Note {
     }
 
 
-    private final static JSONObject getContent(File arg) throws JSONException, FileNotFoundException{
+    private static JSONObject getContent(File arg) throws JSONException, FileNotFoundException{
         try(Scanner sc=new Scanner(arg)){
             return new JSONObject(sc.useDelimiter("\\A").next());
         }
     }
 
-    private final void chkUUID(Context con) {
+    private void chkUUID(Context con) {
         if(uuid==null)newUUID(con);
     }
 
-    private final void newUUID(Context con){
+    private void newUUID(Context con){
         File files[]=con.getFilesDir().listFiles();
         do{
             uuid=UUID.randomUUID();
