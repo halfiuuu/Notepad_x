@@ -2,7 +2,7 @@ package halfardawid.notepadx.util.note;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -66,15 +66,21 @@ public abstract class Note {
 
     public static final String TAG = "NOTE_CLASS";
 
-    public static final String DATA = "d";
-    public static final String TITLE = "t";
-    public static final String TYPE = "tp";
+    private static final String DATA = "d";
+    private static final String TITLE = "t";
+    private static final String TYPE = "tp";
+    private static final String COLOR = "c";
 
     public static final String UUID_EXTRA="UUID";
     //public static final int FLAGS=Base64.NO_PADDING|Base64.NO_WRAP|Base64.NO_CLOSE;
 
     protected String title="";
+    protected String color=null;
     protected UUID uuid;
+
+    protected enum COL_TYPE{
+        LIGHT,BASE,DARK
+    }
 
     abstract protected String getType();
     abstract public Intent getEditIntent(Context con);
@@ -89,6 +95,7 @@ public abstract class Note {
             rec=layoutInflater.inflate(R.layout.activity_main_tile,null);
         }
         final Note t=this;
+        applyColors(rec);
         rec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,6 +112,26 @@ public abstract class Note {
         return rec;
     }
 
+    private int applyColors(View rec) {
+        int cid=recognizeColorId(rec.getContext());
+        applyColor(rec,R.id.amt_whole,cid,R.array.color_base);
+        applyColor(rec,R.id.amt_top_bar,cid,R.array.color_dark);
+        return 0;
+    }
+
+    private void applyColor(View v, @IdRes int id, int color_id, int col_array){
+        v.findViewById(id).setBackgroundColor(v.getContext().getResources().getIntArray(col_array)[color_id]);
+    }
+
+    private int recognizeColorId(Context c) {
+        if(color!=null){
+            String[] cn=c.getResources().getStringArray(R.array.color_names);
+            for(int o=0;o<cn.length;o++)
+                if(!color.equals(cn[o]))return o;
+        }
+        return 0;//0 being default note color... I guess...
+    }
+
     public final void saveToFile(Context context) throws IOException,JSONException {
         chkUUID(context);
         File file = getFile(context);
@@ -119,6 +146,8 @@ public abstract class Note {
         obj.put(TITLE,getTitle());
         obj.put(TYPE,getType());
         obj.put(DATA,getData());
+        if(color!=null)obj.put(COLOR,color);
+
         Log.d(TAG,((uuid!=null)?uuid.toString():"unsaved note")+":"+obj.toString());
         return obj.toString();
     }
@@ -157,7 +186,9 @@ public abstract class Note {
         for(NoteType typePair:getPossibleNotes(null)) {
             try {
                 if(!typePair.is(type))continue;
-                return typePair.build(uuid,data,title);
+                Note n=typePair.build(uuid,data,title);
+                if(object.has(COLOR))n.setColor(object.getString(COLOR));
+                return n;
             } catch (NoSuchFieldException|IllegalAccessException|NoSuchMethodException|InvocationTargetException |InstantiationException e) {
                 Log.wtf(TAG,"Yea, those errors are unacceptable, but still accounted for i guess...",e);
             }
@@ -209,5 +240,9 @@ public abstract class Note {
 
     public String getUUID() {
         return (uuid!=null)?uuid.toString():null;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 }
