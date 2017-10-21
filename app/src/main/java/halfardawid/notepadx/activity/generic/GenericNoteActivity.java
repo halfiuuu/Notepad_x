@@ -75,7 +75,6 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
         setTitle(s);
     }
 
-    abstract public void refreshDataToView();
     abstract public void prepareForSave();
 
     protected boolean handleGenericTasks(MenuItem item){
@@ -153,4 +152,15 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
             Toast.makeText(this,R.string.saving_went_bad,Toast.LENGTH_LONG);
         }
     }
+
+    public void refreshDataToView(){
+        if(note==null){
+            Log.wtf(TAG,"called refresh with null element, good job dummy...");
+            return;
+        }
+        setTitle(note.getTitle());
+        inherentRefresh();
+    }
+
+    public abstract void inherentRefresh();
 }

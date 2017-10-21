@@ -26,7 +26,7 @@ public final class SketchActivity extends GenericNoteActivity<SketchNote> {
 
 
     @Override
-    public void refreshDataToView() {
+    public void inherentRefresh() {
         Bitmap b=null;
         if((sketch!=null&&note!=null&&(b=note.getBitmap())!=null)==false)return;
         sketch.setBitmap(b);

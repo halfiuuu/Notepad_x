@@ -29,9 +29,9 @@ public final class TextNoteActivity extends GenericNoteActivity<TextNote> {
         editText=(EditText)findViewById(R.id.atn_note_editor);
     }
 
-    public void refreshDataToView(){
+    public void inherentRefresh(){
+        super.refreshDataToView();
         if(editText==null){
-            Log.wtf(TAG,"called refresh with null element, good job dummy...");
             return;
         }
         editText.setText(note.getText());
