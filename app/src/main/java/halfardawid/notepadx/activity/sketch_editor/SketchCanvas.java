@@ -28,11 +28,11 @@ public class SketchCanvas extends View {
 
     private Bitmap makeClearBitmap(Vector2i s){
         Bitmap b=Bitmap.createBitmap(s.x,s.y, Bitmap.Config.ARGB_8888);
-        for(int x=0;x<s.x;x++){
+        /*for(int x=0;x<s.x;x++){
             for(int y=0;y<s.y;y++){
                 b.setPixel(x,y,Color.RED);
             }
-        }
+        }*/
         return b;
     }
 

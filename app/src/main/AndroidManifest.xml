@@ -16,7 +16,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.generic.TextNoteActivity"
+            android:name=".activity.TextNoteActivity"
             android:parentActivityName=".activity.MainActivity" />
         <activity
             android:name=".activity.sketch_editor.SketchActivity"

@@ -1,4 +1,4 @@
-package halfardawid.notepadx.activity.generic;
+package halfardawid.notepadx.activity;
 
 import android.os.Bundle;
 import android.util.Log;

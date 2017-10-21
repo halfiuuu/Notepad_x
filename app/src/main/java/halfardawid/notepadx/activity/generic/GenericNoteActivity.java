@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -48,9 +50,10 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
         AlertDialog.Builder b = new AlertDialog.Builder(this);
         b.setMessage(R.string.input_new_title);
         b.setTitle(R.string.change_title);
-        final EditText et=new EditText(this);
+        View v=getLayoutInflater().inflate(R.layout.activity_title_change,null);
+        final EditText et=((EditText)v.findViewById(R.id.atch_title));
         et.setText(getTitle());
-        b.setView(et);
+        b.setView(v);
         b.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 changeTitle(et.getText().toString());
