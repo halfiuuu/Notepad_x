@@ -29,8 +29,7 @@ public final class TextNoteActivity extends GenericNoteActivity<TextNote> {
         editText=(EditText)findViewById(R.id.atn_note_editor);
     }
 
-    public void inherentRefresh(){
-        super.refreshDataToView();
+    public void inherentRefresh(){//Do not super anything, don't even dare
         if(editText==null){
             return;
         }

@@ -7,17 +7,17 @@
     </string-array>
     <array name="color_base">
         <item>#fff44336</item>
-        <item>#8bc34a</item>
-        <item>#42a5f5</item>
+        <item>#ff8bc34a</item>
+        <item>#ff42a5f5</item>
     </array>
     <array name="color_light">
-        <item>#e57373</item>
-        <item>#c5e1a5</item>
-        <item>#90caf9</item>
+        <item>#ffe57373</item>
+        <item>#ffc5e1a5</item>
+        <item>#ff90caf9</item>
     </array>
     <array name="color_dark">
-        <item>#b71c1c</item>
-        <item>#33691e</item>
-        <item>#01579b</item>
+        <item>#ffb71c1c</item>
+        <item>#ff33691e</item>
+        <item>#ff01579b</item>
     </array>
 </resources>

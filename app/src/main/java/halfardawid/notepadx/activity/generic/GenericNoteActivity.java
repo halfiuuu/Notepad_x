@@ -49,7 +49,7 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
     protected boolean changeTitleDialog(){
         AlertDialog.Builder b = new AlertDialog.Builder(this);
         b.setMessage(R.string.input_new_title);
-        b.setTitle(R.string.change_title);
+        //b.setTitle(R.string.change_title); Redundant...
         View v=getLayoutInflater().inflate(R.layout.activity_title_change,null);
         final EditText et=((EditText)v.findViewById(R.id.atch_title));
         et.setText(getTitle());
@@ -91,10 +91,32 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
             case R.id.gnam_save_exit:
                 saveAndQuit();
                 break;
+            case R.id.gnam_change_color:
+                changeColor();
+                break;
             default:
                 return false;
         }
         return true;
+    }
+
+    protected void changeColor(){
+        AlertDialog.Builder b = new AlertDialog.Builder(this);
+        b.setMessage("Ayy lmao");
+        View v=getLayoutInflater().inflate(R.layout.colorpicker_list,null);
+        b.setView(v);
+        b.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+            }
+        });
+        b.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+        AlertDialog dialog = b.create();
+        dialog.show();
     }
 
     @Override
