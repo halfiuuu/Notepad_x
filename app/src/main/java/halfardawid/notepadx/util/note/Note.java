@@ -3,8 +3,10 @@ package halfardawid.notepadx.util.note;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -127,15 +129,11 @@ public abstract class Note {
 
     public static int recognizeColorString(Context c, String name) {
         if(name!=null){
-            Log.d(TAG,"recognizing color "+name);
             String[] cn=c.getResources().getStringArray(R.array.color_names);
             for(int o=0;o<cn.length;o++)
             {
-                Log.d(TAG,"Lets see for "+o+", it's "+cn[0]);
                 if(name.equals(cn[o]))return o;
-                Log.d(TAG,"Yea, "+cn[o]+" isn't "+name+", so it's not "+o);
             }
-            Log.d(TAG,"I'm in a pickle, i have not found "+name+" in the colors array... Gotta say 0");
         }
         return 0;//0 being default note color... I guess...
     }
@@ -264,8 +262,13 @@ public abstract class Note {
 
     public void applyColors(AppCompatActivity activity) {
         final int cid= recognizeColorString(activity,color);
-        Log.w(TAG,"applying colors to activity with color marked with id of ["+cid+"]");
+        Log.d(TAG,"applying colors to activity with color marked with id of ["+cid+"]");
         activity.getWindow().getDecorView().setBackgroundColor(getColorSpecific(activity,cid,R.array.color_light));
-        //activity.getActionBar().setBackgroundDrawable(new ColorDrawable(getColorSpecific(activity,cid,R.array.color_base)));
+        ActionBar bar = activity.getSupportActionBar();
+        Log.d(TAG,"action bar..."+ bar);
+        bar.setBackgroundDrawable(new ColorDrawable(getColorSpecific(activity,cid,R.array.color_base)));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) 
+            activity.getWindow().setStatusBarColor(getColorSpecific(activity,cid,R.array.color_dark));
+
     }
 }
