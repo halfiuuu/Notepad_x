@@ -44,8 +44,11 @@ public class SketchCanvas extends View {
     private int steps=250;
 
     private Bitmap bitmap;
-    private Vector2i offset=new Vector2i(100,100);
+    private Vector2i offset=new Vector2i(0,0);
     private static final Vector2i default_size=new Vector2i(1000,1000);
+
+    private Vector2i move_vector=null;
+
 
     @Override
     protected void onDraw(Canvas c){
@@ -58,6 +61,10 @@ public class SketchCanvas extends View {
     public boolean onTouchEvent(MotionEvent me){
         new Thread(new Touched(moving,new Vector2i((int)me.getX(),(int)me.getY()),me.getAction())).start();
         return true;
+    }
+
+    public void toggleMove() {
+        moving=!moving;
     }
 
     private final class Touched implements Runnable{
@@ -136,7 +143,17 @@ public class SketchCanvas extends View {
     }
 
     private void moveEvent(Vector2i pos, int action) {
-
+        if(action==MotionEvent.ACTION_DOWN) {
+            Log.d(TAG, "down ");
+            move_vector=new Vector2i(offset);
+            move_vector.sub(pos);
+        }else if(move_vector==null){
+            Log.wtf(TAG,"logic error for move event...");
+            return;
+        }
+        offset.copy(move_vector);
+        offset.add(pos);
+        if(action==MotionEvent.ACTION_UP)move_vector=null;
     }
 
     public Bitmap getBitmap(){

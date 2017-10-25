@@ -51,6 +51,9 @@ public final class SketchActivity extends GenericNoteActivity<SketchNote> {
     public boolean onOptionsItemSelected(MenuItem item) {
         if(!handleGenericTasks(item))
             switch(item.getItemId()){
+                case R.id.sem_move_mode:
+                    sketch.toggleMove();
+                    return true;
                 case R.id.sem_brush:
                     return true;
                 case R.id.sem_eraser:
