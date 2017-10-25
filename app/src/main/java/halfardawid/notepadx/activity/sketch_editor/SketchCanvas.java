@@ -63,7 +63,7 @@ public class SketchCanvas extends View {
         return true;
     }
 
-    public void toggleMove() {
+    public void toggleMove() {//TODO: Fucked up concurrency, gotta change the way actions line up...
         moving=!moving;
     }
 
