@@ -1,4 +1,4 @@
-package halfardawid.notepadx.activity.layouts;
+package halfardawid.notepadx.activity.generic.layouts;
 
 import android.content.Context;
 import android.util.AttributeSet;

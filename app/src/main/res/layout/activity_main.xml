@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="halfardawid.notepadx.activity.MainActivity">
+    tools:context="halfardawid.notepadx.activity.main.MainActivity">
 
     <GridView
         android:id="@+id/main_grid"

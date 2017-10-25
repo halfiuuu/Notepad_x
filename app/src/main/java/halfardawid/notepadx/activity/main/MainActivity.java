@@ -1,4 +1,4 @@
-package halfardawid.notepadx.activity;
+package halfardawid.notepadx.activity.main;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,7 +14,6 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import halfardawid.notepadx.util.note.Note;
-import halfardawid.notepadx.util.note.NoteAdapter;
 import halfardawid.notepadx.util.note.NoteList;
 import halfardawid.notepadx.R;
 import halfardawid.notepadx.util.note.NoteType;

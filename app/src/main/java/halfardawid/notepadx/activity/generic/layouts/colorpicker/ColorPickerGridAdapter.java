@@ -1,14 +1,14 @@
-package halfardawid.notepadx.activity.layouts;
+package halfardawid.notepadx.activity.generic.layouts.colorpicker;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import java.util.List;
-
 import halfardawid.notepadx.R;
+
 
 /**
  * Created by Dawid on 2017-10-23.
@@ -16,7 +16,8 @@ import halfardawid.notepadx.R;
 
 public class ColorPickerGridAdapter extends BaseAdapter{
 
-    Context context;
+    private static final String TAG = "COLOR_PGA";
+    final Context context;
 
     public ColorPickerGridAdapter(Context con){
         context=con;
@@ -38,9 +39,11 @@ public class ColorPickerGridAdapter extends BaseAdapter{
     }
 
     @Override
-    public View getView(int position, View conv, ViewGroup parent) {
+    public View getView(final int position, View conv, ViewGroup parent) {
         if(conv==null)conv= LayoutInflater.from(context).inflate(R.layout.colorpicker_circle,null);
-        ((CircleColorButton)conv.findViewById(R.id.cp_button)).initColor(context,position);
+        CircleColorItem ccb = (CircleColorItem) conv.findViewById(R.id.cp_button);
+        ccb.initColor(context,position);
+        //ccb.setOnClickListener(new ColorOnClickListener(position));
         return conv;
     }
 }

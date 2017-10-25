@@ -9,18 +9,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.MainActivity">
+        <activity android:name=".activity.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.TextNoteActivity"
-            android:parentActivityName=".activity.MainActivity" />
+            android:name=".activity.text_editor.TextNoteActivity"
+            android:parentActivityName=".activity.main.MainActivity" />
         <activity
             android:name=".activity.sketch_editor.SketchActivity"
-            android:parentActivityName=".activity.MainActivity" />
+            android:parentActivityName=".activity.main.MainActivity" />
     </application>
 
 </manifest>

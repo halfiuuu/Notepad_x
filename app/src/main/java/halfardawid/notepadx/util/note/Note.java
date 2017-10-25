@@ -2,8 +2,10 @@ package halfardawid.notepadx.util.note;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +26,7 @@ import java.util.Scanner;
 import java.util.UUID;
 
 import halfardawid.notepadx.R;
-import halfardawid.notepadx.activity.MainActivity;
+import halfardawid.notepadx.activity.main.MainActivity;
 import halfardawid.notepadx.util.exceptions.NoSuchNoteTypeException;
 import halfardawid.notepadx.util.note.types.SketchNote;
 import halfardawid.notepadx.util.note.types.TextNote;
@@ -78,10 +80,6 @@ public abstract class Note {
     protected String color=null;
     protected UUID uuid;
 
-    protected enum COL_TYPE{
-        LIGHT,BASE,DARK
-    }
-
     abstract protected String getType();
     abstract public Intent getEditIntent(Context con);
     abstract protected String getData();
@@ -113,23 +111,37 @@ public abstract class Note {
     }
 
     private int applyColors(View rec) {
-        int cid=recognizeColorId(rec.getContext());
-        applyColor(rec,R.id.amt_whole,cid,R.array.color_base);
-        applyColor(rec,R.id.amt_top_bar,cid,R.array.color_dark);
+        int cid= recognizeColorString(rec.getContext(),color);
+        applyColors(rec,R.id.amt_whole,cid,R.array.color_light);
+        applyColors(rec,R.id.amt_top_bar,cid,R.array.color_base);
         return 0;
     }
 
-    private void applyColor(View v, @IdRes int id, int color_id, int col_array){
-        v.findViewById(id).setBackgroundColor(v.getContext().getResources().getIntArray(col_array)[color_id]);
+    static private void applyColors(View v, @IdRes int id, int color_id, int col_array){
+        v.findViewById(id).setBackgroundColor(getColorSpecific(v.getContext(),color_id,col_array));
     }
 
-    private int recognizeColorId(Context c) {
-        if(color!=null){
+    static private int getColorSpecific(Context c,int id, int array){
+        return c.getResources().getIntArray(array)[id];
+    }
+
+    public static int recognizeColorString(Context c, String name) {
+        if(name!=null){
+            Log.d(TAG,"recognizing color "+name);
             String[] cn=c.getResources().getStringArray(R.array.color_names);
             for(int o=0;o<cn.length;o++)
-                if(!color.equals(cn[o]))return o;
+            {
+                Log.d(TAG,"Lets see for "+o+", it's "+cn[0]);
+                if(name.equals(cn[o]))return o;
+                Log.d(TAG,"Yea, "+cn[o]+" isn't "+name+", so it's not "+o);
+            }
+            Log.d(TAG,"I'm in a pickle, i have not found "+name+" in the colors array... Gotta say 0");
         }
         return 0;//0 being default note color... I guess...
+    }
+
+    public static String recognizeColorId(Context c,int id) {
+        return c.getResources().getStringArray(R.array.color_names)[id];
     }
 
     public final void saveToFile(Context context) throws IOException,JSONException {
@@ -244,5 +256,16 @@ public abstract class Note {
 
     public void setColor(String color) {
         this.color = color;
+    }
+    public void setColor(Context c,int id) {
+        this.color = Note.recognizeColorId(c,id);
+        Log.w(TAG,"set color to "+color);
+    }
+
+    public void applyColors(AppCompatActivity activity) {
+        final int cid= recognizeColorString(activity,color);
+        Log.w(TAG,"applying colors to activity with color marked with id of ["+cid+"]");
+        activity.getWindow().getDecorView().setBackgroundColor(getColorSpecific(activity,cid,R.array.color_light));
+        //activity.getActionBar().setBackgroundDrawable(new ColorDrawable(getColorSpecific(activity,cid,R.array.color_base)));
     }
 }

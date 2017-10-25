@@ -1,15 +1,12 @@
-package halfardawid.notepadx.util.note;
+package halfardawid.notepadx.activity.main;
 
-import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
 
 import java.util.List;
 
-import halfardawid.notepadx.activity.MainActivity;
+import halfardawid.notepadx.util.note.Note;
 
 public class NoteAdapter extends BaseAdapter{
     public static final String TAG="NoteAdapter";

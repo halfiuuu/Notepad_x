@@ -11,7 +11,7 @@ import org.json.JSONException;
 import java.util.UUID;
 
 import halfardawid.notepadx.R;
-import halfardawid.notepadx.activity.TextNoteActivity;
+import halfardawid.notepadx.activity.text_editor.TextNoteActivity;
 import halfardawid.notepadx.util.note.Note;
 
 

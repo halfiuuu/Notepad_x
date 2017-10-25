@@ -1,4 +1,4 @@
-package halfardawid.notepadx.activity;
+package halfardawid.notepadx.activity.text_editor;
 
 import android.os.Bundle;
 import android.util.Log;

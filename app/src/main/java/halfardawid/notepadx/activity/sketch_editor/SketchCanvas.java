@@ -50,7 +50,7 @@ public class SketchCanvas extends View {
     @Override
     protected void onDraw(Canvas c){
         c.save();
-        c.drawColor(Color.BLUE);
+        c.drawColor(Color.TRANSPARENT);
         c.drawBitmap(bitmap,offset.x,offset.y,null);
         c.restore();
     }

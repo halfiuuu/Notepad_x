@@ -2,6 +2,7 @@ package halfardawid.notepadx.activity.generic;
 
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +11,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -20,10 +20,12 @@ import java.io.IOException;
 import java.util.UUID;
 
 import halfardawid.notepadx.R;
+import halfardawid.notepadx.activity.generic.layouts.colorpicker.ColorPickReaction;
+import halfardawid.notepadx.activity.generic.layouts.colorpicker.ColorPickerGrid;
 import halfardawid.notepadx.util.exceptions.NoSuchNoteTypeException;
 import halfardawid.notepadx.util.note.Note;
 
-abstract public class GenericNoteActivity<T extends Note> extends AppCompatActivity {
+abstract public class GenericNoteActivity<T extends Note> extends AppCompatActivity implements ColorPickReaction {
     private static final String TAG = "GENERIC_NOTE";
     public static final String NOTE_JSON_DATA = "NOTE_JSON_DATA";
     public static final String NOTE_UUID = "NOTE_UUID";
@@ -46,7 +48,7 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
     }
     abstract protected String getTag();
 
-    protected boolean changeTitleDialog(){
+    protected void changeTitleDialog(){
         AlertDialog.Builder b = new AlertDialog.Builder(this);
         b.setMessage(R.string.input_new_title);
         //b.setTitle(R.string.change_title); Redundant...
@@ -65,9 +67,7 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
                 dialog.cancel();
             }
         });
-        AlertDialog dialog = b.create();
-        dialog.show();
-        return true;
+        b.show();
     }
 
     protected void changeTitle(String s) {
@@ -105,18 +105,13 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
         b.setMessage("Ayy lmao");
         View v=getLayoutInflater().inflate(R.layout.colorpicker_list,null);
         b.setView(v);
-        b.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.dismiss();
-            }
-        });
         b.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.cancel();
             }
         });
-        AlertDialog dialog = b.create();
-        dialog.show();
+        Dialog d=b.show();
+        ((ColorPickerGrid)v.findViewById(R.id.cpl_grid)).setClickListener(d,this);
     }
 
     @Override
@@ -180,9 +175,20 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
             Log.wtf(TAG,"called refresh with null element, good job dummy...");
             return;
         }
+        refreshColors();
         setTitle(note.getTitle());
         inherentRefresh();
     }
 
+    private void refreshColors() {
+        note.applyColors(this);
+    }
+
     public abstract void inherentRefresh();
+
+    @Override
+    public void applyColorPick(int id){
+        note.setColor(this,id);
+        refreshColors();
+    }
 }
