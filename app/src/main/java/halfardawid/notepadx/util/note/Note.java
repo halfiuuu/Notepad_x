@@ -267,7 +267,7 @@ public abstract class Note {
         ActionBar bar = activity.getSupportActionBar();
         Log.d(TAG,"action bar..."+ bar);
         bar.setBackgroundDrawable(new ColorDrawable(getColorSpecific(activity,cid,R.array.color_base)));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             activity.getWindow().setStatusBarColor(getColorSpecific(activity,cid,R.array.color_dark));
 
     }
