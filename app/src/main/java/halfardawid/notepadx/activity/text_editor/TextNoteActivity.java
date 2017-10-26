@@ -37,6 +37,15 @@ public final class TextNoteActivity extends GenericNoteActivity<TextNote> {
         setTitle(note.getTitle());
     }
 
+    @Override
+    protected void loadSettings(Bundle s) {
+        //I doubt it'll have use here
+    }
+
+    @Override
+    protected void saveSettings(Bundle s) {
+        //But gotta have them here anyway...
+    }
 
 
     @Override

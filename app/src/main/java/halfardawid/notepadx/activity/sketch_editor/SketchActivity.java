@@ -27,9 +27,19 @@ public final class SketchActivity extends GenericNoteActivity<SketchNote> {
 
     @Override
     public void inherentRefresh() {
-        Bitmap b=null;
-        if((sketch!=null&&note!=null&&(b=note.getBitmap())!=null)==false)return;
+        Bitmap b;
+        if(!(sketch!=null&&note!=null&&(b=note.getBitmap())!=null))return;
         sketch.setBitmap(b);
+    }
+
+    @Override
+    protected void loadSettings(Bundle s) {
+        sketch.loadSettings(s);
+    }
+
+    @Override
+    protected void saveSettings(Bundle s) {
+        sketch.saveSettings(s);
     }
 
     @Override

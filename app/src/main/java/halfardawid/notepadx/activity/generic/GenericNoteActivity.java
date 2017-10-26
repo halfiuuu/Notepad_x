@@ -144,6 +144,7 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
             Log.wtf(TAG,"Okey, json parsing blew up on saving...",e);
         }
         s.putString(NOTE_UUID,note.getUUID());
+        saveSettings(s);
     }
 
     @Override
@@ -157,7 +158,9 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
             Log.wtf(TAG,"Okey, json parsing blew up on loading...",e);
         }
         refreshDataToView();
+        loadSettings(s);
     }
+
 
     public void saveNote() {
         prepareForSave();
@@ -185,6 +188,8 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
     }
 
     public abstract void inherentRefresh();
+    protected abstract void loadSettings(Bundle s);
+    protected abstract void saveSettings(Bundle s);
 
     @Override
     public void applyColorPick(int id){

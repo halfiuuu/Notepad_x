@@ -5,7 +5,7 @@ package halfardawid.notepadx.activity.sketch_editor.brushes;
  */
 
 public class SolidCircleBrush extends Brush {
-    protected SolidCircleBrush(float spacing, float radius) {
+    public SolidCircleBrush(float spacing, float radius) {
         super(spacing, radius);
     }
 
