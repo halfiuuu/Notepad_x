@@ -32,6 +32,7 @@ class SmartBitmap {
 
     public synchronized void drawOnCanvas(Canvas c) {
         c.drawBitmap(bitmap,offset.x,offset.y,null);
+        Log.d(TAG,"Drawing the bitmap");
     }
 
     public synchronized void drawPixel(Vector2i pos, int c) {

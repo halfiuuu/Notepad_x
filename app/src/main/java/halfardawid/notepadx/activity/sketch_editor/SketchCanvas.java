@@ -55,8 +55,16 @@ public class SketchCanvas extends View {
         c.restore();
     }
     @Override
-    public boolean onTouchEvent(MotionEvent me){
-        history.handleEvent(me);
+    public boolean onTouchEvent(final MotionEvent me){
+        new Thread(new Runnable(){
+            @Override
+            public void run() {
+                history.handleEvent(me);
+                postInvalidate();
+                Log.d(TAG,"Post Invalidated");
+            }
+        }).start();
+
         return true;
     }
 
