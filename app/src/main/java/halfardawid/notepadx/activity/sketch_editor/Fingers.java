@@ -10,10 +10,18 @@ import halfardawid.notepadx.util.vectors.Vector2i;
 
 public class Fingers {
     private static final String TAG = "FINGERS";
+
     List<Finger> fingers=new ArrayList<>();
-    public Fingers(){};
-    public void handleEvent(MotionEvent me) {
-        Log.d(TAG,"ev>>"+me);
+
+    SmartBitmap bitmap=null;
+    SketchMode mode=null;
+
+    public Fingers(SmartBitmap image, SketchMode mode){bitmap=image;this.mode=mode;}
+
+    public synchronized void handleEvent(MotionEvent me) {
+        synchronized (mode) {
+            Log.d(TAG, "ev>>" + me);
+        }
     }
 }
 

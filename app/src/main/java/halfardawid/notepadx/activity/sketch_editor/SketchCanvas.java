@@ -5,34 +5,29 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
-import halfardawid.notepadx.util.vectors.Vector2i;
-
-import static android.R.attr.bitmap;
 
 
 public class SketchCanvas extends View {
     private static final String TAG = "SKETCH_CANVAS";
-    private Fingers history=new Fingers();
+    private Fingers history;
 
     public SketchCanvas(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        mode=new SketchMode();
         image=new SmartBitmap();
+        history=new Fingers(image,mode);
     }
 
 
 
     public void loadSettings(Bundle s) {
-        mode=new SketchMode(s);
+        mode.loadSettings(s);
         image.loadSettings(s);
     }
     public void saveSettings(Bundle s) {
@@ -62,7 +57,6 @@ public class SketchCanvas extends View {
     @Override
     public boolean onTouchEvent(MotionEvent me){
         history.handleEvent(me);
-        Log.d(TAG,me+" event");
         return true;
     }
 
