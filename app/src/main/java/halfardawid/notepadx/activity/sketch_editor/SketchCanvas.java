@@ -56,15 +56,10 @@ public class SketchCanvas extends View {
     }
     @Override
     public boolean onTouchEvent(final MotionEvent me){
-        new Thread(new Runnable(){
-            @Override
-            public void run() {
-                history.handleEvent(me);
-                postInvalidate();
-                Log.d(TAG,"Post Invalidated");
-            }
-        }).start();
-
+        //TODO:Parse motion event in ui thread, then handle it.
+        //NOTE:MotionEvents get global vectors outside of UI Thread (Probably?)
+        history.handleEvent(me);
+        postInvalidate();
         return true;
     }
 
