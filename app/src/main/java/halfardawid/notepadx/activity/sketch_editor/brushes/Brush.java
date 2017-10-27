@@ -1,5 +1,10 @@
 package halfardawid.notepadx.activity.sketch_editor.brushes;
 
+import android.graphics.Color;
+
+import halfardawid.notepadx.activity.sketch_editor.SmartBitmap;
+import halfardawid.notepadx.util.vectors.Vector2i;
+
 /**
  * Created by Dawid on 2017-10-17.
  */
@@ -12,5 +17,73 @@ public abstract class Brush {
     protected Brush(float spacing, float radius){
         this.spacing=spacing;
         this.radius=radius;
+    }
+
+    private int real_radius(){
+        return (int) (expand+radius);
+    }
+
+    public void splat(SmartBitmap bitmap, Vector2i pos, int color) {
+        Vector2i radius=new Vector2i(real_radius());
+        int alpha= Color.alpha(color);
+        int r=Color.red(color),g=Color.green(color),b=Color.blue(color);
+        Vector2i n_pos=new Vector2i(0);
+
+        secure(bitmap, pos, radius);
+
+        for(int x=-radius.x;x<radius.x;x++)
+            for(int y=-radius.y;y<radius.y;y++) {
+                n_pos.copy(pos);
+                n_pos.add(new Vector2i(x,y));
+                int col=0;
+                float smoothing = smoothing(dist(x, y));
+                if(smoothing ==1){
+                    col=color;
+                }else if(smoothing==0){
+                    continue;
+                }else{
+                    int base_color=bitmap.getUnsafePixel(n_pos);
+                    float invert=1F-smoothing;
+                    col=Color.argb(
+                            (int)((alpha*smoothing)+(Color.alpha(base_color)*invert)),
+                            (int)((r*smoothing)+(Color.red(base_color)*invert)),
+                            (int)((g*smoothing)+(Color.green(base_color)*invert)),
+                            (int)((b*smoothing)+(Color.blue(base_color)*invert))
+                    );
+                }
+                bitmap.drawPixelNonSafe(n_pos,col);
+            }
+    }
+
+    private void secure(SmartBitmap bitmap, Vector2i pos, Vector2i radius) {
+        Vector2i pp=new Vector2i(pos);
+        pp.sub(radius);
+        bitmap.securePosition(pp);
+        pp.copy(pos);
+        pp.add(radius);
+        bitmap.securePosition(pp);
+    }
+
+    private float dist(int x, int y) {
+        return (float) Math.sqrt((float)((x*x)+(y*y)));
+    }
+
+    public float splatLine(SmartBitmap bitmap, Vector2i lastPosition, Vector2i pos, int i, float last_dist) {
+        Vector2i distance=new Vector2i(pos);
+        distance.sub(lastPosition);
+        float whole_distance=dist(distance);
+        float dist_i=last_dist;
+        for(;dist_i<whole_distance;dist_i+=spacing){
+            float multiplier=dist_i/whole_distance;
+            Vector2i between=new Vector2i(distance);
+            between.multiply(multiplier);
+            between.add(lastPosition);
+            splat(bitmap,between,i);
+        }
+        return dist_i-whole_distance;
+    }
+
+    private float dist(Vector2i distance) {
+        return dist(distance.x,distance.y);
     }
 }

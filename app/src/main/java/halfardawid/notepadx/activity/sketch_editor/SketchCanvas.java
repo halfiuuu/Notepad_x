@@ -7,43 +7,43 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import halfardawid.notepadx.activity.sketch_editor.brushes.Brush;
+import halfardawid.notepadx.activity.sketch_editor.brushes.SolidCircleBrush;
+import halfardawid.notepadx.activity.sketch_editor.finger_movement.Fingers;
 
 
 public class SketchCanvas extends View {
     private static final String TAG = "SKETCH_CANVAS";
-    private Fingers history;
+    private Fingers controller;
+    private boolean move=false;
+    private boolean erase=false;
+    private Brush brush=new SolidCircleBrush(50,25);
 
     public SketchCanvas(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        mode=new SketchMode();
         image=new SmartBitmap();
-        history=new Fingers(image,mode);
+        controller =new Fingers(this);
     }
 
 
 
     public void loadSettings(Bundle s) {
-        mode.loadSettings(s);
         image.loadSettings(s);
     }
     public void saveSettings(Bundle s) {
-        mode.saveSetting(s);
         image.saveSettings(s);
     }
 
     public boolean isErasing(){
-        return mode.isEraser();
+        return erase;
     }
 
     public boolean isMoveMode(){
-        return mode.isMove();
+        return move;
     }
-
-    SketchMode mode=new SketchMode();
 
     private SmartBitmap image;
 
@@ -58,13 +58,13 @@ public class SketchCanvas extends View {
     public boolean onTouchEvent(final MotionEvent me){
         //TODO:Parse motion event in ui thread, then handle it.
         //NOTE:MotionEvents get global vectors outside of UI Thread (Probably?)
-        history.handleEvent(me);
+        controller.handleEvent(me);
         postInvalidate();
         return true;
     }
 
     public void toggleMove() {
-        mode.toggleMove();
+        move=!move;
     }
 
     public Bitmap getBitmap(){
@@ -74,5 +74,13 @@ public class SketchCanvas extends View {
     public void setBitmap(Bitmap arg0){
         if(arg0==null)return;
         image.clone(arg0);
+    }
+
+    public SmartBitmap getSmartBitmap() {
+        return image;
+    }
+
+    public Brush getBrush() {
+        return brush;
     }
 }

@@ -15,7 +15,7 @@ import static android.R.attr.bitmap;
  * Created by Dawid on 2017-10-26.
  */
 
-class SmartBitmap {
+public class SmartBitmap {
     public static final String TAG="SMART_BITMAP";
 
     private Bitmap bitmap;
@@ -32,13 +32,22 @@ class SmartBitmap {
 
     public synchronized void drawOnCanvas(Canvas c) {
         c.drawBitmap(bitmap,offset.x,offset.y,null);
-        Log.d(TAG,"Drawing the bitmap");
+        //Log.d(TAG,"Drawing the bitmap");
     }
 
     public synchronized void drawPixel(Vector2i pos, int c) {
         Vector2i np=normalizeVector(pos);
         expandIfNeeded(np);
         np=normalizeVector(pos);
+        bitmap.setPixel(np.x, np.y, c);
+    }
+
+    public synchronized void securePosition(Vector2i pos){
+        expandIfNeeded(normalizeVector(pos));
+    }
+
+    public synchronized void drawPixelNonSafe(Vector2i pos, int c) {
+        Vector2i np=normalizeVector(pos);
         bitmap.setPixel(np.x, np.y, c);
     }
 
@@ -52,17 +61,17 @@ class SmartBitmap {
     private synchronized void expandIfNeeded(Vector2i pos) {
         Vector2i changes = pos.checkInBounds(new Vector2i(bitmap),steps);
         if(changes.isNone())return;
-        Log.d(TAG,"Changes needed for "+pos+" as "+changes);
+        //Log.d(TAG,"Changes needed for "+pos+" as "+changes);
         Vector2i addSize=new Vector2i(changes);
         addSize.abs();
         addSize.add(new Vector2i(bitmap));
-        Log.d(TAG,"sum size "+addSize);
+        //Log.d(TAG,"sum size "+addSize);
         Vector2i f=new Vector2i(changes);
         f.cutAllPositive();
         f.abs();
-        Log.d(TAG,"new offset "+f);
+        //Log.d(TAG,"new offset "+f);
         bitmap = copyOnBitmap(addSize,f);
-        Log.d(TAG,"Bitmap expanded!");
+        //Log.d(TAG,"Bitmap expanded!");
         offset.sub(f);
     }
 
@@ -107,5 +116,9 @@ class SmartBitmap {
     public void saveSettings(Bundle s) {
         s.putInt(OFFSET_X,offset.x);
         s.putInt(OFFSET_Y,offset.y);
+    }
+
+    public int getUnsafePixel(Vector2i vector2i) {
+        return bitmap.getPixel(vector2i.x,vector2i.y);
     }
 }

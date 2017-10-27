@@ -12,6 +12,12 @@ public class Vector2i {
         x=a.x;
         y=a.y;
     }
+
+    public Vector2i(int both){
+        x=both;
+        y=both;
+    }
+
     public Vector2i(int ax, int ay){
         x=ax;
         y=ay;
@@ -95,5 +101,9 @@ public class Vector2i {
         return "V2I["+x+"/"+y+"]";
     }
 
+    public void multiply(float multipler) {
+        x*=multipler;
+        y*=multipler;
+    }
 }
 
