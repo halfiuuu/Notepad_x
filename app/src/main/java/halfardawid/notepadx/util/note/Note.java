@@ -164,7 +164,7 @@ public abstract class Note {
 
     @NonNull
     private File getFile(Context context) {
-        return new File(context.getFilesDir(), uuid.toString());
+        return new File(NoteList.getFilesDir(context), uuid.toString());
     }
 
     protected Note(){
@@ -178,7 +178,7 @@ public abstract class Note {
     }
 
     public static Note loadNote(Context con, String uuid) throws FileNotFoundException, NoSuchNoteTypeException, JSONException {
-        return loadNote(new File(con.getFilesDir(),uuid));
+        return loadNote(new File(NoteList.getFilesDir(con),uuid));
     }
 
     //IMPORTANT::BAE>BAY
@@ -218,7 +218,7 @@ public abstract class Note {
     }
 
     private void newUUID(Context con){
-        File files[]=con.getFilesDir().listFiles();
+        File files[]=NoteList.getFilesDir(con).listFiles();
         do{
             uuid=UUID.randomUUID();
         }while(alreadyExistFile(files,uuid));

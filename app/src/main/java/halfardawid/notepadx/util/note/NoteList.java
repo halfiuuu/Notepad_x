@@ -21,13 +21,20 @@ public final class NoteList extends ArrayList<Note> {
         loadAll(context);
     }
     private void loadAll(Context context){
-        for(File f:context.getFilesDir().listFiles())
+        for(File f: getFilesDir(context).listFiles())
             try {
                 add(Note.loadNote(f));
             }catch(JSONException |FileNotFoundException |NoSuchNoteTypeException e){
                 Log.wtf(TAG,"Loading note went terribly wrong on "+f.getName(),e);
             }
     }
+
+    public static File getFilesDir(Context context) {
+        File file=new File(context.getFilesDir(),"notes");
+        if(!file.isDirectory())file.mkdir();
+        return file;
+    }
+
     public void reloadAll(Context con){
         this.clear();
         loadAll(con);
