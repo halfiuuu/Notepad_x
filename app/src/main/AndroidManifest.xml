@@ -20,7 +20,8 @@
             android:parentActivityName=".activity.main.MainActivity" />
         <activity
             android:name=".activity.sketch_editor.SketchActivity"
-            android:parentActivityName=".activity.main.MainActivity" />
+            android:parentActivityName=".activity.main.MainActivity"
+            android:hardwareAccelerated="true"/>
     </application>
 
 </manifest>

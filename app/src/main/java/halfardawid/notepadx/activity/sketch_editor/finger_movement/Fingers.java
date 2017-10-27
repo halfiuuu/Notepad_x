@@ -3,7 +3,6 @@ package halfardawid.notepadx.activity.sketch_editor.finger_movement;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.MotionEvent;
-import static android.view.MotionEvent.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +15,10 @@ import halfardawid.notepadx.util.vectors.Vector2i;
 
 public class Fingers {
     public static final String TAG = "FINGERS";
-    public static final boolean DEBUG_SPAM=false;
+    public static final boolean DEBUG_SPAM=true;
 
     private List<Finger> fingers=new ArrayList<>();
-    private Lock lock=new ReentrantLock();
+    Lock lock=new ReentrantLock();
     private Lock queue=new ReentrantLock();
 
     private SmartBitmap bitmap;
@@ -48,46 +47,21 @@ public class Fingers {
         if(DEBUG_SPAM)Log.d(TAG,"Finger "+id+" moved to "+pos+" with a difference of "+difference);
         if(!difference.isNone()){
             finger.addNewPoint(pos);
-            finger.newDistance(canvas.getBrush().splatLine(bitmap, lastPosition,pos,color_fun[id%color_fun.length],finger.latestDistance()));
-        }else canvas.getBrush().splat(bitmap,pos,color_fun[id%color_fun.length]);
+            finger.newDistance(canvas.getBrush().splatLine(bitmap, lastPosition,pos,getColor(id),finger.latestDistance()));
+        }else canvas.getBrush().splat(bitmap,pos,getColor(id));
+    }
+
+    public int getColor(int id){
+        return (canvas.isErasing())?Color.TRANSPARENT:color_fun[id%color_fun.length];
     }
 
     public void handleEvent(MotionEvent me) {
         synchronized (queue) {
             if(DEBUG_SPAM)Log.d(TAG, "ev>>" + me);
-            new MoveThread(getFingerMovement(me)).start();
+            new MoveThread(this, this, me).start();
         }
     }
 
-    private class MoveThread extends Thread{
-        FingerMovement fm;
-        public MoveThread(FingerMovement fm) {
-            this.fm = fm;
-        }
-        @Override
-        public void run(){
-            synchronized (lock){
-                fm.run();
-            }
-        }
-    }
-
-    private FingerMovement getFingerMovement(MotionEvent me) {
-        switch(me.getActionMasked()){
-            case ACTION_UP:
-                return new LastFingerUp(this, me);
-            case ACTION_POINTER_UP:
-                return new FingerUp(this, me);
-            case ACTION_MOVE:
-                return new FingersMoved(this, me);
-            case ACTION_DOWN:
-                return new FirstFingerDown(this, me);
-            case ACTION_POINTER_DOWN:
-                return new FingerDown(this, me);
-            default:
-                return new WtfDidJustMove(me);
-        }
-    }
 
     public synchronized void remove(int id) {
         if(fingers.size()>id)
@@ -100,6 +74,10 @@ public class Fingers {
 
     public synchronized void add(Finger finger) {
         fingers.add(finger);
+    }
+
+    public void invalidate(){
+        canvas.postInvalidate();
     }
 
 }

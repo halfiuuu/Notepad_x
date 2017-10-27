@@ -118,7 +118,8 @@ public class SmartBitmap {
         s.putInt(OFFSET_Y,offset.y);
     }
 
-    public int getUnsafePixel(Vector2i vector2i) {
+    public int getUnsafePixel(Vector2i arg0) {
+        Vector2i vector2i=normalizeVector(arg0);
         return bitmap.getPixel(vector2i.x,vector2i.y);
     }
 }

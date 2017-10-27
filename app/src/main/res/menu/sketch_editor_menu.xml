@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/sem_move_mode"
+        android:checkable="true"
         android:icon="@drawable/move"
         android:title="@string/move_mode"
         app:showAsAction="ifRoom" />
@@ -10,6 +11,7 @@
         android:id="@+id/sem_eraser"
         android:icon="@drawable/eraser"
         android:title="@string/toggle_eraser"
+        android:checkable="true"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/sem_brush"

@@ -62,11 +62,12 @@ public final class SketchActivity extends GenericNoteActivity<SketchNote> {
         if(!handleGenericTasks(item))
             switch(item.getItemId()){
                 case R.id.sem_move_mode:
-                    sketch.toggleMove();
+                    item.setChecked(sketch.toggleMove());
                     return true;
                 case R.id.sem_brush:
                     return true;
                 case R.id.sem_eraser:
+                    item.setChecked(sketch.toggleErase());
                     return true;
                 case R.id.sem_palette:
                     return true;
