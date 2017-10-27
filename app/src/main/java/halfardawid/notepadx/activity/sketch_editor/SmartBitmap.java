@@ -3,6 +3,8 @@ package halfardawid.notepadx.activity.sketch_editor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -10,6 +12,7 @@ import android.util.Log;
 import halfardawid.notepadx.util.vectors.Vector2i;
 
 import static android.R.attr.bitmap;
+import static android.R.attr.offset;
 
 /**
  * Created by Dawid on 2017-10-26.
@@ -22,6 +25,9 @@ public class SmartBitmap {
     private Vector2i offset=new Vector2i(100,100);
     private final static int steps=250;
 
+    private float scale=1f;
+    private float scale_min=.1f,scale_max=3f;
+
     public SmartBitmap(){
         bitmap=makeClearBitmap(new Vector2i(500,500));
     }
@@ -31,8 +37,27 @@ public class SmartBitmap {
     }
 
     public synchronized void drawOnCanvas(Canvas c) {
-        c.drawBitmap(bitmap,offset.x,offset.y,null);
+        drawOutlined(
+                c,
+                (scale==1)?
+                        bitmap:
+                        Bitmap.createScaledBitmap(bitmap,(int)(bitmap.getWidth()*scale),(int)(bitmap.getHeight()*scale),true)
+        );
+
         //Log.d(TAG,"Drawing the bitmap");
+    }
+
+    private void drawOutlined(Canvas c,Bitmap img) {
+        int x0=offset.x,x1=x0+img.getWidth(),y0=offset.y,y1=y0+img.getHeight();
+        emptyRect(c, x0, x1, y0, y1,new Paint(Color.RED));
+        c.drawBitmap(img,offset.x,offset.y,null);
+    }
+
+    private void emptyRect(Canvas c, int x0, int x1, int y0, int y1,Paint p) {
+        c.drawLines(new float[]{x0,y0,x1,y0},p);
+        c.drawLines(new float[]{x1,y0,x1,y1},p);
+        c.drawLines(new float[]{x1,y1,x0,y1},p);
+        c.drawLines(new float[]{x0,y1,x0,y0},p);
     }
 
     public synchronized void drawPixel(Vector2i pos, int c) {
@@ -54,24 +79,36 @@ public class SmartBitmap {
     private synchronized Vector2i normalizeVector(Vector2i arg0){
         Vector2i var=new Vector2i(arg0);
         var.sub(offset);
+        if(scale!=1)var.divide(scale);
         return var;
+    }
+
+    public synchronized void resetZoom(){
+        scale=1f;
+    }
+
+    public synchronized void zoom(float change){
+        scale+=change;
+        if(scale>scale_max)scale=scale_max;
+        if(scale<scale_min)scale=scale_min;
     }
 
     @NonNull
     private synchronized void expandIfNeeded(Vector2i pos) {
         Vector2i changes = pos.checkInBounds(new Vector2i(bitmap),steps);
         if(changes.isNone())return;
-        //Log.d(TAG,"Changes needed for "+pos+" as "+changes);
+        Log.d(TAG,"Changes needed for "+pos+" as "+changes);
         Vector2i addSize=new Vector2i(changes);
         addSize.abs();
         addSize.add(new Vector2i(bitmap));
-        //Log.d(TAG,"sum size "+addSize);
+        Log.d(TAG,"sum size "+addSize);
         Vector2i f=new Vector2i(changes);
         f.cutAllPositive();
         f.abs();
-        //Log.d(TAG,"new offset "+f);
+        Log.d(TAG,"new offset "+f);
         bitmap = copyOnBitmap(addSize,f);
-        //Log.d(TAG,"Bitmap expanded!");
+        Log.d(TAG,"Bitmap expanded!");
+        if(scale!=1)f.multiply(scale);
         offset.sub(f);
     }
 

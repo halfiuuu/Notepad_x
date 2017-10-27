@@ -40,15 +40,34 @@ public class Fingers {
             Log.d(TAG,"No finger data, i dunno");
             return;
         }
-        Finger finger=fingers.get(id);
-        Vector2i difference=new Vector2i(pos);
+
+        Finger finger = fingers.get(id);
+        Vector2i difference = new Vector2i(pos);
         Vector2i lastPosition = finger.lastPosition();
         difference.sub(lastPosition);
-        if(DEBUG_SPAM)Log.d(TAG,"Finger "+id+" moved to "+pos+" with a difference of "+difference);
-        if(!difference.isNone()){
-            finger.addNewPoint(pos);
-            finger.newDistance(canvas.getBrush().splatLine(bitmap, lastPosition,pos,getColor(id),finger.latestDistance()));
-        }else canvas.getBrush().splat(bitmap,pos,getColor(id));
+
+        if(!difference.isNone())finger.addNewPoint(pos);
+
+        if(canvas.isMoveMode()){
+            if(fingers.size()==2){
+                Vector2i current_position_change=new Vector2i(fingers.get(id==1?0:1).lastPosition());
+                Vector2i last_position_change=new Vector2i(current_position_change);
+                current_position_change.sub(pos);
+                last_position_change.sub(lastPosition);
+                float change=(current_position_change.pythagoras()-last_position_change.pythagoras());
+                bitmap.zoom(change/1000);
+                Log.d(TAG,"zoom mode "+change);
+            }else{
+                bitmap.move(difference);
+                Log.d(TAG,"move mode "+difference);
+            }
+        }else {
+            if (DEBUG_SPAM)
+                Log.d(TAG, "Finger " + id + " moved to " + pos + " with a difference of " + difference);
+            if (!difference.isNone()) {
+                finger.newDistance(canvas.getBrush().splatLine(bitmap, lastPosition, pos, getColor(id), finger.latestDistance()));
+            } else canvas.getBrush().splat(bitmap, pos, getColor(id));
+        }
     }
 
     public int getColor(int id){

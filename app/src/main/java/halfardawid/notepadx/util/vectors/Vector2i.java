@@ -105,5 +105,14 @@ public class Vector2i {
         x*=multipler;
         y*=multipler;
     }
+
+    public void divide(float scale) {
+        x/=scale;
+        y/=scale;
+    }
+
+    public float pythagoras() {
+        return (float) Math.sqrt(x*x+y*y);
+    }
 }
 
