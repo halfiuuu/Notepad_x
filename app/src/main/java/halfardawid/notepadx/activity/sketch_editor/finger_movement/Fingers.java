@@ -37,7 +37,7 @@ public class Fingers {
 
     synchronized void fingerMoved(int id, Vector2i pos) {
         if(DEBUG_SPAM)Log.d(TAG,"fingers "+fingers.size()+" "+fingers);
-        if(fingers.size()<id){
+        if(id>=fingers.size()){
             Log.d(TAG,"No finger data, i dunno");
             return;
         }
