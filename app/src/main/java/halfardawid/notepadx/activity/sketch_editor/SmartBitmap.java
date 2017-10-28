@@ -88,9 +88,16 @@ public class SmartBitmap {
     }
 
     public synchronized void zoom(float change){
-        scale+=change;
-        if(scale>scale_max)scale=scale_max;
-        if(scale<scale_min)scale=scale_min;
+        float new_scale=getNormalizedScale(change);
+        offset.add(new Vector2i(bitmap).multiply(scale).sub(new Vector2i(bitmap).multiply(new_scale)).divide(2));
+        scale=new_scale;
+    }
+
+    private float getNormalizedScale(float change) {
+        float v=this.scale+change;
+        if(v>scale_max)v=scale_max;
+        if(v<scale_min)v=scale_min;
+        return v;
     }
 
     @NonNull

@@ -29,39 +29,46 @@ public class Vector2i {
         y=bitmap.getHeight();
     }
 
-    public void copy(Vector2i a){
+    public Vector2i copy(Vector2i a){
         x=a.x;
         y=a.y;
+        return this;
     }
-    public void add(int arg){
+    public Vector2i add(int arg){
         x+=arg;
         y+=arg;
+        return this;
     }
-    public void sub(int arg){
+    public Vector2i sub(int arg){
         x-=arg;
         y-=arg;
+        return this;
     }
-    public void add(Vector2i arg){
+    public Vector2i add(Vector2i arg){
         x+=arg.x;
         y+=arg.y;
+        return this;
     }
-    public void sub(Vector2i arg){
+    public Vector2i sub(Vector2i arg){
         x-=arg.x;
         y-=arg.y;
+        return this;
     }
 
     public boolean isNone(){
         return x==0&&y==0;
     }
 
-    public void abs(){
+    public Vector2i abs(){
         if(x<0)x*=-1;
         if(y<0)y*=-1;
+        return this;
     }
 
-    public void cutAllPositive(){
+    public Vector2i cutAllPositive(){
         if(x>0)x=0;
         if(y>0)y=0;
+        return this;
     }
 
     public Vector2i checkInBounds(Vector2i size,int steps) {
@@ -101,14 +108,16 @@ public class Vector2i {
         return "V2I["+x+"/"+y+"]";
     }
 
-    public void multiply(float multipler) {
+    public Vector2i multiply(float multipler) {
         x*=multipler;
         y*=multipler;
+        return this;
     }
 
-    public void divide(float scale) {
+    public Vector2i divide(float scale) {
         x/=scale;
         y/=scale;
+        return this;
     }
 
     public float pythagoras() {
