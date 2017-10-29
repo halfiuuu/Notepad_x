@@ -60,6 +60,7 @@ public class SmartBitmap {
         c.drawLines(new float[]{x0,y1,x0,y0},p);
     }
 
+    @Deprecated
     public synchronized void drawPixel(Vector2i pos, int c) {
         Vector2i np=normalizeVector(pos);
         expandIfNeeded(np);
@@ -67,16 +68,37 @@ public class SmartBitmap {
         bitmap.setPixel(np.x, np.y, c);
     }
 
+    @Deprecated
     public synchronized void securePosition(Vector2i pos){
         expandIfNeeded(normalizeVector(pos));
     }
 
+    public synchronized void securePositionDirect(Vector2i pos){
+        expandIfNeeded(pos);
+    }
+
+
+    @Deprecated
+    public synchronized int getUnsafePixel(Vector2i arg0) {
+        Vector2i vector2i=normalizeVector(arg0);
+        return bitmap.getPixel(vector2i.x,vector2i.y);
+    }
+
+    public synchronized int getUnsafePixelDirect(Vector2i arg0) {
+        return bitmap.getPixel(arg0.x,arg0.y);
+    }
+
+    @Deprecated
     public synchronized void drawPixelNonSafe(Vector2i pos, int c) {
         Vector2i np=normalizeVector(pos);
         bitmap.setPixel(np.x, np.y, c);
     }
 
-    private synchronized Vector2i normalizeVector(Vector2i arg0){
+    public synchronized void drawPixelNonSafeDirect(Vector2i pos, int c) {
+        bitmap.setPixel(pos.x, pos.y, c);
+    }
+
+    public synchronized Vector2i normalizeVector(Vector2i arg0){
         Vector2i var=new Vector2i(arg0);
         var.sub(offset);
         if(scale!=1)var.divide(scale);
@@ -151,19 +173,21 @@ public class SmartBitmap {
 
     private static final String OFFSET_X="SMARTBITMAP_OFFSET_X";
     private static final String OFFSET_Y="SMARTBITMAP_OFFSET_Y";
+    private static final String SCALE="SMARTBITMAP_SCALE";
 
     public void loadSettings(Bundle s) {
         offset.x=s.getInt(OFFSET_X,offset.x);
         offset.y=s.getInt(OFFSET_Y,offset.y);
+        scale=s.getFloat(SCALE,scale);
     }
 
     public void saveSettings(Bundle s) {
         s.putInt(OFFSET_X,offset.x);
         s.putInt(OFFSET_Y,offset.y);
+        s.putFloat(SCALE,scale);
     }
 
-    public int getUnsafePixel(Vector2i arg0) {
-        Vector2i vector2i=normalizeVector(arg0);
-        return bitmap.getPixel(vector2i.x,vector2i.y);
+    public float getScale() {
+        return scale;
     }
 }

@@ -21,7 +21,7 @@ public class SketchCanvas extends View {
     private Fingers controller;
     private boolean move=false;
     private boolean erase=false;
-    private Brush brush=new SoftTipCircle(10,10);
+    private Brush brush=new SolidCircleBrush(50,25);
 
     public SketchCanvas(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -57,8 +57,6 @@ public class SketchCanvas extends View {
     }
     @Override
     public boolean onTouchEvent(final MotionEvent me){
-        //TODO:Parse motion event in ui thread, then handle it.
-        //NOTE:MotionEvents get global vectors outside of UI Thread (Probably?)
         controller.handleEvent(me);
         postInvalidate();
         return true;

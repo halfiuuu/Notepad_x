@@ -1,5 +1,6 @@
 package halfardawid.notepadx.activity.sketch_editor.brushes;
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
 
 import halfardawid.notepadx.activity.sketch_editor.SmartBitmap;
@@ -23,17 +24,21 @@ public abstract class Brush {
         return (int) (expand+radius);
     }
 
-    public void splat(SmartBitmap bitmap, Vector2i pos, int color) {
+    public final void splat(SmartBitmap bitmap, Vector2i pos_arg, int color) {
         Vector2i radius=new Vector2i(real_radius());
+        Vector2i real_position=bitmap.normalizeVector(pos_arg);
+
         int alpha= Color.alpha(color);
         int r=Color.red(color),g=Color.green(color),b=Color.blue(color);
         Vector2i n_pos=new Vector2i(0);
 
-        secure(bitmap, pos, radius);
+        secure(bitmap, real_position, radius);
+
+        //float scale_smoothing_factor=bitmap.getScale()/2;
 
         for(int x=-radius.x;x<radius.x;x++)
             for(int y=-radius.y;y<radius.y;y++) {
-                n_pos.copy(pos);
+                n_pos.copy(real_position);
                 n_pos.add(new Vector2i(x,y));
                 int col=0;
                 float smoothing = smoothing(dist(x, y));
@@ -42,7 +47,7 @@ public abstract class Brush {
                 }else if(smoothing==0){
                     continue;
                 }else{
-                    int base_color=bitmap.getUnsafePixel(n_pos);
+                    int base_color=bitmap.getUnsafePixelDirect(n_pos);
                     float invert=1F-smoothing;
                     col=Color.argb(
                             (int)((alpha*smoothing)+(Color.alpha(base_color)*invert)),
@@ -51,17 +56,17 @@ public abstract class Brush {
                             (int)((b*smoothing)+(Color.blue(base_color)*invert))
                     );
                 }
-                bitmap.drawPixelNonSafe(n_pos,col);
+                bitmap.drawPixelNonSafeDirect(n_pos,col);
             }
     }
 
     private void secure(SmartBitmap bitmap, Vector2i pos, Vector2i radius) {
         Vector2i pp=new Vector2i(pos);
         pp.sub(radius);
-        bitmap.securePosition(pp);
+        bitmap.securePositionDirect(pp);
         pp.copy(pos);
         pp.add(radius);
-        bitmap.securePosition(pp);
+        bitmap.securePositionDirect(pp);
     }
 
     private float dist(int x, int y) {
@@ -73,7 +78,7 @@ public abstract class Brush {
         distance.sub(lastPosition);
         float whole_distance=dist(distance);
         float dist_i=last_dist;
-        for(;dist_i<whole_distance;dist_i+=spacing){
+        for(;dist_i<whole_distance;dist_i+=getSpacing(bitmap)){
             float multiplier=dist_i/whole_distance;
             Vector2i between=new Vector2i(distance);
             between.multiply(multiplier);
@@ -81,6 +86,10 @@ public abstract class Brush {
             splat(bitmap,between,i);
         }
         return dist_i-whole_distance;
+    }
+
+    private float getSpacing(SmartBitmap bitmap) {
+        return spacing*bitmap.getScale();
     }
 
     private float dist(Vector2i distance) {
