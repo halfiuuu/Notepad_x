@@ -95,7 +95,11 @@ public class SmartBitmap {
     }
 
     public synchronized void drawPixelNonSafeDirect(Vector2i pos, int c) {
-        bitmap.setPixel(pos.x, pos.y, c);
+        if(!pos.inside(new Vector2i(bitmap))){
+            Log.wtf(TAG,"Yea, good luck painting "+pos+" when whole bitmap has "+new Vector2i(bitmap));
+        }
+        else
+            bitmap.setPixel(pos.x, pos.y, c);
     }
 
     public synchronized Vector2i normalizeVector(Vector2i arg0){

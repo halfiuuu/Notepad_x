@@ -33,6 +33,7 @@ public abstract class Brush {
         Vector2i n_pos=new Vector2i(0);
 
         secure(bitmap, real_position, radius);
+        real_position=bitmap.normalizeVector(pos_arg);
 
         //float scale_smoothing_factor=bitmap.getScale()/2;
 

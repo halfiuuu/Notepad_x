@@ -123,5 +123,9 @@ public class Vector2i {
     public float pythagoras() {
         return (float) Math.sqrt(x*x+y*y);
     }
+
+    public boolean inside(Vector2i vector2i) {
+        return x>=0&&x<vector2i.x&&y>=0&&y<vector2i.y;
+    }
 }
 
