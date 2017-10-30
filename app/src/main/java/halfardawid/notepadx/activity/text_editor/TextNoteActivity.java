@@ -56,9 +56,8 @@ public final class TextNoteActivity extends GenericNoteActivity<TextNote> {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if(!handleGenericTasks(item))return super.onOptionsItemSelected(item);
-        return true;
+    protected boolean menuButtonPressed(MenuItem item) {
+        return false;
     }
 
     @Override

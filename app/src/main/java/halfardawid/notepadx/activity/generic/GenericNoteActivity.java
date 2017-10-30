@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -40,7 +41,7 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
                 note=ref.newInstance();
             } catch (Exception e1) {
                 Log.wtf(getTag(),"What the bloody hell...?",e);
-                quit();
+                finish();
                 return;
             }
             Log.wtf(getTag(),"Loading note went terribly wrong",e);
@@ -77,26 +78,31 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
 
     abstract public void prepareForSave();
 
-    protected boolean handleGenericTasks(MenuItem item){
-        switch (item.getItemId()) {
-            case R.id.gnam_change_title:
-                changeTitleDialog();
-                break;
-            case R.id.gnam_delete:
-                deleteNote();
-                break;
-            case R.id.gnem_save:
-                saveNote();
-                break;
-            case R.id.gnam_save_exit:
-                saveAndQuit();
-                break;
-            case R.id.gnam_change_color:
-                changeColor();
-                break;
-            default:
-                return false;
-        }
+    @Override
+    public final boolean onOptionsItemSelected(MenuItem item){
+        if(!menuButtonPressed(item))
+            switch (item.getItemId()) {
+                case android.R.id.home:
+                    finish();
+                    return true;
+                case R.id.gnam_change_title:
+                    changeTitleDialog();
+                    break;
+                case R.id.gnam_delete:
+                    deleteNote();
+                    break;
+                case R.id.gnem_save:
+                    saveNote();
+                    break;
+                case R.id.gnam_save_exit:
+                    saveAndQuit();
+                    break;
+                case R.id.gnam_change_color:
+                    changeColor();
+                    break;
+                default:
+                    return super.onOptionsItemSelected(item);
+            }
         return true;
     }
 
@@ -114,24 +120,21 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
         ((ColorPickerGrid)v.findViewById(R.id.cpl_grid)).setClickListener(d,this);
     }
 
-    @Override
-    public void onBackPressed() {
-        quit();
-    }
-
 
     private void saveAndQuit() {
         saveNote();
-        quit();
+        finish();
     }
 
     protected void deleteNote() {
         note.deleteFile(this);
-        quit();
+        finish();
     }
 
-    private void quit() {
-        this.finish();
+    @Override
+    public void finish() {
+        setResult(RESULT_OK,new Intent());
+        super.finish();
     }
 
     @Override
@@ -190,6 +193,7 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
     public abstract void inherentRefresh();
     protected abstract void loadSettings(Bundle s);
     protected abstract void saveSettings(Bundle s);
+    protected abstract boolean menuButtonPressed(MenuItem item);
 
     @Override
     public void applyColorPick(int id){

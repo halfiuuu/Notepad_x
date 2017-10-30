@@ -122,6 +122,7 @@ public final class MainActivity extends AppCompatActivity {
 
     @Override
     public void onActivityResult(int c,int r, Intent d){
+        Log.d(TAG,"Activity ended, "+c+" "+r+" "+d);
         switch(c){
             case NOTE_EDITOR_RESULT:
                 reload_list();
@@ -130,6 +131,6 @@ public final class MainActivity extends AppCompatActivity {
     }
 
     private void reload_list() {
-        adapter.notifyDataSetChanged();
+        adapter.reloadWhole(this);
     }
 }

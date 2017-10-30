@@ -1,5 +1,6 @@
 package halfardawid.notepadx.activity.main;
 
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -7,13 +8,14 @@ import android.widget.BaseAdapter;
 import java.util.List;
 
 import halfardawid.notepadx.util.note.Note;
+import halfardawid.notepadx.util.note.NoteList;
 
 public class NoteAdapter extends BaseAdapter{
     public static final String TAG="NoteAdapter";
     private MainActivity con;
-    private List<Note> notes;
+    private NoteList notes;
 
-    public NoteAdapter(MainActivity con, List<Note> notes){
+    public NoteAdapter(MainActivity con, NoteList notes){
         this.con=con;
         this.notes=notes;
     }
@@ -32,5 +34,10 @@ public class NoteAdapter extends BaseAdapter{
 
     @Override public View getView(int pos, View conv, ViewGroup par){
         return notes.get(pos).getMiniature(con,conv);
+    }
+
+    public void reloadWhole(Context con) {
+        notes.reloadAll(con);
+        notifyDataSetChanged();
     }
 }

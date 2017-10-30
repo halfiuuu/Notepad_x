@@ -58,21 +58,21 @@ public final class SketchActivity extends GenericNoteActivity<SketchNote> {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if(!handleGenericTasks(item))
-            switch(item.getItemId()){
-                case R.id.sem_move_mode:
-                    item.setChecked(sketch.toggleMove());
-                    return true;
-                case R.id.sem_brush:
-                    return true;
-                case R.id.sem_eraser:
-                    item.setChecked(sketch.toggleErase());
-                    return true;
-                case R.id.sem_palette:
-                    return true;
-            }
-        return super.onOptionsItemSelected(item);
+    protected boolean menuButtonPressed(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.sem_move_mode:
+                item.setChecked(sketch.toggleMove());
+                return true;
+            case R.id.sem_brush:
+                return true;
+            case R.id.sem_eraser:
+                item.setChecked(sketch.toggleErase());
+                return true;
+            case R.id.sem_palette:
+                return true;
+            default:
+                return false;
+        }
     }
 
     @Override
