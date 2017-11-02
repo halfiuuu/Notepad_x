@@ -15,7 +15,7 @@ import halfardawid.notepadx.util.vectors.Vector2i;
 
 public class Fingers {
     public static final String TAG = "FINGERS";
-    public static final boolean DEBUG_SPAM=true;
+    public static final boolean DEBUG_SPAM=false;
 
     private List<Finger> fingers=new ArrayList<>();
     Lock lock=new ReentrantLock();

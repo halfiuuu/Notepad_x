@@ -1,5 +1,6 @@
 package halfardawid.notepadx.activity.sketch_editor.finger_movement;
 
+import android.util.Log;
 import android.view.MotionEvent;
 
 import static android.view.MotionEvent.ACTION_DOWN;
@@ -15,14 +16,21 @@ class MoveThread extends Thread {
     private Fingers fingers;
     FingerMovement fm;
 
+    private void logThread(){
+        Log.d("MoveThread!",Thread.currentThread()+" thread...");
+    }
+
     public MoveThread(Fingers fingers, Fingers f, MotionEvent fm) {
+        logThread();
         this.fingers = fingers;
         this.fm = getFingerMovement(f, fm);
     }
 
     @Override
     public void run() {
+        logThread();
         synchronized (fingers.lock) {
+            logThread();
             fm.run();
             fingers.invalidate();
         }

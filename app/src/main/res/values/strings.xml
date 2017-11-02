@@ -27,4 +27,8 @@
     <string name="color_palette">Color palette</string>
     <string name="toggle_eraser">Toggle eraser</string>
     <string name="move_mode">Move view</string>
+    <string name="are_you_sure_quit">Are you sure you want to quit editing this note?</string>
+    <string name="any_unsaved_changes_will_be_discarded">Any unsaved changes shall be discarded, lost forever...</string>
+    <string name="pick_note_background_color">Pick new color for the note to use as a background</string>
+    <string name="i_m_sure_exit">Yes, quit</string>
 </resources>

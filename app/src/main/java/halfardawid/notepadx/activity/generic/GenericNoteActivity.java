@@ -83,8 +83,8 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
         if(!menuButtonPressed(item))
             switch (item.getItemId()) {
                 case android.R.id.home:
-                    finish();
-                    return true;
+                    onQuitSaveAsk();
+                    break;
                 case R.id.gnam_change_title:
                     changeTitleDialog();
                     break;
@@ -106,9 +106,33 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
         return true;
     }
 
+    private void onQuitSaveAsk() {
+        AlertDialog.Builder b = new AlertDialog.Builder(this);
+        b.setMessage(R.string.any_unsaved_changes_will_be_discarded);
+        b.setTitle(R.string.are_you_sure_quit);
+        b.setPositiveButton(R.string.i_m_sure_exit, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        b.setNeutralButton(R.string.save, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                saveAndQuit();
+            }
+        });
+        b.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+        b.show();
+    }
+
     protected void changeColor(){
         AlertDialog.Builder b = new AlertDialog.Builder(this);
-        b.setMessage("Ayy lmao");
+        b.setTitle(R.string.pick_note_background_color);
         View v=getLayoutInflater().inflate(R.layout.colorpicker_list,null);
         b.setView(v);
         b.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
