@@ -81,6 +81,7 @@ public abstract class Note {
     protected String title="";
     protected String color=null;
     protected UUID uuid;
+    protected boolean changed=false;
 
     abstract protected String getType();
     abstract public Intent getEditIntent(Context con);
@@ -148,6 +149,7 @@ public abstract class Note {
         try(FileWriter fw=new FileWriter(file)) {
             fw.write(getParsedFileData());
         }
+        changed=false;
     }
 
     @NonNull
@@ -197,7 +199,7 @@ public abstract class Note {
             try {
                 if(!typePair.is(type))continue;
                 Note n=typePair.build(uuid,data,title);
-                if(object.has(COLOR))n.setColor(object.getString(COLOR));
+                if(object.has(COLOR))n.setColorIni(object.getString(COLOR));
                 return n;
             } catch (NoSuchFieldException|IllegalAccessException|NoSuchMethodException|InvocationTargetException |InstantiationException e) {
                 Log.wtf(TAG,"Yea, those errors are unacceptable, but still accounted for i guess...",e);
@@ -248,15 +250,21 @@ public abstract class Note {
         title=arg;
     }
 
+    public final void changeOccured(){
+        changed=true;
+    }
+
     public String getUUID() {
         return (uuid!=null)?uuid.toString():null;
     }
 
-    public void setColor(String color) {
+    public void setColorIni(String color){
         this.color = color;
     }
+
     public void setColor(Context c,int id) {
         this.color = Note.recognizeColorId(c,id);
+        changeOccured();
         Log.w(TAG,"set color to "+color);
     }
 
@@ -270,5 +278,9 @@ public abstract class Note {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             activity.getWindow().setStatusBarColor(getColorSpecific(activity,cid,R.array.color_dark));
 
+    }
+
+    public boolean saveNeeded(){
+        return changed;
     }
 }

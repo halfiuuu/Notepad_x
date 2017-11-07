@@ -32,11 +32,17 @@ public class SmartBitmap {
         bitmap=makeClearBitmap(new Vector2i(500,500));
     }
 
-    public synchronized void clone(Bitmap b){
+    public void clone(Bitmap b){
         bitmap=b.copy(Bitmap.Config.ARGB_8888,true);
     }
 
-    public synchronized void drawOnCanvas(Canvas c) {
+    public void drawOnCanvas(Canvas c) {
+        /*Bitmap bitmap;
+        float scale;
+        synchronized (this){
+            bitmap=this.bitmap;
+            scale=this.scale;
+        }*/
         drawOutlined(
                 c,
                 (scale==1)?
@@ -61,7 +67,7 @@ public class SmartBitmap {
     }
 
     @Deprecated
-    public synchronized void drawPixel(Vector2i pos, int c) {
+    public void drawPixel(Vector2i pos, int c) {
         Vector2i np=normalizeVector(pos);
         expandIfNeeded(np);
         np=normalizeVector(pos);
@@ -69,32 +75,32 @@ public class SmartBitmap {
     }
 
     @Deprecated
-    public synchronized void securePosition(Vector2i pos){
+    public void securePosition(Vector2i pos){
         expandIfNeeded(normalizeVector(pos));
     }
 
-    public synchronized void securePositionDirect(Vector2i pos){
+    public void securePositionDirect(Vector2i pos){
         expandIfNeeded(pos);
     }
 
 
     @Deprecated
-    public synchronized int getUnsafePixel(Vector2i arg0) {
+    public int getUnsafePixel(Vector2i arg0) {
         Vector2i vector2i=normalizeVector(arg0);
         return bitmap.getPixel(vector2i.x,vector2i.y);
     }
 
-    public synchronized int getUnsafePixelDirect(Vector2i arg0) {
+    public int getUnsafePixelDirect(Vector2i arg0) {
         return bitmap.getPixel(arg0.x,arg0.y);
     }
 
     @Deprecated
-    public synchronized void drawPixelNonSafe(Vector2i pos, int c) {
+    public void drawPixelNonSafe(Vector2i pos, int c) {
         Vector2i np=normalizeVector(pos);
         bitmap.setPixel(np.x, np.y, c);
     }
 
-    public synchronized void drawPixelNonSafeDirect(Vector2i pos, int c) {
+    public void drawPixelNonSafeDirect(Vector2i pos, int c) {
         if(!pos.inside(new Vector2i(bitmap))){
             Log.wtf(TAG,"Yea, good luck painting "+pos+" when whole bitmap has "+new Vector2i(bitmap));
         }
@@ -102,15 +108,15 @@ public class SmartBitmap {
             bitmap.setPixel(pos.x, pos.y, c);
     }
 
-    public synchronized Vector2i normalizeVector(Vector2i arg0){
+    public Vector2i normalizeVector(Vector2i arg0){
         Vector2i var=new Vector2i(arg0);
         var.sub(offset);
         if(scale!=1)var.divide(scale);
         return var;
     }
 
-    public synchronized void resetZoom(){
-        scale=1f;
+    public void resetZoom(){
+        zoom(1);
     }
 
     public synchronized void zoom(float change){
@@ -127,7 +133,7 @@ public class SmartBitmap {
     }
 
     @NonNull
-    private synchronized void expandIfNeeded(Vector2i pos) {
+    private void expandIfNeeded(Vector2i pos) {
         Vector2i changes = pos.checkInBounds(new Vector2i(bitmap),steps);
         if(changes.isNone())return;
         Log.d(TAG,"Changes needed for "+pos+" as "+changes);
@@ -139,14 +145,17 @@ public class SmartBitmap {
         f.cutAllPositive();
         f.abs();
         Log.d(TAG,"new offset "+f);
-        bitmap = copyOnBitmap(addSize,f);
-        Log.d(TAG,"Bitmap expanded!");
         if(scale!=1)f.multiply(scale);
-        offset.sub(f);
+        synchronized (this) {
+            bitmap = copyOnBitmap(addSize, f);
+            offset.sub(f);
+        }
+        Log.d(TAG,"Bitmap expanded!");
+
     }
 
 
-    private synchronized Bitmap copyOnBitmap(Vector2i new_size,Vector2i o) {
+    private Bitmap copyOnBitmap(Vector2i new_size,Vector2i o) {
         Bitmap b = makeClearBitmap(new_size);
         Log.d(TAG, b.getWidth()+"/"+b.getHeight()+" new bitmap");
         Log.d(TAG, bitmap.getWidth()+"/"+bitmap.getHeight()+" old bitmap");
@@ -159,7 +168,7 @@ public class SmartBitmap {
         return b;
     }
 
-    public synchronized Bitmap getData() {
+    public Bitmap getData() {
         return bitmap;
     }
 
@@ -167,11 +176,11 @@ public class SmartBitmap {
         return Bitmap.createBitmap(s.x,s.y, Bitmap.Config.ARGB_8888);
     }
 
-    public synchronized void clear(){
+    public void clear(){
         bitmap=makeClearBitmap(new Vector2i(bitmap));
     }
 
-    public synchronized void move(Vector2i v) {
+    public void move(Vector2i v) {
         offset.add(v);
     }
 
@@ -179,19 +188,19 @@ public class SmartBitmap {
     private static final String OFFSET_Y="SMARTBITMAP_OFFSET_Y";
     private static final String SCALE="SMARTBITMAP_SCALE";
 
-    public void loadSettings(Bundle s) {
+    public synchronized void loadSettings(Bundle s) {
         offset.x=s.getInt(OFFSET_X,offset.x);
         offset.y=s.getInt(OFFSET_Y,offset.y);
         scale=s.getFloat(SCALE,scale);
     }
 
-    public void saveSettings(Bundle s) {
+    public synchronized void saveSettings(Bundle s) {
         s.putInt(OFFSET_X,offset.x);
         s.putInt(OFFSET_Y,offset.y);
         s.putFloat(SCALE,scale);
     }
 
-    public float getScale() {
+    public synchronized float getScale() {
         return scale;
     }
 }

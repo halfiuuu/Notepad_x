@@ -89,7 +89,7 @@ public abstract class Brush {
         return dist_i-whole_distance;
     }
 
-    private float getSpacing(SmartBitmap bitmap) {
+    public float getSpacing(SmartBitmap bitmap) {
         return spacing*bitmap.getScale();
     }
 

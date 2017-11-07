@@ -107,6 +107,10 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
     }
 
     private void onQuitSaveAsk() {
+        if(!note.saveNeeded()){
+            finish();
+            return;
+        }
         AlertDialog.Builder b = new AlertDialog.Builder(this);
         b.setMessage(R.string.any_unsaved_changes_will_be_discarded);
         b.setTitle(R.string.are_you_sure_quit);

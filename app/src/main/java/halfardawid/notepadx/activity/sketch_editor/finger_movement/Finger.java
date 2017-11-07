@@ -33,4 +33,8 @@ public class Finger {
     public void newDistance(float arg0) {
         distance =arg0;
     }
+
+    public int timesTouched() {
+        return history.size();
+    }
 }

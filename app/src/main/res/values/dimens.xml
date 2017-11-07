@@ -2,4 +2,5 @@
 <resources>
     <dimen name="std_padding">8dp</dimen>
     <dimen name="std_margin">16dp</dimen>
+    <dimen name="std_progress_height">4dp</dimen>
 </resources>

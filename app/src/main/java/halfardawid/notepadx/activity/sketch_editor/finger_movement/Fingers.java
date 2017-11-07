@@ -18,11 +18,11 @@ public class Fingers {
     public static final boolean DEBUG_SPAM=false;
 
     private List<Finger> fingers=new ArrayList<>();
-    Lock lock=new ReentrantLock();
-    private Lock queue=new ReentrantLock();
 
     private SmartBitmap bitmap;
     private SketchCanvas canvas;
+
+    private MoveThread moveThread;
 
     private int[] color_fun={
             Color.BLUE,Color.RED, Color.GREEN, Color.MAGENTA,Color.YELLOW
@@ -31,10 +31,12 @@ public class Fingers {
     public Fingers(SketchCanvas canvas){
         this.canvas=canvas;
         bitmap=canvas.getSmartBitmap();
+        moveThread=new MoveThread(this);
+        moveThread.start();
     }
 
 
-    synchronized void fingerMoved(int id, Vector2i pos) {
+    void fingerMoved(int id, Vector2i pos) {
         if(DEBUG_SPAM)Log.d(TAG,"fingers "+fingers.size()+" "+fingers);
         if(id>=fingers.size()){
             Log.d(TAG,"No finger data, i dunno");
@@ -65,33 +67,34 @@ public class Fingers {
             if (DEBUG_SPAM)
                 Log.d(TAG, "Finger " + id + " moved to " + pos + " with a difference of " + difference);
             if (!difference.isNone()) {
-                finger.newDistance(canvas.getBrush().splatLine(bitmap, lastPosition, pos, getColor(id), finger.latestDistance()));
-            } else canvas.getBrush().splat(bitmap, pos, getColor(id));
+                finger.newDistance(canvas.getBrush().splatLine(bitmap, lastPosition, pos, getColor(), finger.latestDistance()));
+            }else if(finger.timesTouched()==1){
+                canvas.getBrush().splat(bitmap, pos, getColor());
+                finger.newDistance(canvas.getBrush().getSpacing(bitmap));
+            }
         }
     }
 
-    public int getColor(int id){
-        return (canvas.isErasing())?Color.TRANSPARENT:color_fun[id%color_fun.length];
+    public int getColor(){
+        return (canvas.isErasing())?Color.TRANSPARENT:color_fun[(int)(Math.random()*100)%color_fun.length];
     }
 
     public void handleEvent(MotionEvent me) {
-        synchronized (queue) {
-            if(DEBUG_SPAM)Log.d(TAG, "ev>>" + me);
-            new MoveThread(this, this, me).start();
-        }
+        if(DEBUG_SPAM)Log.d(TAG, "ev>>" + me);
+        moveThread.add(me);
+        //new MoveThread(this, this, me).start();
     }
 
-
-    public synchronized void remove(int id) {
+    public void remove(int id) {
         if(fingers.size()>id)
             fingers.remove(id);
     }
 
-    public synchronized void clear() {
+    public void clear() {
         fingers.clear();
     }
 
-    public synchronized void add(Finger finger) {
+    public void add(Finger finger) {
         fingers.add(finger);
     }
 
@@ -99,6 +102,9 @@ public class Fingers {
         canvas.postInvalidate();
     }
 
+    public void finalize(){
+        moveThread.interrupt();
+    }
 }
 
 /*

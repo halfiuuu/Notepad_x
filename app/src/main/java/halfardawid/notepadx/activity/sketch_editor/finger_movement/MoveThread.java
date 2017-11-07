@@ -3,6 +3,10 @@ package halfardawid.notepadx.activity.sketch_editor.finger_movement;
 import android.util.Log;
 import android.view.MotionEvent;
 
+import java.util.Queue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+
 import static android.view.MotionEvent.ACTION_DOWN;
 import static android.view.MotionEvent.ACTION_MOVE;
 import static android.view.MotionEvent.ACTION_POINTER_DOWN;
@@ -12,42 +16,54 @@ import static android.view.MotionEvent.ACTION_UP;
 /**
  * Created by Dawid on 2017-10-27.
  */
-class MoveThread extends Thread {
+
+class MoveThread extends Thread{
+    private static final String TAG="MOVE_THREAD";
+
     private Fingers fingers;
-    FingerMovement fm;
+    BlockingQueue<FingerMovement> queue;
 
     private void logThread(){
-        Log.d("MoveThread!",Thread.currentThread()+" thread...");
+        Log.d(TAG,Thread.currentThread()+" thread...");
     }
 
-    public MoveThread(Fingers fingers, Fingers f, MotionEvent fm) {
-        logThread();
+    public MoveThread(Fingers fingers) {
         this.fingers = fingers;
-        this.fm = getFingerMovement(f, fm);
+        queue=new LinkedBlockingQueue<>();
+    }
+
+    public void add(MotionEvent me){
+        try {
+            queue.put(getFingerMovement(me));
+        } catch (InterruptedException e) {
+            Log.d(TAG,"interrupted adding");
+        }
     }
 
     @Override
     public void run() {
-        logThread();
-        synchronized (fingers.lock) {
-            logThread();
-            fm.run();
-            fingers.invalidate();
+        try {
+            for(;;){
+                    queue.take().run();
+                }
+            }
+        catch (InterruptedException e1) {
+            Log.d(TAG,"interrupted");
         }
     }
 
-    private static FingerMovement getFingerMovement(Fingers t, MotionEvent me) {
+    private FingerMovement getFingerMovement(MotionEvent me) {
         switch (me.getActionMasked()) {
             case ACTION_UP:
-                return new LastFingerUp(t, me);
+                return new LastFingerUp(fingers, me);
             case ACTION_POINTER_UP:
-                return new FingerUp(t, me);
+                return new FingerUp(fingers, me);
             case ACTION_MOVE:
-                return new FingersMoved(t, me);
+                return new FingersMoved(fingers, me);
             case ACTION_DOWN:
-                return new FirstFingerDown(t, me);
+                return new FirstFingerDown(fingers, me);
             case ACTION_POINTER_DOWN:
-                return new FingerDown(t, me);
+                return new FingerDown(fingers, me);
             default:
                 return new WtfDidJustMove(me);
         }
