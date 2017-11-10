@@ -18,7 +18,7 @@ import halfardawid.notepadx.R;
 
 public class SimpleProgressBar extends View implements Updatable {
 
-    private float progress=.5f;
+    private float progress=0f;
     private Paint p=new Paint();
 
     public SimpleProgressBar(Context context, @Nullable AttributeSet attrs) {
