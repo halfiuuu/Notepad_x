@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -21,8 +20,8 @@ import java.io.IOException;
 import java.util.UUID;
 
 import halfardawid.notepadx.R;
-import halfardawid.notepadx.activity.generic.layouts.colorpicker.ColorPickReaction;
-import halfardawid.notepadx.activity.generic.layouts.colorpicker.ColorPickerGrid;
+import halfardawid.notepadx.activity.generic.colorpicker.ColorPickReaction;
+import halfardawid.notepadx.activity.generic.colorpicker.ColorPickerGrid;
 import halfardawid.notepadx.util.exceptions.NoSuchNoteTypeException;
 import halfardawid.notepadx.util.note.Note;
 

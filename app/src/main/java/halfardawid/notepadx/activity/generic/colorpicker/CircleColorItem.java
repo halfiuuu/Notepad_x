@@ -1,18 +1,12 @@
-package halfardawid.notepadx.activity.generic.layouts.colorpicker;
+package halfardawid.notepadx.activity.generic.colorpicker;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v4.widget.TextViewCompat;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
-import android.widget.Button;
-import android.widget.TextView;
 
 import halfardawid.notepadx.R;
 
