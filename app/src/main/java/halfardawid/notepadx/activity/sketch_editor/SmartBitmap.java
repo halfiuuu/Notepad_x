@@ -1,7 +1,6 @@
 package halfardawid.notepadx.activity.sketch_editor;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -9,10 +8,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import halfardawid.notepadx.activity.generic.layouts.Updatable;
 import halfardawid.notepadx.util.vectors.Vector2i;
-
-import static android.R.attr.bitmap;
-import static android.R.attr.offset;
 
 /**
  * Created by Dawid on 2017-10-26.

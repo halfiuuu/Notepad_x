@@ -8,6 +8,7 @@ import android.view.MenuItem;
 
 import halfardawid.notepadx.R;
 import halfardawid.notepadx.activity.generic.GenericNoteActivity;
+import halfardawid.notepadx.activity.generic.layouts.SimpleProgressBar;
 import halfardawid.notepadx.util.note.types.SketchNote;
 
 public final class SketchActivity extends GenericNoteActivity<SketchNote> {
@@ -21,6 +22,7 @@ public final class SketchActivity extends GenericNoteActivity<SketchNote> {
         setContentView(R.layout.activity_sketch);
         loadIntentData(SketchNote.class);
         sketch=(SketchCanvas)findViewById(R.id.as_sketchcanvas);
+        sketch.setUpdatable((SimpleProgressBar)findViewById(R.id.progress_bar));
         refreshDataToView();
     }
 

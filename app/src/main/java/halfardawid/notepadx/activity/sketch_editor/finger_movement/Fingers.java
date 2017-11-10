@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import halfardawid.notepadx.activity.generic.layouts.Updatable;
 import halfardawid.notepadx.activity.sketch_editor.SketchCanvas;
 import halfardawid.notepadx.activity.sketch_editor.SmartBitmap;
 import halfardawid.notepadx.util.vectors.Vector2i;
@@ -33,6 +34,10 @@ public class Fingers {
         bitmap=canvas.getSmartBitmap();
         moveThread=new MoveThread(this);
         moveThread.start();
+    }
+
+    public Updatable getProgressBar(){
+        return canvas.getUpdatable();
     }
 
 
@@ -104,6 +109,10 @@ public class Fingers {
 
     public void finalize(){
         moveThread.interrupt();
+    }
+
+    public void refreshView() {
+        canvas.postInvalidate();
     }
 }
 

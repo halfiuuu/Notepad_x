@@ -6,6 +6,9 @@ import android.view.MotionEvent;
 import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import halfardawid.notepadx.activity.generic.layouts.Updatable;
 
 import static android.view.MotionEvent.ACTION_DOWN;
 import static android.view.MotionEvent.ACTION_MOVE;
@@ -17,11 +20,13 @@ import static android.view.MotionEvent.ACTION_UP;
  * Created by Dawid on 2017-10-27.
  */
 
-class MoveThread extends Thread{
+final class MoveThread extends Thread{
     private static final String TAG="MOVE_THREAD";
 
     private Fingers fingers;
-    BlockingQueue<FingerMovement> queue;
+    private BlockingQueue<FingerMovement> queue;
+    private AtomicInteger progression=new AtomicInteger(0);
+    private AtomicInteger tasks=new AtomicInteger(0);
 
     private void logThread(){
         Log.d(TAG,Thread.currentThread()+" thread...");
@@ -34,22 +39,46 @@ class MoveThread extends Thread{
 
     public void add(MotionEvent me){
         try {
+            if(queue.size()!=0)tasks.addAndGet(2);
+            updateProgress();
             queue.put(getFingerMovement(me));
         } catch (InterruptedException e) {
             Log.d(TAG,"interrupted adding");
         }
     }
 
+    private void updateProgress() {
+        setProgress((tasks.get()!=0)?(float)progression.get()/(float)tasks.get():0);
+    }
+
     @Override
     public void run() {
         try {
             for(;;){
-                    queue.take().run();
+                if(queue.size()==0){
+                    tasks.set(0);
+                    progression.set(0);
                 }
+                progressUp();
+                queue.take().run();
+                progressUp();
+                fingers.refreshView();
             }
+        }
         catch (InterruptedException e1) {
             Log.d(TAG,"interrupted");
         }
+    }
+
+    private void progressUp() {
+        progression.incrementAndGet();
+        updateProgress();
+    }
+
+    private void setProgress(float i) {
+        Updatable u=fingers.getProgressBar();
+        if(u==null)return;
+        u.updateWithValue(i);
     }
 
     private FingerMovement getFingerMovement(MotionEvent me) {

@@ -10,6 +10,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import halfardawid.notepadx.activity.generic.layouts.Updatable;
 import halfardawid.notepadx.activity.sketch_editor.brushes.Brush;
 import halfardawid.notepadx.activity.sketch_editor.brushes.SoftTipCircle;
 import halfardawid.notepadx.activity.sketch_editor.brushes.SolidCircleBrush;
@@ -21,7 +22,8 @@ public class SketchCanvas extends View {
     private Fingers controller;
     private boolean move=false;
     private boolean erase=false;
-    private Brush brush=new SolidCircleBrush(50,25);
+    private Brush brush=new SoftTipCircle(50,25);
+    private Updatable bar=null;
 
     public SketchCanvas(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -85,5 +87,14 @@ public class SketchCanvas extends View {
 
     public boolean toggleErase() {
         return erase=!erase;
+    }
+
+
+    public void setUpdatable(Updatable u){
+        bar=u;
+    }
+
+    public Updatable getUpdatable(){
+        return bar;
     }
 }
