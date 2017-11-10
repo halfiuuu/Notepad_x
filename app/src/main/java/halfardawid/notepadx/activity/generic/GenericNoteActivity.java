@@ -20,8 +20,8 @@ import java.io.IOException;
 import java.util.UUID;
 
 import halfardawid.notepadx.R;
-import halfardawid.notepadx.activity.generic.colorpicker.ColorPickReaction;
-import halfardawid.notepadx.activity.generic.colorpicker.ColorPickerGrid;
+import halfardawid.notepadx.activity.colorpicker.ColorPickReaction;
+import halfardawid.notepadx.activity.colorpicker.ColorPickerGrid;
 import halfardawid.notepadx.util.exceptions.NoSuchNoteTypeException;
 import halfardawid.notepadx.util.note.Note;
 

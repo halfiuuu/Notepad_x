@@ -1,4 +1,4 @@
-package halfardawid.notepadx.activity.generic.colorpicker;
+package halfardawid.notepadx.activity.colorpicker;
 
 /**
  * Created by Dawid on 2017-10-25.

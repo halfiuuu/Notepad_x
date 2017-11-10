@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <halfardawid.notepadx.activity.generic.colorpicker.ColorPickerGrid
+    <halfardawid.notepadx.activity.colorpicker.ColorPickerGrid
         android:id="@+id/cpl_grid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

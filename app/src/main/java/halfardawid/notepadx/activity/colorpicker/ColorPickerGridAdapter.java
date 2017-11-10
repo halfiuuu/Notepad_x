@@ -1,4 +1,4 @@
-package halfardawid.notepadx.activity.generic.colorpicker;
+package halfardawid.notepadx.activity.colorpicker;
 
 import android.content.Context;
 import android.view.LayoutInflater;
