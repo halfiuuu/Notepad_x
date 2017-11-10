@@ -20,8 +20,13 @@
             android:parentActivityName=".activity.main.MainActivity" />
         <activity
             android:name=".activity.sketch_editor.SketchActivity"
-            android:parentActivityName=".activity.main.MainActivity"
-            android:hardwareAccelerated="true"/>
+            android:hardwareAccelerated="true"
+            android:parentActivityName=".activity.main.MainActivity" />
+        <activity
+            android:name=".activity.colorpicker.ColorPickerActivity"
+            android:label="@string/change_color"
+            android:theme="@style/PopUpTheme">
+        </activity>
     </application>
 
 </manifest>

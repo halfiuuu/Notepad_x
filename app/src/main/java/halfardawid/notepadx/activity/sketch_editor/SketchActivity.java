@@ -19,8 +19,8 @@ public final class SketchActivity extends GenericNoteActivity<SketchNote> {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sketch);
         loadIntentData(SketchNote.class);
+        setContentView(R.layout.activity_sketch);
         sketch=(SketchCanvas)findViewById(R.id.as_sketchcanvas);
         sketch.setUpdatable((SimpleProgressBar)findViewById(R.id.progress_bar));
         refreshDataToView();

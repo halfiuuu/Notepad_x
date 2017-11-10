@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
-import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +28,7 @@ import java.util.UUID;
 
 import halfardawid.notepadx.R;
 import halfardawid.notepadx.activity.main.MainActivity;
+import halfardawid.notepadx.util.ColorUtils;
 import halfardawid.notepadx.util.exceptions.NoSuchNoteTypeException;
 import halfardawid.notepadx.util.note.types.SketchNote;
 import halfardawid.notepadx.util.note.types.TextNote;
@@ -114,33 +114,10 @@ public abstract class Note {
     }
 
     private int applyColors(View rec) {
-        int cid= recognizeColorString(rec.getContext(),color);
-        applyColors(rec,R.id.amt_whole,cid,R.array.color_light);
-        applyColors(rec,R.id.amt_top_bar,cid,R.array.color_base);
+        int cid= ColorUtils.recognizeColorString(rec.getContext(),color);
+        ColorUtils.applyColors(rec,R.id.amt_whole,cid,R.array.color_light);
+        ColorUtils.applyColors(rec,R.id.amt_top_bar,cid,R.array.color_base);
         return 0;
-    }
-
-    static private void applyColors(View v, @IdRes int id, int color_id, int col_array){
-        v.findViewById(id).setBackgroundColor(getColorSpecific(v.getContext(),color_id,col_array));
-    }
-
-    static private int getColorSpecific(Context c,int id, int array){
-        return c.getResources().getIntArray(array)[id];
-    }
-
-    public static int recognizeColorString(Context c, String name) {
-        if(name!=null){
-            String[] cn=c.getResources().getStringArray(R.array.color_names);
-            for(int o=0;o<cn.length;o++)
-            {
-                if(name.equals(cn[o]))return o;
-            }
-        }
-        return 0;//0 being default note color... I guess...
-    }
-
-    public static String recognizeColorId(Context c,int id) {
-        return c.getResources().getStringArray(R.array.color_names)[id];
     }
 
     public final void saveToFile(Context context) throws IOException,JSONException {
@@ -263,24 +240,16 @@ public abstract class Note {
     }
 
     public void setColor(Context c,int id) {
-        this.color = Note.recognizeColorId(c,id);
+        this.color = ColorUtils.recognizeColorId(c,id);
         changeOccured();
         Log.w(TAG,"set color to "+color);
     }
 
-    public void applyColors(AppCompatActivity activity) {
-        final int cid= recognizeColorString(activity,color);
-        Log.d(TAG,"applying colors to activity with color marked with id of ["+cid+"]");
-        activity.getWindow().getDecorView().setBackgroundColor(getColorSpecific(activity,cid,R.array.color_light));
-        ActionBar bar = activity.getSupportActionBar();
-        Log.d(TAG,"action bar..."+ bar);
-        bar.setBackgroundDrawable(new ColorDrawable(getColorSpecific(activity,cid,R.array.color_base)));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            activity.getWindow().setStatusBarColor(getColorSpecific(activity,cid,R.array.color_dark));
-
-    }
-
     public boolean saveNeeded(){
         return changed;
+    }
+
+    public String getColor() {
+        return color;
     }
 }

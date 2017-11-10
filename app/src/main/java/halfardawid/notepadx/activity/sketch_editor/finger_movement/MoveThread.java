@@ -2,10 +2,12 @@ package halfardawid.notepadx.activity.sketch_editor.finger_movement;
 
 import android.util.Log;
 import android.view.MotionEvent;
+import android.widget.Toast;
 
 import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import halfardawid.notepadx.activity.generic.layouts.Updatable;

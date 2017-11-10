@@ -41,7 +41,7 @@ public class ColorPickerGridAdapter extends BaseAdapter{
     public View getView(final int position, View conv, ViewGroup parent) {
         if(conv==null)conv= LayoutInflater.from(context).inflate(R.layout.colorpicker_circle,null);
         CircleColorItem ccb = (CircleColorItem) conv.findViewById(R.id.cp_button);
-        ccb.initColor(context,position);
+        ccb.initColor(position);
         //ccb.setOnClickListener(new ColorOnClickListener(position));
         return conv;
     }

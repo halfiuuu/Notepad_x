@@ -1,14 +1,18 @@
 package halfardawid.notepadx.activity.generic.layouts;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.Toast;
 
 import halfardawid.notepadx.R;
 
@@ -20,6 +24,7 @@ public class SimpleProgressBar extends View implements Updatable {
 
     private float progress=0f;
     private Paint p=new Paint();
+    private String alert=null;
 
     public SimpleProgressBar(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);

@@ -20,16 +20,18 @@ import java.io.IOException;
 import java.util.UUID;
 
 import halfardawid.notepadx.R;
-import halfardawid.notepadx.activity.colorpicker.ColorPickReaction;
+import halfardawid.notepadx.activity.colorpicker.ColorPickerActivity;
 import halfardawid.notepadx.activity.colorpicker.ColorPickerGrid;
+import halfardawid.notepadx.util.ColorUtils;
 import halfardawid.notepadx.util.exceptions.NoSuchNoteTypeException;
 import halfardawid.notepadx.util.note.Note;
 
-abstract public class GenericNoteActivity<T extends Note> extends AppCompatActivity implements ColorPickReaction {
+abstract public class GenericNoteActivity<T extends Note> extends AppCompatActivity{
     private static final String TAG = "GENERIC_NOTE";
     public static final String NOTE_JSON_DATA = "NOTE_JSON_DATA";
     public static final String NOTE_UUID = "NOTE_UUID";
     public T note;
+
     protected void loadIntentData(Class<T> ref) {
         Intent intent=getIntent();
         try {
@@ -45,6 +47,7 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
             }
             Log.wtf(getTag(),"Loading note went terribly wrong",e);
         }
+        ColorUtils.applyColorsToBar(this,note.getColor());//Oh god, why
     }
     abstract protected String getTag();
 
@@ -76,6 +79,21 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
     }
 
     abstract public void prepareForSave();
+
+    @Override
+    public void onActivityResult(int code,int r, Intent intent){
+        Log.d(TAG,"Generic note call child activity result with code "+code+"// "+r+" "+intent);
+        switch(code){
+            case ColorPickerActivity.CODE:
+                if(intent.hasExtra(ColorPickerActivity.COLOR_ID))
+                    applyColorPick(intent.getIntExtra(ColorPickerActivity.COLOR_ID,0));
+        }
+    }
+
+    public void applyColorPick(int id){
+        note.setColor(this,id);
+        refreshColors();
+    }
 
     @Override
     public final boolean onOptionsItemSelected(MenuItem item){
@@ -134,17 +152,7 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
     }
 
     protected void changeColor(){
-        AlertDialog.Builder b = new AlertDialog.Builder(this);
-        b.setTitle(R.string.pick_note_background_color);
-        View v=getLayoutInflater().inflate(R.layout.colorpicker_list,null);
-        b.setView(v);
-        b.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-            }
-        });
-        Dialog d=b.show();
-        ((ColorPickerGrid)v.findViewById(R.id.cpl_grid)).setClickListener(d,this);
+        startActivityForResult(new Intent(this,ColorPickerActivity.class),ColorPickerActivity.CODE);
     }
 
 
@@ -214,17 +222,11 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
     }
 
     private void refreshColors() {
-        note.applyColors(this);
+        ColorUtils.applyColors(this,note.getColor());
     }
 
     public abstract void inherentRefresh();
     protected abstract void loadSettings(Bundle s);
     protected abstract void saveSettings(Bundle s);
     protected abstract boolean menuButtonPressed(MenuItem item);
-
-    @Override
-    public void applyColorPick(int id){
-        note.setColor(this,id);
-        refreshColors();
-    }
 }
