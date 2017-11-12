@@ -27,7 +27,9 @@
             android:name=".activity.colorpicker.ColorPickerActivity"
             android:label="@string/change_color"
             android:theme="@style/PopUpTheme"></activity>
-        <activity android:name=".activity.colorpalette.ColorPaletteActivity"></activity>
+        <activity android:name=".activity.colorpalette.ColorPaletteActivity"
+            android:label="@string/pick_color_from_palette"
+            android:theme="@style/PopUpTheme"></activity>
     </application>
 
 </manifest>

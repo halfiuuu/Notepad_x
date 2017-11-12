@@ -47,7 +47,6 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
             }
             Log.wtf(getTag(),"Loading note went terribly wrong",e);
         }
-        ColorUtils.applyColorsToBar(this,note.getColor());//Oh god, why
     }
     abstract protected String getTag();
 
@@ -223,6 +222,7 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
 
     private void refreshColors() {
         ColorUtils.applyColors(this,note.getColor());
+        ColorUtils.applyColorsToBar(this,note.getColor());
     }
 
     public abstract void inherentRefresh();
