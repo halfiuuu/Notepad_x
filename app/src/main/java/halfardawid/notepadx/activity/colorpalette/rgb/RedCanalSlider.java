@@ -5,14 +5,14 @@ import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
-import halfardawid.notepadx.activity.colorpalette.CanalSlider;
+import halfardawid.notepadx.activity.colorpalette.ColorSlider;
 import halfardawid.notepadx.util.exceptions.InvalidContextException;
 
 /**
  * Created by Dawid on 2017-11-12.
  */
 
-public class RedCanalSlider extends CanalSlider {
+public class RedCanalSlider extends ColorSlider {
     public RedCanalSlider(Context context, @Nullable AttributeSet attrs) throws InvalidContextException {
         super(context, attrs);
     }
