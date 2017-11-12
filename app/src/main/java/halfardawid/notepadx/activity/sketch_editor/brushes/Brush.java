@@ -3,15 +3,19 @@ package halfardawid.notepadx.activity.sketch_editor.brushes;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.util.Log;
 
 import halfardawid.notepadx.activity.sketch_editor.SmartBitmap;
 import halfardawid.notepadx.util.vectors.Vector2i;
+
 
 /**
  * Created by Dawid on 2017-10-17.
  */
 
 public abstract class Brush {
+    private static final String TAG="BRUSH";
+
     protected float spacing;
     protected float radius;
 
@@ -49,15 +53,18 @@ public abstract class Brush {
         for(int x=-radius.x;x<radius.x;x++)
             for(int y=-radius.y;y<radius.y;y++) {
                 n_pos.copy(real_position);
-                n_pos.add(new Vector2i(x,y));
-                Integer col=mixColors(n_pos,bitmap,alpha,r,g,b,color);
+                Vector2i offset=new Vector2i(x,y);
+                n_pos.add(offset);
+                Integer col=mixColors(n_pos,offset,bitmap,alpha,r,g,b,color);
                 if(col==null)continue;
                 bitmap.drawPixelNonSafeDirect(n_pos,col);
             }
     }
 
-    private Integer mixColors(Vector2i n_pos, SmartBitmap bitmap, int a, int r, int g, int b,int color){
-        float smoothing=smoothing(n_pos.pythagoras());
+    private Integer mixColors(Vector2i n_pos,Vector2i offset, SmartBitmap bitmap, int a, int r, int g, int b,int color){
+
+
+        float smoothing=smoothing(offset.pythagoras());
 
         if(smoothing ==1)
             return color;
