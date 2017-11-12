@@ -6,7 +6,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.support.annotation.Nullable;
+import android.text.method.MovementMethod;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -44,6 +46,16 @@ public abstract class ColorSlider extends View {
         }
         p.setColor(POINTERCOLOR);
         c.drawRect(new RectF(estimate_pos,0,estimate_pos+POINTERWIDTH,h),p);
+    }
+
+    @Override
+    public synchronized boolean onTouchEvent(MotionEvent me){
+        process=me.getX()/getWidth();
+        if(process<0)process=0;
+        else if(process>1)process=1;
+        applyColor();
+        invalidate();
+        return true;
     }
 
     private int estimatePosition(int f) {

@@ -7,7 +7,7 @@
     tools:context="halfardawid.notepadx.activity.colorpalette.ColorPaletteActivity">
 
     <halfardawid.notepadx.activity.colorpalette.ColorPreview
-        android:id="@+id/colorPreview"
+        android:id="@+id/acp_preview"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginLeft="8dp"
@@ -28,7 +28,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/colorPreview" />
+        app:layout_constraintTop_toBottomOf="@+id/acp_preview" />
 
     <halfardawid.notepadx.activity.colorpalette.rgb.RedCanalSlider
         android:id="@+id/acp_red"

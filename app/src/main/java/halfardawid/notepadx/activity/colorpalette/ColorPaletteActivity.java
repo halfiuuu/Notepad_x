@@ -2,7 +2,6 @@ package halfardawid.notepadx.activity.colorpalette;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
@@ -32,6 +31,8 @@ public class ColorPaletteActivity extends PopUpActivity {
     public void setColor(int val){
         color.set(val);
         refreshAll();
+        ((ColorPreview)findViewById(R.id.acp_preview)).setColor(val);
+        result.putExtra(EXTRA_COLOR,val);
     }
 
     private void refreshAll() {
