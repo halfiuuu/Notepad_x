@@ -15,7 +15,7 @@ public class ColorPaletteActivity extends AppCompatActivity {
     static public final String EXTRA_COLOR="COLOR";
     public static final int DEFAULT_COLOR = Color.BLACK;
 
-    private AtomicInteger color=null;
+    private AtomicInteger color=new AtomicInteger(DEFAULT_COLOR);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
