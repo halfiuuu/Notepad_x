@@ -3,6 +3,7 @@ package halfardawid.notepadx.activity.colorpalette;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class ColorPaletteActivity extends PopUpActivity {
     static public final String EXTRA_COLOR="COLOR";
     public static final int DEFAULT_COLOR = Color.BLACK;
 
+    private ColorPreview colorPreview;
     private final Intent result=new Intent();
     private AtomicInteger color=new AtomicInteger(DEFAULT_COLOR);
 
@@ -31,7 +33,7 @@ public class ColorPaletteActivity extends PopUpActivity {
     public void setColor(int val){
         color.set(val);
         refreshAll();
-        ((ColorPreview)findViewById(R.id.acp_preview)).setColor(val);
+        colorPreview.setColor(val);
         result.putExtra(EXTRA_COLOR,val);
     }
 
@@ -45,20 +47,21 @@ public class ColorPaletteActivity extends PopUpActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        loadColorIntent();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_color_palette);
         setResult(CODE,result);
+
+        colorPreview= (ColorPreview) findViewById(R.id.acp_preview);
+        loadColorIntent();
     }
 
     private void loadColorIntent() {
-        int t=getIntent().getIntExtra(EXTRA_COLOR,-1);
-        color.set((t<0)?DEFAULT_COLOR:t);
+        setColor(getIntent().getIntExtra(EXTRA_COLOR,DEFAULT_COLOR));
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle s) {
-        color.set(s.getInt(EXTRA_COLOR,DEFAULT_COLOR));
+        setColor(s.getInt(EXTRA_COLOR,DEFAULT_COLOR));
     }
 
     @Override
