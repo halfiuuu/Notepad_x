@@ -86,11 +86,17 @@ public final class SketchActivity extends GenericNoteActivity<SketchNote> {
                 item.setChecked(sketch.toggleErase());
                 return true;
             case R.id.sem_palette:
-                startActivityForResult(new Intent(this,ColorPaletteActivity.class), ColorPaletteActivity.CODE);
+                startColorPalette();
                 return true;
             default:
                 return false;
         }
+    }
+
+    private void startColorPalette() {
+        Intent i=new Intent(this,ColorPaletteActivity.class);
+        i.putExtra(ColorPaletteActivity.EXTRA_COLOR,sketch.getBrushColor());
+        startActivityForResult(i, ColorPaletteActivity.CODE);
     }
 
     @Override
