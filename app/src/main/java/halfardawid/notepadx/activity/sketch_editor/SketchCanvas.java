@@ -38,8 +38,6 @@ public class SketchCanvas extends View {
         controller =new Fingers(this);
     }
 
-
-
     public void loadSettings(Bundle s) {
         brush_color.set(s.getInt(BRUSH_COLOR, ColorPaletteActivity.DEFAULT_COLOR));
         image.loadSettings(s);
