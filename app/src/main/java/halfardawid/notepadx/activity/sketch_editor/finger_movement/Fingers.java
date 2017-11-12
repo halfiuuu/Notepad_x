@@ -1,13 +1,10 @@
 package halfardawid.notepadx.activity.sketch_editor.finger_movement;
 
-import android.graphics.Color;
 import android.util.Log;
 import android.view.MotionEvent;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 import halfardawid.notepadx.activity.generic.layouts.Updatable;
 import halfardawid.notepadx.activity.sketch_editor.SketchCanvas;
@@ -24,10 +21,6 @@ public class Fingers {
     private SketchCanvas canvas;
 
     private MoveThread moveThread;
-
-    private int[] color_fun={
-            Color.BLUE,Color.RED, Color.GREEN, Color.MAGENTA,Color.YELLOW
-    };
 
     public Fingers(SketchCanvas canvas){
         this.canvas=canvas;
@@ -81,7 +74,7 @@ public class Fingers {
     }
 
     public int getColor(){
-        return (canvas.isErasing())?Color.TRANSPARENT:color_fun[(int)(Math.random()*100)%color_fun.length];
+        return canvas.getBrushColor();
     }
 
     public void handleEvent(MotionEvent me) {

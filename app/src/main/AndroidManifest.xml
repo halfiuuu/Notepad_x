@@ -12,6 +12,7 @@
         <activity android:name=".activity.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -25,8 +26,8 @@
         <activity
             android:name=".activity.colorpicker.ColorPickerActivity"
             android:label="@string/change_color"
-            android:theme="@style/PopUpTheme">
-        </activity>
+            android:theme="@style/PopUpTheme"></activity>
+        <activity android:name=".activity.colorpalette.ColorPaletteActivity"></activity>
     </application>
 
 </manifest>

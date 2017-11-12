@@ -1,12 +1,17 @@
 package halfardawid.notepadx.activity.sketch_editor;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import halfardawid.notepadx.R;
+import halfardawid.notepadx.activity.colorpalette.ColorPaletteActivity;
+import halfardawid.notepadx.activity.colorpicker.ColorPickerActivity;
 import halfardawid.notepadx.activity.generic.GenericNoteActivity;
 import halfardawid.notepadx.activity.generic.layouts.SimpleProgressBar;
 import halfardawid.notepadx.util.note.types.SketchNote;
@@ -32,6 +37,16 @@ public final class SketchActivity extends GenericNoteActivity<SketchNote> {
         Bitmap b;
         if(!(sketch!=null&&note!=null&&(b=note.getBitmap())!=null))return;
         sketch.setBitmap(b);
+    }
+
+    @Override
+    public void onActivityResult(int code,int r, Intent intent){
+        super.onActivityResult(code,r,intent);
+        switch(code){
+            case ColorPaletteActivity.CODE:
+                if(intent.hasExtra(ColorPaletteActivity.EXTRA_COLOR))
+                    sketch.setBrushColor(intent.getIntExtra(ColorPaletteActivity.EXTRA_COLOR,ColorPaletteActivity.DEFAULT_COLOR));
+        }
     }
 
     @Override
@@ -71,6 +86,7 @@ public final class SketchActivity extends GenericNoteActivity<SketchNote> {
                 item.setChecked(sketch.toggleErase());
                 return true;
             case R.id.sem_palette:
+                startActivityForResult(new Intent(this,ColorPaletteActivity.class), ColorPaletteActivity.CODE);
                 return true;
             default:
                 return false;

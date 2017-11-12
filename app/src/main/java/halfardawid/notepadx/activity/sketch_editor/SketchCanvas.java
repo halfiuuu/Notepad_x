@@ -10,6 +10,9 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
+import halfardawid.notepadx.activity.colorpalette.ColorPaletteActivity;
 import halfardawid.notepadx.activity.generic.layouts.Updatable;
 import halfardawid.notepadx.activity.sketch_editor.brushes.Brush;
 import halfardawid.notepadx.activity.sketch_editor.brushes.SoftTipCircle;
@@ -18,12 +21,16 @@ import halfardawid.notepadx.activity.sketch_editor.finger_movement.Fingers;
 
 
 public class SketchCanvas extends View {
+
     private static final String TAG = "SKETCH_CANVAS";
+    private static final String BRUSH_COLOR = "BRUSH_COLOR";
+
     private Fingers controller;
     private boolean move=false;
     private boolean erase=false;
     private Brush brush=new SoftTipCircle(50,25);
     private Updatable bar=null;
+    private AtomicInteger brush_color=new AtomicInteger(ColorPaletteActivity.DEFAULT_COLOR);
 
     public SketchCanvas(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -34,9 +41,11 @@ public class SketchCanvas extends View {
 
 
     public void loadSettings(Bundle s) {
+        brush_color.set(s.getInt(BRUSH_COLOR, ColorPaletteActivity.DEFAULT_COLOR));
         image.loadSettings(s);
     }
     public void saveSettings(Bundle s) {
+        s.putInt(BRUSH_COLOR,brush_color.get());
         image.saveSettings(s);
     }
 
@@ -96,5 +105,13 @@ public class SketchCanvas extends View {
 
     public Updatable getUpdatable(){
         return bar;
+    }
+
+    public void setBrushColor(int brushColor) {
+        brush_color.set(brushColor);
+    }
+
+    public int getBrushColor() {
+        return brush_color.get();
     }
 }
