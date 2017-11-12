@@ -21,7 +21,7 @@ public class RedCanalSlider extends ColorSlider {
     protected float getCanalProcess(int c) {
         return Color.red(c);
     }
-    protected int applyProcessToColor(){
+    protected int applyProcessToColor(float process){
         int color=getColor();
         return Color.argb(Color.alpha(color),(int) (getMaxCanal()*process),Color.green(color),Color.blue(color));
     }
