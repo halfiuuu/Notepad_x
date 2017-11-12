@@ -1,5 +1,6 @@
 package halfardawid.notepadx.activity.colorpalette;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ public class ColorPaletteActivity extends AppCompatActivity {
     static public final String EXTRA_COLOR="COLOR";
     public static final int DEFAULT_COLOR = Color.BLACK;
 
+    private final Intent result=new Intent();
     private AtomicInteger color=new AtomicInteger(DEFAULT_COLOR);
 
     @Override
@@ -22,6 +24,7 @@ public class ColorPaletteActivity extends AppCompatActivity {
         loadColorIntent();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_color_palette);
+        setResult(CODE,result);
     }
 
     private void loadColorIntent() {
