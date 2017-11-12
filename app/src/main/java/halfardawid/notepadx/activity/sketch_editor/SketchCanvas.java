@@ -112,6 +112,6 @@ public class SketchCanvas extends View {
     }
 
     public int getBrushColor() {
-        return brush_color.get();
+        return (isErasing())?Color.TRANSPARENT:brush_color.get();
     }
 }
