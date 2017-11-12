@@ -1,5 +1,6 @@
 package halfardawid.notepadx.activity.sketch_editor.brushes;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
@@ -13,6 +14,12 @@ import halfardawid.notepadx.util.vectors.Vector2i;
 public abstract class Brush {
     protected float spacing;
     protected float radius;
+
+    /**
+     * Returns a 0f-1f based on a distance. For circle-gradient types of brushes
+     * @param distance sqrt((x^2)+(y^2))
+     * @return [0f-1f]
+     */
     abstract protected float smoothing(float distance);
     protected static final int expand=3;
     protected Brush(float spacing, float radius){
@@ -24,12 +31,14 @@ public abstract class Brush {
         return (int) (expand+radius);
     }
 
+
     public final void splat(SmartBitmap bitmap, Vector2i pos_arg, int color) {
         Vector2i radius=new Vector2i(real_radius());
         Vector2i real_position=bitmap.normalizeVector(pos_arg);
 
         int alpha= Color.alpha(color);
         int r=Color.red(color),g=Color.green(color),b=Color.blue(color);
+
         Vector2i n_pos=new Vector2i(0);
 
         secure(bitmap, real_position, radius);
@@ -41,24 +50,29 @@ public abstract class Brush {
             for(int y=-radius.y;y<radius.y;y++) {
                 n_pos.copy(real_position);
                 n_pos.add(new Vector2i(x,y));
-                int col=0;
-                float smoothing = smoothing(dist(x, y));
-                if(smoothing ==1){
-                    col=color;
-                }else if(smoothing==0){
-                    continue;
-                }else{
-                    int base_color=bitmap.getUnsafePixelDirect(n_pos);
-                    float invert=1F-smoothing;
-                    col=Color.argb(
-                            (int)((alpha*smoothing)+(Color.alpha(base_color)*invert)),
-                            (int)((r*smoothing)+(Color.red(base_color)*invert)),
-                            (int)((g*smoothing)+(Color.green(base_color)*invert)),
-                            (int)((b*smoothing)+(Color.blue(base_color)*invert))
-                    );
-                }
+                Integer col=mixColors(n_pos,bitmap,alpha,r,g,b,color);
+                if(col==null)continue;
                 bitmap.drawPixelNonSafeDirect(n_pos,col);
             }
+    }
+
+    private Integer mixColors(Vector2i n_pos, SmartBitmap bitmap, int a, int r, int g, int b,int color){
+        float smoothing=smoothing(n_pos.pythagoras());
+
+        if(smoothing ==1)
+            return color;
+
+        if(smoothing==0)
+            return null;
+
+        int base_color=bitmap.getUnsafePixelDirect(n_pos);
+        float invert=1F-smoothing;
+        return Color.argb(
+                (int)((a*smoothing)+(Color.alpha(base_color)*invert)),
+                (int)((r*smoothing)+(Color.red(base_color)*invert)),
+                (int)((g*smoothing)+(Color.green(base_color)*invert)),
+                (int)((b*smoothing)+(Color.blue(base_color)*invert))
+        );
     }
 
     private void secure(SmartBitmap bitmap, Vector2i pos, Vector2i radius) {
@@ -70,14 +84,10 @@ public abstract class Brush {
         bitmap.securePositionDirect(pp);
     }
 
-    private float dist(int x, int y) {
-        return (float) Math.sqrt((float)((x*x)+(y*y)));
-    }
-
     public float splatLine(SmartBitmap bitmap, Vector2i lastPosition, Vector2i pos, int i, float last_dist) {
         Vector2i distance=new Vector2i(pos);
         distance.sub(lastPosition);
-        float whole_distance=dist(distance);
+        float whole_distance=distance.pythagoras();
         float dist_i=last_dist;
         for(;dist_i<whole_distance;dist_i+=getSpacing(bitmap)){
             float multiplier=dist_i/whole_distance;
@@ -91,9 +101,5 @@ public abstract class Brush {
 
     public float getSpacing(SmartBitmap bitmap) {
         return spacing*bitmap.getScale();
-    }
-
-    private float dist(Vector2i distance) {
-        return dist(distance.x,distance.y);
     }
 }
