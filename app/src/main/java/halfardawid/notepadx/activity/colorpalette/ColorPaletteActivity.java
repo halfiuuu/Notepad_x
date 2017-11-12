@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import halfardawid.notepadx.R;
@@ -18,6 +21,25 @@ public class ColorPaletteActivity extends AppCompatActivity {
 
     private final Intent result=new Intent();
     private AtomicInteger color=new AtomicInteger(DEFAULT_COLOR);
+
+    List<View> refresher=new ArrayList<>();
+
+    public int getColor(){
+        return color.get();
+    }
+
+    public void setColor(int val){
+        color.set(val);
+        refreshAll();
+    }
+
+    private void refreshAll() {
+        synchronized (refresher) {
+            for (View v : refresher) {
+                v.invalidate();
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,4 +64,9 @@ public class ColorPaletteActivity extends AppCompatActivity {
         s.putInt(EXTRA_COLOR,color.get());
     }
 
+    public void addToRefresher(View view) {
+        synchronized (refresher) {
+            refresher.add(view);
+        }
+    }
 }

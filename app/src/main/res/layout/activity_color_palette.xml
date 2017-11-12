@@ -30,7 +30,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/colorPreview" />
 
-    <halfardawid.notepadx.activity.colorpalette.ColorSlider
+    <halfardawid.notepadx.activity.colorpalette.rgb.RedCanalSlider
         android:id="@+id/acp_red"
         android:layout_width="0dp"
         android:layout_height="40dp"
@@ -44,7 +44,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-    <halfardawid.notepadx.activity.colorpalette.ColorSlider
+    <halfardawid.notepadx.activity.colorpalette.rgb.GreenCanalSlider
         android:id="@+id/acp_green"
         android:layout_width="0dp"
         android:layout_height="40dp"
@@ -58,7 +58,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/acp_red" />
 
-    <halfardawid.notepadx.activity.colorpalette.ColorSlider
+    <halfardawid.notepadx.activity.colorpalette.rgb.BlueCanalSlider
         android:id="@+id/acp_blue"
         android:layout_width="0dp"
         android:layout_height="40dp"
