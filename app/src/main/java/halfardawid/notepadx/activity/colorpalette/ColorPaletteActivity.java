@@ -11,8 +11,9 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import halfardawid.notepadx.R;
+import halfardawid.notepadx.activity.generic.PopUpActivity;
 
-public class ColorPaletteActivity extends AppCompatActivity {
+public class ColorPaletteActivity extends PopUpActivity {
 
     static private final String TAG="COLOR_PALETTE";
     static public final int CODE=514;
