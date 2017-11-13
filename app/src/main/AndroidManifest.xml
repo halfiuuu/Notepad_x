@@ -29,6 +29,7 @@
             android:theme="@style/PopUpTheme"></activity>
         <activity android:name=".activity.colorpalette.ColorPaletteActivity"
             android:label="@string/pick_color_from_palette"
+            android:hardwareAccelerated="true"
             android:theme="@style/PopUpTheme"></activity>
     </application>
 

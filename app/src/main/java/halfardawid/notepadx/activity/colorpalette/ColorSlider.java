@@ -14,25 +14,17 @@ import android.view.View;
 import halfardawid.notepadx.util.ColorUtils;
 import halfardawid.notepadx.util.exceptions.InvalidContextException;
 
-public abstract class ColorSlider extends View {
+public abstract class ColorSlider extends ColorSliderGeneric {
     public static final int POINTERCOLOR = Color.BLACK;
     private static final int POINTERWIDTH = 5;
     private final int cutout=5;
-    ColorSliderInterface palette=null;
 
     protected float process=0;
 
-    public ColorSlider(Context context, @Nullable AttributeSet attrs) throws InvalidContextException {
+    public ColorSlider(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        tiePalette(context);
-        guessProcess();
     }
 
-    private void tiePalette(Context context) {
-        if(context instanceof ColorSliderInterface) palette= (ColorSliderInterface)context;
-        else palette= new NonexistentPalette();
-        palette.addToRefresher(this);
-    }
 
     @Override
     public void onDraw(Canvas c){
@@ -47,8 +39,6 @@ public abstract class ColorSlider extends View {
         for(int i=0;i<f;i++,p.setColor(applyProcessToColor((float)i/(float)f))){
             c.drawLine(i,cutout,i,h_cut,p);
         }
-        p.setColor(ColorUtils.calcContrast(applyProcessToColor(0)));
-        c.drawText("SLIDER",0,0,p);
         p.setColor(POINTERCOLOR);
         c.drawRect(new RectF(estimate_pos,0,estimate_pos+POINTERWIDTH,h),p);
     }
@@ -60,10 +50,8 @@ public abstract class ColorSlider extends View {
     @Override
     public synchronized boolean onTouchEvent(MotionEvent me){
         process=me.getX()/getWidth();
-        Log.d("XD",me.toString()+" "+me.getX()+" "+getWidth()+" "+process);
         if(process<0)process=0;
         else if(process>1)process=1;
-        Log.d("XD",me.toString()+" "+me.getX()+" "+getWidth()+" "+process);
         applyColor();
         //invalidate(); Every single one will be invalidated anyway
         return true;
@@ -76,12 +64,7 @@ public abstract class ColorSlider extends View {
         return estimate_pos;
     }
 
-    protected int getColor(){
-        return palette.getColor();
-    }
-
     protected void applyColor(){
-        Log.d("CDS","ojewio "+" "+getMaxCanal()+" process:"+process);
         palette.setColor(applyProcessToColor(process));
     }
 
@@ -95,18 +78,6 @@ public abstract class ColorSlider extends View {
 
     protected float getMaxCanal() {
         return 255;
-    }
-
-    private static class NonexistentPalette implements ColorSliderInterface {
-        @Override public void addToRefresher(View colorSlider) {}
-        @Override public int getColor() {return Color.RED;}
-        @Override public void setColor(int i) {}
-    }
-
-    @Override
-    public void invalidate(){
-        guessProcess();
-        super.invalidate();
     }
 
 }

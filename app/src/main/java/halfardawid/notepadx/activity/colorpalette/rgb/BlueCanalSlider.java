@@ -24,8 +24,6 @@ public final class BlueCanalSlider extends ColorSlider {
     }
     protected int applyProcessToColor(float process){
         int color=getColor();
-
-        //Log.d("CDS","ojewio "+" "+getMaxCanal()+" process:"+process+" "+(getMaxCanal()*process)+" o_O");
         return Color.argb(Color.alpha(color),Color.red(color),Color.green(color),(int) (getMaxCanal()*process));
     }
 }

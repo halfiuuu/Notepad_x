@@ -24,8 +24,6 @@ public final class RedCanalSlider extends ColorSlider {
     }
     protected int applyProcessToColor(float process){
         int color=getColor();
-        int f=(int) (getMaxCanal()*process);
-        if(process==1.0f) Log.d("XD","1.0.f "+f);
-        return Color.argb(Color.alpha(color),f,Color.green(color),Color.blue(color));
+        return Color.argb(Color.alpha(color),(int) (getMaxCanal()*process),Color.green(color),Color.blue(color));
     }
 }

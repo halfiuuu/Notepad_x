@@ -3,7 +3,6 @@ package halfardawid.notepadx.activity.colorpalette;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -13,7 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import halfardawid.notepadx.R;
 import halfardawid.notepadx.activity.generic.PopUpActivity;
 
-public class ColorPaletteActivity extends PopUpActivity implements ColorSliderInterface{
+public class ColorPaletteActivity extends PopUpActivity implements ColorSliderResponseInterface {
 
     static private final String TAG="COLOR_PALETTE";
     static public final int CODE=514;

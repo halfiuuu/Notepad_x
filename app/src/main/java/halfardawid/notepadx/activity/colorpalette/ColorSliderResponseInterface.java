@@ -6,7 +6,7 @@ import android.view.View;
  * Created by Dawid on 2017-11-12.
  */
 
-interface ColorSliderInterface {
+interface ColorSliderResponseInterface {
     void addToRefresher(View colorSlider);
 
     int getColor();
