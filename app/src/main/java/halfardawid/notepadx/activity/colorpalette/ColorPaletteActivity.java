@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import halfardawid.notepadx.R;
 import halfardawid.notepadx.activity.generic.PopUpActivity;
 
-public class ColorPaletteActivity extends PopUpActivity {
+public class ColorPaletteActivity extends PopUpActivity implements ColorSliderInterface{
 
     static private final String TAG="COLOR_PALETTE";
     static public final int CODE=514;
@@ -26,10 +26,12 @@ public class ColorPaletteActivity extends PopUpActivity {
 
     List<View> refresher=new ArrayList<>();
 
+    @Override
     public int getColor(){
         return color.get();
     }
 
+    @Override
     public void setColor(int val){
         color.set(val);
         refreshAll();
@@ -69,6 +71,7 @@ public class ColorPaletteActivity extends PopUpActivity {
         s.putInt(EXTRA_COLOR,color.get());
     }
 
+    @Override
     public void addToRefresher(View view) {
         synchronized (refresher) {
             refresher.add(view);

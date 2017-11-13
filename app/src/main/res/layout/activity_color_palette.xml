@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,13 +10,15 @@
     <halfardawid.notepadx.activity.colorpalette.ColorPreview
         android:id="@+id/acp_preview"
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="30dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
 
     <TextView
         android:id="@+id/textView"
@@ -28,12 +31,14 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/acp_preview" />
+        app:layout_constraintTop_toBottomOf="@+id/acp_preview"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
 
     <halfardawid.notepadx.activity.colorpalette.rgb.RedCanalSlider
         android:id="@+id/acp_red"
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/std_color_slider_height"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
@@ -47,7 +52,7 @@
     <halfardawid.notepadx.activity.colorpalette.rgb.GreenCanalSlider
         android:id="@+id/acp_green"
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/std_color_slider_height"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
@@ -61,7 +66,7 @@
     <halfardawid.notepadx.activity.colorpalette.rgb.BlueCanalSlider
         android:id="@+id/acp_blue"
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/std_color_slider_height"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
@@ -71,4 +76,58 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/acp_green"
         app:layout_constraintHorizontal_bias="0.0" />
+
+    <halfardawid.notepadx.activity.colorpalette.hsv.HSVCanalSlider
+        android:id="@+id/apc_hue"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/std_color_slider_height"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/acp_blue"
+        app:type="hue"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
+
+    <halfardawid.notepadx.activity.colorpalette.hsv.HSVCanalSlider
+        android:id="@+id/apc_saturation"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/std_color_slider_height"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/apc_hue"
+        app:type="saturation"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
+
+    <halfardawid.notepadx.activity.colorpalette.hsv.HSVCanalSlider
+        android:id="@+id/apc_value"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/std_color_slider_height"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/apc_saturation"
+        app:type="value"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
+
+    <halfardawid.notepadx.activity.colorpalette.alpha.AlphaCanalSlider
+        android:layout_width="0dp"
+        android:layout_height="@dimen/std_color_slider_height"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/apc_value" />
 </android.support.constraint.ConstraintLayout>

@@ -12,14 +12,14 @@ import halfardawid.notepadx.util.exceptions.InvalidContextException;
  * Created by Dawid on 2017-11-12.
  */
 
-public class GreenCanalSlider extends ColorSlider {
+public final class GreenCanalSlider extends ColorSlider {
     public GreenCanalSlider(Context context, @Nullable AttributeSet attrs) throws InvalidContextException {
         super(context, attrs);
     }
 
     @Override
     protected float getCanalProcess(int c) {
-        return Color.green(c);
+        return Color.green(c)/getMaxCanal();
     }
     protected int applyProcessToColor(float process){
         int color=getColor();

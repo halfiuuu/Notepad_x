@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="HSVCanalSlider">
+        <attr name="type" format="enum">
+            <enum name="hue" value="0"/>
+            <enum name="saturation" value="1"/>
+            <enum name="value" value="2"/>
+        </attr>
+    </declare-styleable>
+
+</resources>

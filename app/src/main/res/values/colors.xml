@@ -6,4 +6,7 @@
 
     <color name="placeholder_colorTile">#a1887f</color>
     <color name="placeholder_colorTile_top">#795548</color>
+
+    <color name="checkers_0">#ffffff</color>
+    <color name="checkers_1">#9e9a9a</color>
 </resources>
