@@ -1,6 +1,7 @@
 package halfardawid.notepadx.activity.colorpalette;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -30,15 +31,21 @@ public abstract class ColorSlider extends ColorSliderGeneric {
     public void onDraw(Canvas c){
         final int f=c.getWidth();
         final int h=c.getHeight();
-        final int h_cut=h-cutout;
+        //final int h_cut=h-cutout;
         final int estimate_pos = estimatePointerPosition(f);
 
         drawBackground(c);
 
+        final float step=1f/(float)f;
+
+        int[] bitmap=new int[f*h];
+        float pro=0;
+        for(int i=0;i<f;i++,pro+=step)
+            for(int y=0,color=applyProcessToColor(pro);y<h;y++)
+                bitmap[y*f+i]=color;
+
+        c.drawBitmap(Bitmap.createBitmap(bitmap,f,h, Bitmap.Config.ARGB_8888),0,0,null);
         Paint p=new Paint();
-        for(int i=0;i<f;i++,p.setColor(applyProcessToColor((float)i/(float)f))){
-            c.drawLine(i,cutout,i,h_cut,p);
-        }
         p.setColor(POINTERCOLOR);
         c.drawRect(new RectF(estimate_pos,0,estimate_pos+POINTERWIDTH,h),p);
     }
