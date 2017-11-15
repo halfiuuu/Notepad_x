@@ -1,5 +1,6 @@
 package halfardawid.notepadx.activity.colorpalette;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -26,11 +27,46 @@ public abstract class ColorSlider extends ColorSliderGeneric {
         super(context, attrs);
     }
 
-
+    private Paint onDraw_paint=new Paint();
+    private Bitmap onDraw_bitmap=null;
+    private int onDraw_latestF=-1;
+    private int onDraw_latestH=-1;
+    private int[] onDraw_bitmap_array=null;
+    private int onDraw_latest_color_nullified=0;
+    private boolean onDraw_latest_color_nullified_initialized=false;
     @Override
-    public void onDraw(Canvas c){
+    public synchronized void onDraw(Canvas c){
         final int f=c.getWidth();
         final int h=c.getHeight();
+
+        final int color_nullified=applyProcessToColor(.5f);
+
+        if(f!=onDraw_latestF||h!=onDraw_latestH||onDraw_bitmap_array==null){
+            onDraw_latestF=f;
+            onDraw_latestH=h;
+            onDraw_bitmap_array=new int[f*h];
+            if(onDraw_bitmap!=null) {
+                onDraw_bitmap.recycle();
+                onDraw_bitmap = null;
+            }
+            onDraw_bitmap = Bitmap.createBitmap(f, h, Bitmap.Config.ARGB_8888);
+        }
+
+        if(onDraw_latest_color_nullified_initialized&&onDraw_latest_color_nullified==color_nullified) {
+            c.drawRect(0,0,20,20,onDraw_paint);
+            c.drawBitmap(onDraw_bitmap,0,0,null);
+            onDraw_paint.setColor(POINTERCOLOR);
+            final int estimate_pos = estimatePointerPosition(f);
+            c.drawRect(estimate_pos,0,estimate_pos+POINTERWIDTH,h,onDraw_paint);
+            c.drawRect(0,0,50,50,onDraw_paint);
+            return;
+        }
+
+        onDraw_latest_color_nullified = color_nullified;
+        if(!onDraw_latest_color_nullified_initialized) {
+            onDraw_latest_color_nullified_initialized = true;
+        }
+
         //final int h_cut=h-cutout;
         final int estimate_pos = estimatePointerPosition(f);
 
@@ -38,16 +74,15 @@ public abstract class ColorSlider extends ColorSliderGeneric {
 
         final float step=1f/(float)f;
 
-        int[] bitmap=new int[f*h];
         float pro=0;
         for(int i=0;i<f;i++,pro+=step)
             for(int y=0,color=applyProcessToColor(pro);y<h;y++)
-                bitmap[y*f+i]=color;
+                onDraw_bitmap_array[y*f+i]=color;
 
-        c.drawBitmap(Bitmap.createBitmap(bitmap,f,h, Bitmap.Config.ARGB_8888),0,0,null);
-        Paint p=new Paint();
-        p.setColor(POINTERCOLOR);
-        c.drawRect(new RectF(estimate_pos,0,estimate_pos+POINTERWIDTH,h),p);
+        onDraw_bitmap.setPixels(onDraw_bitmap_array,0,f,0,0,f,h);
+        c.drawBitmap(onDraw_bitmap,0,0,null);
+        onDraw_paint.setColor(POINTERCOLOR);
+        c.drawRect(estimate_pos,0,estimate_pos+POINTERWIDTH,h,onDraw_paint);
     }
 
     protected void drawBackground(Canvas c) {
