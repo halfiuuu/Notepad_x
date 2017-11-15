@@ -47,13 +47,13 @@ public class ColorGrid extends ColorSliderGeneric {
         float x_step=1f/(float)mx;
         float y_step=1f/(float)my;
         hsv[1]=0;
-        Bitmap b=Bitmap.createBitmap(mx,my, Bitmap.Config.ARGB_8888);
+        int[] bitmap=new int[mx*my];
         for(int x=0;x<mx;x++,hsv[1]+=x_step) {
             hsv[2]=0;
             for (int y = 0; y < my; y++, hsv[2] += y_step)
-                b.setPixel(x,y,Color.HSVToColor(alpha, hsv));
+                bitmap[x*my+y]=Color.HSVToColor(alpha,hsv);
         }
-        c.drawBitmap(b,0,0,null);
+        c.drawBitmap(Bitmap.createBitmap(bitmap,mx,my, Bitmap.Config.ARGB_8888),0,0,null);
     }
 
     private int estimateColor(float s, float v) {
