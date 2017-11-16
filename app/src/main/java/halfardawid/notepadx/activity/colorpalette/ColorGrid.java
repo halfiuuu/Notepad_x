@@ -65,6 +65,7 @@ public class ColorGrid extends ColorSliderGeneric {
     private int onDraw_latest_bitmap_y=-1;
     //private Bitmap onDraw_bitmap=null;
     private float onDraw_latestSaturation=-1;
+    private int onDraw_latestAlpha=-1;
     private final static int onDraw_bitmap_x=50;
     private final static int onDraw_bitmap_y=50;
     private final static int onDraw_bitmap_size=onDraw_bitmap_x*onDraw_bitmap_y;
@@ -94,10 +95,11 @@ public class ColorGrid extends ColorSliderGeneric {
         Log.d(TAG,"[Pre]Time taken: "+(System.nanoTime()-startTime));
         Color.colorToHSV(color, onDraw_hsv);//TODO: Rewrite it, maketh faster
         Log.d(TAG,"[Parsed color]Time taken: "+(System.nanoTime()-startTime));
-        if(onDraw_latestSaturation!=onDraw_hsv[0]) {
+        if(onDraw_latestSaturation!=onDraw_hsv[0]||onDraw_latestAlpha!=alpha) {
 
             Log.d(TAG,"[Gonna draw manually]Time taken: "+(System.nanoTime()-startTime));
             onDraw_latestSaturation=onDraw_hsv[0];
+            onDraw_latestAlpha=alpha;
             onDraw_hsv[1] = 0;
 
             Log.d(TAG,"[All set]Time taken: "+(System.nanoTime()-startTime));
@@ -111,6 +113,7 @@ public class ColorGrid extends ColorSliderGeneric {
             onDraw_bitmap_unscaled.setPixels(onDraw_bitmap_array,0,onDraw_bitmap_x,0,0,onDraw_bitmap_x,onDraw_bitmap_y);
             Log.d(TAG,"[bitmap pixels setup done]Time taken: "+(System.nanoTime()-startTime));
         }
+        c.drawColor(Color.TRANSPARENT);
         Log.d(TAG,"[Ready to draw]Time taken: "+(System.nanoTime()-startTime));
         c.drawBitmap(Bitmap.createScaledBitmap(onDraw_bitmap_unscaled,mx,my,false),0,0,null);
         Log.d(TAG,"[Finished drawing]Time taken: "+(System.nanoTime()-startTime));
