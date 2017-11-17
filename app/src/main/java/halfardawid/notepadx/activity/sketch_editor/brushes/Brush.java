@@ -36,7 +36,11 @@ public abstract class Brush {
     }
 
 
-    public final void splat(SmartBitmap bitmap, Vector2i pos_arg, int color) {
+    private int[] splat_pixel_map=null;
+    private int splat_pixel_map_size=-1;
+    private Integer splat_col;
+    private Vector2i splat_pos_radius=new Vector2i(0);
+    public synchronized final void splat(SmartBitmap bitmap, Vector2i pos_arg, int color) {
         Vector2i radius=new Vector2i(real_radius());
         Vector2i real_position=bitmap.normalizeVector(pos_arg);
 
@@ -48,31 +52,38 @@ public abstract class Brush {
         secure(bitmap, real_position, radius);
         real_position=bitmap.normalizeVector(pos_arg);
 
-        //float scale_smoothing_factor=bitmap.getScale()/2;
+        {
+            int radius_multiplied=radius.radius_overlay();
+            if (radius_multiplied != splat_pixel_map_size)
+                splat_pixel_map=new int[splat_pixel_map_size=radius_multiplied];
+        }
 
-        for(int x=-radius.x;x<radius.x;x++)
-            for(int y=-radius.y;y<radius.y;y++) {
-                n_pos.copy(real_position);
-                Vector2i offset=new Vector2i(x,y);
-                n_pos.add(offset);
-                Integer col=mixColors(n_pos,offset,bitmap,alpha,r,g,b,color);
-                if(col==null)continue;
-                bitmap.drawPixelNonSafeDirect(n_pos,col);
+        bitmap.getUnsafePixelsDirect(real_position,radius,splat_pixel_map);
+        {
+            final int rx = radius.x <<1;
+            final int ry = radius.y <<1;
+            splat_pos_radius.x=-radius.x;
+            for (int x=0; x < rx; x++,splat_pos_radius.x++){
+                splat_pos_radius.y=-radius.y;
+                for (int y = 0; y < ry; y++,splat_pos_radius.y++) {
+                    final int index=y*rx+x;
+                    splat_col = mixColors(x,y,splat_pos_radius, splat_pixel_map,index, alpha, r,g,b, color);
+                    if (splat_col == null) continue;
+                    splat_pixel_map[index]=splat_col;
+                }
             }
+        }
+        bitmap.drawPixelsNonSafeDirect(real_position,radius,splat_pixel_map);
     }
 
-    private Integer mixColors(Vector2i n_pos,Vector2i offset, SmartBitmap bitmap, int a, int r, int g, int b,int color){
-
-
-        float smoothing=smoothing(offset.pythagoras());
-
+    private Integer mixColors(final int x, final int y,final Vector2i pos, int[] bitmap,int index, int a, int r, int g, int b, int color){
+        float smoothing=smoothing(pos.pythagoras());
         if(smoothing ==1)
             return color;
-
         if(smoothing==0)
             return null;
 
-        int base_color=bitmap.getUnsafePixelDirect(n_pos);
+        int base_color=bitmap[index];
         float invert=1F-smoothing;
         return Color.argb(
                 (int)((a*smoothing)+(Color.alpha(base_color)*invert)),

@@ -65,6 +65,10 @@ public class Vector2i {
         return this;
     }
 
+    public int added(){
+        return x+y;
+    }
+
     public Vector2i cutAllPositive(){
         if(x>0)x=0;
         if(y>0)y=0;
@@ -126,6 +130,19 @@ public class Vector2i {
 
     public boolean inside(Vector2i vector2i) {
         return x>=0&&x<vector2i.x&&y>=0&&y<vector2i.y;
+    }
+
+    public void set(int xx, int yy) {
+        x=xx;
+        y=yy;
+    }
+
+    public int radius_overlay() {
+        return (x*2)*(y*2);
+    }
+
+    public Vector2i copy() {
+        return new Vector2i(this);
     }
 }
 

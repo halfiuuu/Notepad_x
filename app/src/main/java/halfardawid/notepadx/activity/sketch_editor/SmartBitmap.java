@@ -200,4 +200,14 @@ public class SmartBitmap {
     public synchronized float getScale() {
         return scale;
     }
+
+    public void getUnsafePixelsDirect(Vector2i position, Vector2i radius, int[] pixel_map) {
+        Vector2i start=position.copy().sub(radius);
+        bitmap.getPixels(pixel_map,0,radius.x<<1,start.x,start.y,radius.x<<1,radius.y<<1);
+    }
+
+    public void drawPixelsNonSafeDirect(Vector2i position, Vector2i radius, int[] pixel_map) {
+        Vector2i start=position.copy().sub(radius);
+        bitmap.setPixels(pixel_map,0,radius.x<<1,start.x,start.y,radius.x<<1,radius.y<<1);
+    }
 }

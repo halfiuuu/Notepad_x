@@ -38,7 +38,7 @@ public class ColorGrid extends ColorSliderGeneric {
     protected void guessProcess() {
         int color=getColor();
         float hsv[]=new float[3];
-        Color.colorToHSV(color, hsv);//TODO: Rewrite this too
+        Color.colorToHSV(color, hsv);//TODO: Rewrite this too (maybe someday...)
         saturation=hsv[1];
         value=hsv[2];
     }
@@ -124,7 +124,7 @@ public class ColorGrid extends ColorSliderGeneric {
     private int estimateColor(float s, float v) {
         int color=getColor();
         float[] hsv=new float[3];
-        Color.colorToHSV(color,hsv); //TODO: Yeah, here too
+        Color.colorToHSV(color,hsv);
         hsv[1]=s;
         hsv[2]=v;
         return Color.HSVToColor(Color.alpha(color),hsv);
