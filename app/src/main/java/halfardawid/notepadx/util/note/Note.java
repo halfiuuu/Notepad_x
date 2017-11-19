@@ -2,11 +2,7 @@ package halfardawid.notepadx.util.note;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -137,7 +133,7 @@ public abstract class Note {
         obj.put(DATA,getData());
         if(color!=null)obj.put(COLOR,color);
 
-        Log.d(TAG,((uuid!=null)?uuid.toString():"unsaved note")+":"+obj.toString());
+        //Log.d(TAG,((uuid!=null)?uuid.toString():"unsaved note")+":"+obj.toString());
         return obj.toString();
     }
 
@@ -163,7 +159,7 @@ public abstract class Note {
     //IMPORTANT::BAE>BAY
     public static Note loadNote(File file) throws JSONException, FileNotFoundException,NoSuchNoteTypeException {
         JSONObject object = getContent(file);
-        Log.d(TAG,"loading "+file.getName()+", "+object.toString());
+        //Log.d(TAG,"loading "+file.getName()+", "+object.toString());
         return getNote(object,UUID.fromString(file.getName()));
     }
 
@@ -227,7 +223,7 @@ public abstract class Note {
         title=arg;
     }
 
-    public final void changeOccured(){
+    public final void changeOccurred(){
         changed=true;
     }
 
@@ -241,8 +237,8 @@ public abstract class Note {
 
     public void setColor(Context c,int id) {
         this.color = ColorUtils.recognizeColorId(c,id);
-        changeOccured();
-        Log.w(TAG,"set color to "+color);
+        changeOccurred();
+        //Log.w(TAG,"set color to "+color);
     }
 
     public boolean saveNeeded(){
