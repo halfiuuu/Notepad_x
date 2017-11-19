@@ -88,10 +88,10 @@ public abstract class Brush {
         int alpha=(int)(a*smoothing);
         int base_color=bitmap[index];
         int base_alpha=Color.alpha(base_color);
-        if(base_alpha+alpha==0)return null;
+        int wa = alpha + base_alpha;
+        if(wa==0)return null;
         int base_r=Color.red(base_color),base_g=Color.green(base_color),base_b=Color.blue(base_color);
         int inverted_base_alpha = 255 - base_alpha;
-        int wa = alpha + base_alpha;
         return Color.argb(
                 Math.min(base_alpha+((inverted_base_alpha*alpha)>>8),255),
                 ((r*alpha)+(base_r*base_alpha))/ wa,
