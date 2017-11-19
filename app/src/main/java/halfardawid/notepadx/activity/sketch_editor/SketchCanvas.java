@@ -28,7 +28,7 @@ public class SketchCanvas extends View {
     private Fingers controller;
     private boolean move=false;
     private boolean erase=false;
-    private Brush brush=new SoftTipCircle(10,75);
+    private Brush brush=new SoftTipCircle(20,40);
     private Updatable bar=null;
     private AtomicInteger brush_color=new AtomicInteger(ColorPaletteActivity.DEFAULT_COLOR);
 

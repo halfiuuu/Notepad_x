@@ -3,6 +3,7 @@ package halfardawid.notepadx.activity.sketch_editor.brushes;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import halfardawid.notepadx.activity.sketch_editor.SmartBitmap;
@@ -76,20 +77,25 @@ public abstract class Brush {
         bitmap.drawPixelsNonSafeDirect(real_position,radius,splat_pixel_map);
     }
 
-    private Integer mixColors(final int x, final int y,final Vector2i pos, int[] bitmap,int index, int a, int r, int g, int b, int color){
+    @Nullable
+    private Integer mixColors(final int x, final int y, final Vector2i pos, int[] bitmap, int index, int a, int r, int g, int b, int color){
         float smoothing=smoothing(pos.pythagoras());
-        if(smoothing ==1)
+        if(smoothing ==1&&a>254)
             return color;
         if(smoothing==0)
             return null;
 
+        int alpha=(int)(a*smoothing);
         int base_color=bitmap[index];
-        float invert=1F-smoothing;
+        int base_alpha=Color.alpha(base_color);
+        int base_r=Color.red(base_color),base_g=Color.green(base_color),base_b=Color.blue(base_color);
+        int inverted_base_alpha = 255 - base_alpha;
         return Color.argb(
-                (int)((a*smoothing)+(Color.alpha(base_color)*invert)),
-                (int)((r*smoothing)+(Color.red(base_color)*invert)),
-                (int)((g*smoothing)+(Color.green(base_color)*invert)),
-                (int)((b*smoothing)+(Color.blue(base_color)*invert))
+                Math.min(base_alpha+((inverted_base_alpha*alpha)>>8),255),
+                ((r*alpha)+(base_r*base_alpha))/(alpha+base_alpha+1),
+                ((g*alpha)+(base_g*base_alpha))/(alpha+base_alpha+1),
+                ((b*alpha)+(base_b*base_alpha))/(alpha+base_alpha+1)
+
         );
     }
 
