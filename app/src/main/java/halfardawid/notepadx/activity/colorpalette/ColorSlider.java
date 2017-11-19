@@ -53,7 +53,8 @@ public abstract class ColorSlider extends ColorSliderGeneric {
         }
 
         if(onDraw_latest_color_nullified_initialized&&onDraw_latest_color_nullified==color_nullified) {
-            c.drawRect(0,0,20,20,onDraw_paint);
+            drawBackground(c);
+            //c.drawRect(0,0,20,20,onDraw_paint);
             c.drawBitmap(onDraw_bitmap,0,0,null);
             onDraw_paint.setColor(POINTERCOLOR);
             final int estimate_pos = estimatePointerPosition(f);
