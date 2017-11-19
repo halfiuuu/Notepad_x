@@ -52,37 +52,23 @@ public abstract class ColorSlider extends ColorSliderGeneric {
             onDraw_bitmap = Bitmap.createBitmap(f, h, Bitmap.Config.ARGB_8888);
         }
 
-        if(onDraw_latest_color_nullified_initialized&&onDraw_latest_color_nullified==color_nullified) {
-            drawBackground(c);
-            //c.drawRect(0,0,20,20,onDraw_paint);
-            c.drawBitmap(onDraw_bitmap,0,0,null);
-            onDraw_paint.setColor(POINTERCOLOR);
-            final int estimate_pos = estimatePointerPosition(f);
-            c.drawRect(estimate_pos,0,estimate_pos+POINTERWIDTH,h,onDraw_paint);
-            c.drawRect(0,0,50,50,onDraw_paint);
-            return;
+        if(!(onDraw_latest_color_nullified_initialized&&onDraw_latest_color_nullified==color_nullified)) {
+            onDraw_latest_color_nullified = color_nullified;
+            if (!onDraw_latest_color_nullified_initialized) {
+                onDraw_latest_color_nullified_initialized = true;
+            }
+            final float step = 1f / (float) f;
+            float pro = 0;
+            for (int i = 0; i < f; i++, pro += step)
+                for (int y = 0, color = applyProcessToColor(pro); y < h; y++)
+                    onDraw_bitmap_array[y * f + i] = color;
+            onDraw_bitmap.setPixels(onDraw_bitmap_array, 0, f, 0, 0, f, h);
         }
-
-        onDraw_latest_color_nullified = color_nullified;
-        if(!onDraw_latest_color_nullified_initialized) {
-            onDraw_latest_color_nullified_initialized = true;
-        }
-
-        //final int h_cut=h-cutout;
-        final int estimate_pos = estimatePointerPosition(f);
 
         drawBackground(c);
-
-        final float step=1f/(float)f;
-
-        float pro=0;
-        for(int i=0;i<f;i++,pro+=step)
-            for(int y=0,color=applyProcessToColor(pro);y<h;y++)
-                onDraw_bitmap_array[y*f+i]=color;
-
-        onDraw_bitmap.setPixels(onDraw_bitmap_array,0,f,0,0,f,h);
         c.drawBitmap(onDraw_bitmap,0,0,null);
         onDraw_paint.setColor(POINTERCOLOR);
+        final int estimate_pos = estimatePointerPosition(f);
         c.drawRect(estimate_pos,0,estimate_pos+POINTERWIDTH,h,onDraw_paint);
     }
 
