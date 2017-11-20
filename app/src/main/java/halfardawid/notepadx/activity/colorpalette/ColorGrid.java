@@ -55,11 +55,6 @@ public class ColorGrid extends ColorSliderGeneric {
         return true;
     }
 
-    @Override
-    protected void onMeasure(int x, int y){
-        super.onMeasure(x,x);
-    }
-
     private float[] onDraw_hsv =new float[3];
     private int onDraw_latest_bitmap_x=-1;
     private int onDraw_latest_bitmap_y=-1;

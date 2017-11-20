@@ -6,25 +6,29 @@
     android:layout_height="wrap_content">
 
     <halfardawid.notepadx.activity.colorpalette.ColorGrid
+        android:id="@+id/colorGrid"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
+        android:layout_height="125dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/HSVCanalSlider"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintDimensionRatio="h,1:1"></halfardawid.notepadx.activity.colorpalette.ColorGrid>
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"></halfardawid.notepadx.activity.colorpalette.ColorGrid>
+
     <halfardawid.notepadx.activity.colorpalette.hsv.HSVCanalSlider
-        style="@style/SliderDefaultStyle"
-        app:type="hue"
         android:id="@+id/HSVCanalSlider"
+        style="@style/SliderDefaultStyle"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintHorizontal_bias="0.505" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/colorGrid"
+        app:type="hue" />
 </android.support.constraint.ConstraintLayout>
