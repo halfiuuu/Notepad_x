@@ -40,6 +40,7 @@ public abstract class ColorSliderGeneric extends View{
     abstract protected void guessProcess();
 
     private static class NonexistentPalette implements ColorSliderResponseInterface {
+        @Override public void clearRefreshers() {}
         @Override public void addToRefresher(View colorSlider) {}
         @Override public int getColor() {return Color.BLUE;}
         @Override public void setColor(int i) {}

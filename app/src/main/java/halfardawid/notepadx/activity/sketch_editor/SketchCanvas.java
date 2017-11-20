@@ -12,11 +12,10 @@ import android.view.View;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import halfardawid.notepadx.activity.colorpalette.ColorPaletteActivity;
+import halfardawid.notepadx.activity.colorpalette.ColorPaletteActivityTab;
 import halfardawid.notepadx.activity.generic.layouts.Updatable;
 import halfardawid.notepadx.activity.sketch_editor.brushes.Brush;
 import halfardawid.notepadx.activity.sketch_editor.brushes.SoftTipCircle;
-import halfardawid.notepadx.activity.sketch_editor.brushes.SolidCircleBrush;
 import halfardawid.notepadx.activity.sketch_editor.finger_movement.Fingers;
 
 
@@ -30,7 +29,7 @@ public class SketchCanvas extends View {
     private boolean erase=false;
     private Brush brush=new SoftTipCircle(20,40);
     private Updatable bar=null;
-    private AtomicInteger brush_color=new AtomicInteger(ColorPaletteActivity.DEFAULT_COLOR);
+    private AtomicInteger brush_color=new AtomicInteger(ColorPaletteActivityTab.DEFAULT_COLOR);
 
     public SketchCanvas(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -39,7 +38,7 @@ public class SketchCanvas extends View {
     }
 
     public void loadSettings(Bundle s) {
-        brush_color.set(s.getInt(BRUSH_COLOR, ColorPaletteActivity.DEFAULT_COLOR));
+        brush_color.set(s.getInt(BRUSH_COLOR, ColorPaletteActivityTab.DEFAULT_COLOR));
         image.loadSettings(s);
     }
     public void saveSettings(Bundle s) {

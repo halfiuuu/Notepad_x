@@ -33,4 +33,10 @@
     <string name="i_m_sure_exit">Yes, quit</string>
     <string name="rgb">RGB</string>
     <string name="pick_color_from_palette">Color palette</string>
+    <string name="title_activity_color_palette_tab">ColorPaletteActivityTab</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="hsv_rect">HSV</string>
+    <string name="hsv_sliders">HSV Sliders</string>
+    <string name="rgb_sliders">RGB Sliders</string>
 </resources>

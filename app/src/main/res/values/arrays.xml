@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="cpat_color_picking_modes">
+        <item>@string/hsv_rect</item>
+        <item>@string/hsv_sliders</item>
+        <item>@string/rgb_sliders</item>
+    </string-array>
+</resources>

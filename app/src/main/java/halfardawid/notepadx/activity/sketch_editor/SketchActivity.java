@@ -10,8 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import halfardawid.notepadx.R;
-import halfardawid.notepadx.activity.colorpalette.ColorPaletteActivity;
-import halfardawid.notepadx.activity.colorpicker.ColorPickerActivity;
+import halfardawid.notepadx.activity.colorpalette.ColorPaletteActivityTab;
 import halfardawid.notepadx.activity.generic.GenericNoteActivity;
 import halfardawid.notepadx.activity.generic.layouts.SimpleProgressBar;
 import halfardawid.notepadx.util.note.types.SketchNote;
@@ -43,9 +42,9 @@ public final class SketchActivity extends GenericNoteActivity<SketchNote> {
     public void onActivityResult(int code,int r, Intent intent){
         super.onActivityResult(code,r,intent);
         switch(code){
-            case ColorPaletteActivity.CODE:
-                if(intent.hasExtra(ColorPaletteActivity.EXTRA_COLOR))
-                    sketch.setBrushColor(intent.getIntExtra(ColorPaletteActivity.EXTRA_COLOR,ColorPaletteActivity.DEFAULT_COLOR));
+            case ColorPaletteActivityTab.CODE:
+                if(intent.hasExtra(ColorPaletteActivityTab.EXTRA_COLOR))
+                    sketch.setBrushColor(intent.getIntExtra(ColorPaletteActivityTab.EXTRA_COLOR,ColorPaletteActivityTab.DEFAULT_COLOR));
         }
     }
 
@@ -94,9 +93,9 @@ public final class SketchActivity extends GenericNoteActivity<SketchNote> {
     }
 
     private void startColorPalette() {
-        Intent i=new Intent(this,ColorPaletteActivity.class);
-        i.putExtra(ColorPaletteActivity.EXTRA_COLOR,sketch.getBrushColor());
-        startActivityForResult(i, ColorPaletteActivity.CODE);
+        Intent i=new Intent(this,ColorPaletteActivityTab.class);
+        i.putExtra(ColorPaletteActivityTab.EXTRA_COLOR,sketch.getBrushColor());
+        startActivityForResult(i, ColorPaletteActivityTab.CODE);
     }
 
     @Override
