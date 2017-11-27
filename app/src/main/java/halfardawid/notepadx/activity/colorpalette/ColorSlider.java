@@ -36,40 +36,55 @@ public abstract class ColorSlider extends ColorSliderGeneric {
     private boolean onDraw_latest_color_nullified_initialized=false;
     @Override
     public synchronized void onDraw(Canvas c){
-        final int f=c.getWidth();
-        final int h=c.getHeight();
+        final int local_width=c.getWidth();
+        final int local_height=c.getHeight();
 
         final int color_nullified=applyProcessToColor(.5f);
 
-        if(f!=onDraw_latestF||h!=onDraw_latestH||onDraw_bitmap_array==null){
-            onDraw_latestF=f;
-            onDraw_latestH=h;
-            onDraw_bitmap_array=new int[f*h];
+        if(local_width!=onDraw_latestF||local_height!=onDraw_latestH||onDraw_bitmap_array==null){
+            onDraw_latestF=local_width;
+            onDraw_latestH=local_height;
+            onDraw_bitmap_array=new int[local_width*local_height];
             if(onDraw_bitmap!=null) {
                 onDraw_bitmap.recycle();
                 onDraw_bitmap = null;
             }
-            onDraw_bitmap = Bitmap.createBitmap(f, h, Bitmap.Config.ARGB_8888);
+            onDraw_bitmap = Bitmap.createBitmap(local_width, local_height, Bitmap.Config.ARGB_8888);
         }
 
+        final boolean horizontal=local_width>local_height;
         if(!(onDraw_latest_color_nullified_initialized&&onDraw_latest_color_nullified==color_nullified)) {
             onDraw_latest_color_nullified = color_nullified;
             if (!onDraw_latest_color_nullified_initialized) {
                 onDraw_latest_color_nullified_initialized = true;
             }
-            final float step = 1f / (float) f;
             float pro = 0;
-            for (int i = 0; i < f; i++, pro += step)
-                for (int y = 0, color = applyProcessToColor(pro); y < h; y++)
-                    onDraw_bitmap_array[y * f + i] = color;
-            onDraw_bitmap.setPixels(onDraw_bitmap_array, 0, f, 0, 0, f, h);
+
+            if(horizontal) {
+                final float step = 1f / (float) local_width;
+                for (int i = 0; i < local_width; i++, pro += step)
+                    for (int y = 0, color = applyProcessToColor(pro); y < local_height; y++)
+                        onDraw_bitmap_array[y * local_width + i] = color;
+            }else{
+                final float step = 1f / (float) local_height;
+                for (int i = 0; i < local_height; i++, pro += step)
+                    for (int y = 0, color = applyProcessToColor(pro); y < local_width; y++)
+                        onDraw_bitmap_array[i * local_width + y] = color;
+            }
+
+            onDraw_bitmap.setPixels(onDraw_bitmap_array, 0, local_width, 0, 0, local_width, local_height);
         }
 
         drawBackground(c);
         c.drawBitmap(onDraw_bitmap,0,0,null);
         onDraw_paint.setColor(POINTERCOLOR);
-        final int estimate_pos = estimatePointerPosition(f);
-        c.drawRect(estimate_pos,0,estimate_pos+POINTERWIDTH,h,onDraw_paint);
+        if(horizontal) {
+            final int estimate_pos = estimatePointerPosition(local_width);
+            c.drawRect(estimate_pos, 0, estimate_pos + POINTERWIDTH, local_height, onDraw_paint);
+        }else{
+            final int estimate_pos = estimatePointerPosition(local_height);
+            c.drawRect(0, estimate_pos, local_width, estimate_pos + POINTERWIDTH, onDraw_paint);
+        }
     }
 
     protected void drawBackground(Canvas c) {
@@ -78,7 +93,10 @@ public abstract class ColorSlider extends ColorSliderGeneric {
 
     @Override
     public synchronized boolean onTouchEvent(MotionEvent me){
-        process=me.getX()/getWidth();
+        final int width = getWidth();
+        final int height = getHeight();
+        final boolean horizontal= width > height;
+        process=(horizontal?(me.getX()/ width):(me.getY()/ height));
         if(process<0)process=0;
         else if(process>1)process=1;
         applyColor();
@@ -101,6 +119,7 @@ public abstract class ColorSlider extends ColorSliderGeneric {
 
     protected final void guessProcess() {
         process=getCanalProcess(getColor());
+        Log.d("ColorSliderGeneric","Guessed progress to be "+process+" from "+getColor());
     }
 
     protected abstract float getCanalProcess(int c);

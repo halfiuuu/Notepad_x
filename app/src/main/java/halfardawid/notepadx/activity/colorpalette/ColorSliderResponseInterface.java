@@ -9,6 +9,7 @@ import android.view.View;
 interface ColorSliderResponseInterface {
     void clearRefreshers();
     void addToRefresher(View colorSlider);
+    void refreshAll();
     int getColor();
     void setColor(int i);
 }

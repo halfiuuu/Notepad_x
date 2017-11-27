@@ -179,12 +179,13 @@ public class ColorPaletteActivityTab extends AppCompatActivity implements ColorS
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            Context c=getContext();
-            if(c instanceof ColorSliderResponseInterface)
-                ((ColorSliderResponseInterface)c).clearRefreshers();
-
+            final Context c=getContext();
+            final boolean b = c instanceof ColorSliderResponseInterface;
+            ColorSliderResponseInterface c1 = (b)?(ColorSliderResponseInterface) c : null;
+            if(b) c1.clearRefreshers();
             View rootView = inflater.inflate(possible_fragments[getArguments().getInt(ARG_SECTION_NUMBER)], container, false);
             //TODO: Think about securing it... or maybe just let it crash, a crash might be picked up faster...
+            if(b) c1.refreshAll();
             return rootView;
         }
 
@@ -204,7 +205,7 @@ public class ColorPaletteActivityTab extends AppCompatActivity implements ColorS
         result.putExtra(EXTRA_COLOR,color.get());
     }
 
-    private void refreshAll() {
+    public void refreshAll() {
         synchronized (refresher) {
             for (View v : refresher) {
                 v.invalidate();

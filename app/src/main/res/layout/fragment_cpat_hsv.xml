@@ -9,22 +9,34 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintBottom_toTopOf="@+id/AlphaCanalSlider"
+        app:layout_constraintLeft_toRightOf="@+id/HSVCanalSlider"
         android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/HSVCanalSlider"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintDimensionRatio="h,1:1"></halfardawid.notepadx.activity.colorpalette.ColorGrid>
-    <halfardawid.notepadx.activity.colorpalette.hsv.HSVCanalSlider
-        style="@style/SliderDefaultStyle"
-        app:type="hue"
-        android:id="@+id/HSVCanalSlider"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintDimensionRatio="w,1:1">
+    </halfardawid.notepadx.activity.colorpalette.ColorGrid>
+
+    <halfardawid.notepadx.activity.colorpalette.hsv.HSVCanalSlider
+        android:id="@+id/HSVCanalSlider"
+        style="@style/SliderVertStyle"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintHorizontal_bias="0.505" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:type="hue" />
+
+    <halfardawid.notepadx.activity.colorpalette.alpha.AlphaCanalSlider
+        android:id="@+id/AlphaCanalSlider"
+        style="@style/SliderDefaultStyle"
+        android:layout_marginBottom="-34dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/HSVCanalSlider"
+        app:layout_constraintRight_toRightOf="parent" />
 </android.support.constraint.ConstraintLayout>
