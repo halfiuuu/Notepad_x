@@ -1,4 +1,6 @@
-package halfardawid.notepadx.activity.sketch_editor.brushes;
+package halfardawid.notepadx.activity.sketch_editor.brushes.types;
+
+import halfardawid.notepadx.activity.sketch_editor.brushes.Brush;
 
 /**
  * Created by Dawid on 2017-10-27.

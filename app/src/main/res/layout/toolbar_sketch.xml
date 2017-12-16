@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:style="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="right"
+    android:padding="8dp">
+
+    <ToggleButton
+        style="@style/ButtonInToolbar"
+        android:drawableTop="@drawable/eraser"
+        android:onClick="onEraserModeToggleClicked" />
+
+    <ToggleButton
+        style="@style/ButtonInToolbar"
+        android:drawableTop="@drawable/move"
+        android:onClick="onMoveModeToggleClicked" />
+
+    <Button
+        style="@style/ButtonInToolbar"
+        android:drawableTop="@drawable/brush"
+        android:onClick="onBrushEditorClicked" />
+
+    <Button
+        style="@style/ButtonInToolbar"
+        android:drawableTop="@drawable/color_palette"
+        android:onClick="onColorPaletteClicked" />
+
+</LinearLayout>

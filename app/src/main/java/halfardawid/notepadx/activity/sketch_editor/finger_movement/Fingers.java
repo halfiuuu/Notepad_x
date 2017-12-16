@@ -65,9 +65,9 @@ public class Fingers {
             if (DEBUG_SPAM)
                 Log.d(TAG, "Finger " + id + " moved to " + pos + " with a difference of " + difference);
             if (!difference.isNone()) {
-                finger.newDistance(canvas.getBrush().splatLine(bitmap, lastPosition, pos, getColor(), finger.latestDistance()));
+                finger.newDistance(canvas.getBrush().splatLine(bitmap, lastPosition, pos, getColor(), finger.latestDistance(),canvas.getPaintMode()));
             }else if(finger.timesTouched()==1){
-                canvas.getBrush().splat(bitmap, pos, getColor());
+                canvas.getBrush().splat(bitmap, pos, getColor(),canvas.getPaintMode());
                 finger.newDistance(canvas.getBrush().getSpacing(bitmap));
             }
         }

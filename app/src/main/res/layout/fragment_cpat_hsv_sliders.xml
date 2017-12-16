@@ -31,6 +31,17 @@
     <halfardawid.notepadx.activity.colorpalette.hsv.HSVCanalSlider
         android:id="@+id/s3"
         style="@style/SliderDefaultStyle"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/s1"
+        app:type="value" />
+
+    <halfardawid.notepadx.activity.colorpalette.alpha.AlphaCanalSlider
+        style="@style/SliderDefaultStyle"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
@@ -39,6 +50,5 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/s1"
-        app:type="value" />
+        app:layout_constraintTop_toBottomOf="@+id/s3"/>
 </android.support.constraint.ConstraintLayout>

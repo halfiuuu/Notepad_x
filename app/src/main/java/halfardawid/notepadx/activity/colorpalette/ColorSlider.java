@@ -49,7 +49,10 @@ public abstract class ColorSlider extends ColorSliderGeneric {
                 onDraw_bitmap.recycle();
                 onDraw_bitmap = null;
             }
-            onDraw_bitmap = Bitmap.createBitmap(local_width, local_height, Bitmap.Config.ARGB_8888);
+            if(local_width==local_height&&local_width==0)
+                onDraw_bitmap = Bitmap.createBitmap(400, 400, Bitmap.Config.ARGB_8888);
+            else
+                onDraw_bitmap = Bitmap.createBitmap(local_width, local_height, Bitmap.Config.ARGB_8888);
         }
 
         final boolean horizontal=local_width>local_height;

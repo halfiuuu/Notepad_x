@@ -41,7 +41,7 @@ public abstract class Brush {
     private int splat_pixel_map_size=-1;
     private Integer splat_col;
     private Vector2i splat_pos_radius=new Vector2i(0);
-    public synchronized final void splat(SmartBitmap bitmap, Vector2i pos_arg, int color) {
+    public synchronized final void splat(SmartBitmap bitmap, Vector2i pos_arg, int color,PAINTING_MODE painting_mode) {
         Vector2i radius=new Vector2i(real_radius());
         Vector2i real_position=bitmap.normalizeVector(pos_arg);
 
@@ -68,37 +68,16 @@ public abstract class Brush {
                 splat_pos_radius.y=-radius.y;
                 for (int y = 0; y < ry; y++,splat_pos_radius.y++) {
                     final int index=y*rx+x;
-                    splat_col = mixColors(x,y,splat_pos_radius, splat_pixel_map,index, alpha, r,g,b, color);
+                    splat_col=painting_mode.mix(
+                            smoothing(splat_pos_radius.pythagoras()),
+                            x,y,splat_pos_radius, splat_pixel_map,
+                            index, alpha, r,g,b, color);
                     if (splat_col == null) continue;
                     splat_pixel_map[index]=splat_col;
                 }
             }
         }
         bitmap.drawPixelsNonSafeDirect(real_position,radius,splat_pixel_map);
-    }
-
-    @Nullable
-    private Integer mixColors(final int x, final int y, final Vector2i pos, int[] bitmap, int index, int a, int r, int g, int b, int color){
-        float smoothing=smoothing(pos.pythagoras());
-        if(smoothing ==1&&a>254)
-            return color;
-        if(smoothing==0)
-            return null;
-
-        int alpha=(int)(a*smoothing);
-        int base_color=bitmap[index];
-        int base_alpha=Color.alpha(base_color);
-        int wa = alpha + base_alpha;
-        if(wa==0)return null;
-        int base_r=Color.red(base_color),base_g=Color.green(base_color),base_b=Color.blue(base_color);
-        int inverted_base_alpha = 255 - base_alpha;
-        return Color.argb(
-                Math.min(base_alpha+((inverted_base_alpha*alpha)>>8),255),
-                ((r*alpha)+(base_r*base_alpha))/ wa,
-                ((g*alpha)+(base_g*base_alpha))/ wa,
-                ((b*alpha)+(base_b*base_alpha))/ wa
-
-        );
     }
 
     private void secure(SmartBitmap bitmap, Vector2i pos, Vector2i radius) {
@@ -110,7 +89,7 @@ public abstract class Brush {
         bitmap.securePositionDirect(pp);
     }
 
-    public float splatLine(SmartBitmap bitmap, Vector2i lastPosition, Vector2i pos, int i, float last_dist) {
+    public float splatLine(SmartBitmap bitmap, Vector2i lastPosition, Vector2i pos, int i, float last_dist, PAINTING_MODE painting_mode) {
         Vector2i distance=new Vector2i(pos);
         distance.sub(lastPosition);
         float whole_distance=distance.pythagoras();
@@ -120,7 +99,7 @@ public abstract class Brush {
             Vector2i between=new Vector2i(distance);
             between.multiply(multiplier);
             between.add(lastPosition);
-            splat(bitmap,between,i);
+            splat(bitmap,between,i,painting_mode);
         }
         return dist_i-whole_distance;
     }

@@ -15,7 +15,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import halfardawid.notepadx.activity.colorpalette.ColorPaletteActivityTab;
 import halfardawid.notepadx.activity.generic.layouts.Updatable;
 import halfardawid.notepadx.activity.sketch_editor.brushes.Brush;
-import halfardawid.notepadx.activity.sketch_editor.brushes.SoftTipCircle;
+import halfardawid.notepadx.activity.sketch_editor.brushes.PAINTING_MODE;
+import halfardawid.notepadx.activity.sketch_editor.brushes.types.SoftTipCircle;
 import halfardawid.notepadx.activity.sketch_editor.finger_movement.Fingers;
 
 
@@ -109,6 +110,19 @@ public class SketchCanvas extends View {
     }
 
     public int getBrushColor() {
-        return (isErasing())?Color.TRANSPARENT:brush_color.get();
+        return brush_color.get();
+    }
+
+    public void setErasing(boolean arg) {
+        erase=arg;
+    }
+
+    public PAINTING_MODE getPaintMode() {
+        if(erase)return PAINTING_MODE.ERASE;
+        return PAINTING_MODE.NORMAL;
+    }
+
+    public void setMoveMode(boolean arg0) {
+        move=arg0;
     }
 }

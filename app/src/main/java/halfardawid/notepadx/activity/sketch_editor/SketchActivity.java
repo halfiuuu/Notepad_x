@@ -2,12 +2,16 @@ package halfardawid.notepadx.activity.sketch_editor;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.res.ResourcesCompat;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import halfardawid.notepadx.R;
 import halfardawid.notepadx.activity.colorpalette.ColorPaletteActivityTab;
@@ -69,13 +73,14 @@ public final class SketchActivity extends GenericNoteActivity<SketchNote> {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.sketch_editor_menu, menu);
+        inflater.inflate(R.menu.generic_note_editor_menu, menu);
         return true;
     }
 
     @Override
     protected boolean menuButtonPressed(MenuItem item) {
-        switch(item.getItemId()) {
+        return false;//Floating buttons seems more accessible.
+        /*switch(item.getItemId()) {
             case R.id.sem_move_mode:
                 item.setChecked(sketch.toggleMove());
                 return true;
@@ -89,7 +94,23 @@ public final class SketchActivity extends GenericNoteActivity<SketchNote> {
                 return true;
             default:
                 return false;
-        }
+        }*/
+    }
+
+    public void onMoveModeToggleClicked(View v){
+        sketch.setMoveMode(((ToggleButton)(v)).isChecked());
+    }
+
+    public void onEraserModeToggleClicked(View v){
+        sketch.setErasing(((ToggleButton)(v)).isChecked());
+    }
+
+    public void onBrushEditorClicked(View v){
+        Toast.makeText(this,"Wowser!",Toast.LENGTH_SHORT);
+    }
+
+    public void onColorPaletteClicked(View v){
+        startColorPalette();
     }
 
     private void startColorPalette() {
