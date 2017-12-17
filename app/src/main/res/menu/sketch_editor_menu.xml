@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/gnem_save"
+        android:icon="@drawable/save"
+        android:title="@string/save"
+        app:showAsAction="never|ifRoom" />
+    <item
+        android:title="@string/file">
+        <menu>
+            <item
+                android:id="@+id/gnam_change_title"
+                android:title="@string/change_title"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/gnam_change_color"
+                android:title="@string/change_color"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/gnam_save_exit"
+                android:title="@string/save_n_exit"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/gnam_delete"
+                android:title="@string/delete_note"
+                app:showAsAction="never" />
+        </menu>
+    </item>
+    <item android:id="@+id/sem_reset_zoom"
+        android:title="@string/reset_zoom"/>
+    <item android:id="@+id/sem_reset_position"
+        android:title="@string/reset_position"/>
+    <item android:id="@+id/sem_clear_canvas"
+        android:title="@string/clear_canvas"/>
+    <item android:title="@string/crop_canvas">
+        <menu>
+            <item android:id="@+id/sem_auto_crop_canvas"
+                android:title="@string/auto_crop"/>
+            <item android:id="@+id/sem_manual_crop_canvas"
+                android:title="@string/crop_manually"/>
+            <item android:id="@+id/sem_numbers_crop_canvas"
+                android:title="@string/crop_to_numbers"/>
+        </menu>
+    </item>
+</menu>

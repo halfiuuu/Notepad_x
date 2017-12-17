@@ -73,28 +73,27 @@ public final class SketchActivity extends GenericNoteActivity<SketchNote> {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.generic_note_editor_menu, menu);
+        inflater.inflate(R.menu.sketch_editor_menu, menu);
         return true;
     }
 
     @Override
     protected boolean menuButtonPressed(MenuItem item) {
-        return false;//Floating buttons seems more accessible.
-        /*switch(item.getItemId()) {
-            case R.id.sem_move_mode:
-                item.setChecked(sketch.toggleMove());
+        switch(item.getItemId()) {
+            case R.id.sem_reset_zoom:
+                sketch.resetZoom();
                 return true;
-            case R.id.sem_brush:
+            case R.id.sem_reset_position:
+                sketch.resetOffset();
                 return true;
-            case R.id.sem_eraser:
-                item.setChecked(sketch.toggleErase());
+            case R.id.sem_clear_canvas:
+                sketch.clearCanvas();
                 return true;
-            case R.id.sem_palette:
-                startColorPalette();
-                return true;
+            case R.id.sem_auto_crop_canvas:
+                sketch.autoCropCanvas();
             default:
                 return false;
-        }*/
+        }
     }
 
     public void onMoveModeToggleClicked(View v){

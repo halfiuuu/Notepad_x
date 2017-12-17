@@ -39,4 +39,12 @@
     <string name="hsv_rect">HSV</string>
     <string name="hsv_sliders">HSV Sliders</string>
     <string name="rgb_sliders">RGB Sliders</string>
+    <string name="file">File</string>
+    <string name="reset_zoom">Reset zoom</string>
+    <string name="reset_position">Reset position</string>
+    <string name="clear_canvas">Clear canvas</string>
+    <string name="crop_canvas">Crop canvas</string>
+    <string name="auto_crop">Auto-crop</string>
+    <string name="crop_manually">Crop manually</string>
+    <string name="crop_to_numbers">Crop to numbers</string>
 </resources>

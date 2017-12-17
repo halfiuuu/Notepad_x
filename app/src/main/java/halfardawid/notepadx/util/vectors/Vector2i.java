@@ -3,6 +3,9 @@ package halfardawid.notepadx.util.vectors;
 
 import android.graphics.Bitmap;
 import android.util.Log;
+import android.view.View;
+
+import halfardawid.notepadx.activity.sketch_editor.SketchCanvas;
 
 public class Vector2i {
     public int x;
@@ -27,6 +30,11 @@ public class Vector2i {
     public Vector2i(Bitmap bitmap) {
         x=bitmap.getWidth();
         y=bitmap.getHeight();
+    }
+
+    public Vector2i(View v) {
+        x=v.getWidth();
+        y=v.getHeight();
     }
 
     public Vector2i copy(Vector2i a){
@@ -143,6 +151,10 @@ public class Vector2i {
 
     public Vector2i copy() {
         return new Vector2i(this);
+    }
+
+    public int length() {
+        return x*y;
     }
 }
 

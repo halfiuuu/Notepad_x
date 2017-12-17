@@ -125,4 +125,24 @@ public class SketchCanvas extends View {
     public void setMoveMode(boolean arg0) {
         move=arg0;
     }
+
+    public void resetZoom() {
+        getSmartBitmap().resetZoom();
+        invalidate();
+    }
+
+    public void resetOffset() {
+        getSmartBitmap().resetOffsetToCenter(this);
+        invalidate();
+    }
+
+    public void clearCanvas() {
+        image.clear();
+        invalidate();
+    }
+
+    public void autoCropCanvas() {
+        image.autoCrop();
+        invalidate();
+    }
 }

@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import halfardawid.notepadx.activity.generic.layouts.Updatable;
 import halfardawid.notepadx.util.vectors.Vector2i;
 
 /**
@@ -26,7 +25,11 @@ public class SmartBitmap {
     private float scale_min=.1f,scale_max=3f;
 
     public SmartBitmap(){
-        bitmap=makeClearBitmap(new Vector2i(500,500));
+        hardResetCanvas();
+    }
+
+    private void hardResetCanvas() {
+        bitmap=makeClearBitmap(new Vector2i(500, 500));
     }
 
     public void clone(Bitmap b){
@@ -113,7 +116,12 @@ public class SmartBitmap {
     }
 
     public void resetZoom(){
-        zoom(1);
+        zoomTo(1f);
+    }
+
+    private void zoomTo(float i) {
+        offset.add(new Vector2i(bitmap).multiply(scale).sub(new Vector2i(bitmap).multiply(i)).divide(2));
+        scale=i;
     }
 
     public synchronized void zoom(float change){
@@ -173,7 +181,7 @@ public class SmartBitmap {
         return Bitmap.createBitmap(s.x,s.y, Bitmap.Config.ARGB_8888);
     }
 
-    public void clear(){
+    public synchronized void clear(){
         bitmap=makeClearBitmap(new Vector2i(bitmap));
     }
 
@@ -209,5 +217,67 @@ public class SmartBitmap {
     public void drawPixelsNonSafeDirect(Vector2i position, Vector2i radius, int[] pixel_map) {
         Vector2i start=position.copy().sub(radius);
         bitmap.setPixels(pixel_map,0,radius.x<<1,start.x,start.y,radius.x<<1,radius.y<<1);
+    }
+
+    public void resetOffsetToCenter(SketchCanvas sketchCanvas) {
+        offset.copy(new Vector2i(sketchCanvas).divide(2).sub(new Vector2i(bitmap).divide(2)));
+    }
+
+    public synchronized void crop(Vector2i new_size, Vector2i crop_offset){
+        Log.d("Cropping","Cropping "+new Vector2i(bitmap)+" to "+new_size+" with offset of "+offset);
+        Bitmap b=Bitmap.createBitmap(bitmap,crop_offset.x,crop_offset.y,new_size.x,new_size.y);
+        bitmap=b;
+    }
+
+    public synchronized void autoCrop() {
+        Vector2i v=new Vector2i(bitmap);
+        Vector2i new_size=new Vector2i(0);
+        Vector2i crop_offset=new Vector2i(0);
+        Vector2i attack=angleAttackN(v);
+        if(attack==null){
+            hardResetCanvas();
+            return;
+        }
+        crop_offset.y=attack.y;
+        attack=angleAttackW(v);
+        crop_offset.x=attack.x;
+        attack=angleAttackS(v);
+        new_size.y=attack.y;
+        attack=angleAttackE(v);
+        new_size.x=attack.x;
+        new_size.sub(crop_offset);
+        crop(new_size,crop_offset);
+    }
+    private Vector2i angleAttackN(final Vector2i v){
+        int x;
+        int y;
+        for (y=0;y<v.y;y++)
+            for (x=0;x<v.x;x++)
+                if(bitmap.getPixel(x,y)!=Color.TRANSPARENT)return new Vector2i(x,y);
+        return null;
+    }
+    private Vector2i angleAttackS(final Vector2i v){
+        int x;
+        int y;
+        for (y=v.y-1;y>=0;y--)
+            for (x=0;x<v.x;x++)
+                if(bitmap.getPixel(x,y)!=Color.TRANSPARENT)return new Vector2i(x,y);
+        return null;
+    }
+    private Vector2i angleAttackW(final Vector2i v){
+        int x;
+        int y;
+        for (x=0;x<v.x;x++)
+            for(y=0;y<v.y;y++)
+                if(bitmap.getPixel(x,y)!=Color.TRANSPARENT)return new Vector2i(x,y);
+        return null;
+    }
+    private Vector2i angleAttackE(final Vector2i v){
+        int x;
+        int y;
+        for (x=v.x-1;x>=0;x--)
+            for(y=0;y<v.y;y++)
+                if(bitmap.getPixel(x,y)!=Color.TRANSPARENT)return new Vector2i(x,y);
+        return null;
     }
 }
