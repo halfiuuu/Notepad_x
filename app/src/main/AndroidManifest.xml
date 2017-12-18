@@ -24,22 +24,14 @@
             android:hardwareAccelerated="true"
             android:parentActivityName=".activity.main.MainActivity" />
         <activity
-            android:name=".activity.colorpicker.ColorPickerActivity"
+            android:name=".activity.generic.colorpicker.ColorPickerActivity"
             android:label="@string/change_color"
             android:theme="@style/AppTheme.PopUpTheme" />
         <activity
-            android:name=".activity.colorpalette.ColorPaletteActivity"
-            android:hardwareAccelerated="true"
-            android:label="@string/pick_color_from_palette"
+            android:name=".activity.sketch_editor.colorpalette.ColorPaletteActivityTab"
             android:theme="@style/AppTheme.PopUpTheme" />
-        <activity
-            android:name=".activity.colorpalette.ColorPaletteActivityTab"
-            android:parentActivityName=".activity.sketch_editor.SketchActivity"
-            android:theme="@style/AppTheme.PopUpTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="halfardawid.notepadx.activity.sketch_editor.SketchActivity" />
-        </activity>
+        <activity android:name=".activity.sketch_editor.CropToNumbers"
+            android:theme="@style/AppTheme.PopUpTheme"/>
     </application>
 
 </manifest>

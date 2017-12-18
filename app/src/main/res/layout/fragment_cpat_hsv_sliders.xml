@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <halfardawid.notepadx.activity.colorpalette.hsv.HSVCanalSlider
+    <halfardawid.notepadx.activity.sketch_editor.colorpalette.hsv.HSVCanalSlider
         android:id="@+id/s0"
         style="@style/SliderDefaultStyle"
         android:layout_marginLeft="8dp"
@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:type="hue" />
 
-    <halfardawid.notepadx.activity.colorpalette.hsv.HSVCanalSlider
+    <halfardawid.notepadx.activity.sketch_editor.colorpalette.hsv.HSVCanalSlider
         android:id="@+id/s1"
         style="@style/SliderDefaultStyle"
         android:layout_marginLeft="8dp"
@@ -28,7 +28,7 @@
         app:layout_constraintTop_toBottomOf="@+id/s0"
         app:type="saturation" />
 
-    <halfardawid.notepadx.activity.colorpalette.hsv.HSVCanalSlider
+    <halfardawid.notepadx.activity.sketch_editor.colorpalette.hsv.HSVCanalSlider
         android:id="@+id/s3"
         style="@style/SliderDefaultStyle"
         android:layout_marginLeft="8dp"
@@ -40,7 +40,7 @@
         app:layout_constraintTop_toBottomOf="@+id/s1"
         app:type="value" />
 
-    <halfardawid.notepadx.activity.colorpalette.alpha.AlphaCanalSlider
+    <halfardawid.notepadx.activity.sketch_editor.colorpalette.alpha.AlphaCanalSlider
         style="@style/SliderDefaultStyle"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"

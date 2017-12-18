@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:fitsSystemWindows="true"
-    tools:context="halfardawid.notepadx.activity.colorpalette.ColorPaletteActivityTab">
+    tools:context=".activity.sketch_editor.colorpalette.ColorPaletteActivityTab">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -56,7 +56,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true" />
 
-            <halfardawid.notepadx.activity.colorpalette.ColorPreview
+            <halfardawid.notepadx.activity.sketch_editor.colorpalette.ColorPreview
                 android:id="@+id/acpt_color_preview"
                 android:layout_width="40dp"
                 android:layout_height="0dp"

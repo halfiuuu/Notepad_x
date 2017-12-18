@@ -37,8 +37,10 @@
         <menu>
             <item android:id="@+id/sem_auto_crop_canvas"
                 android:title="@string/auto_crop"/>
-            <item android:id="@+id/sem_manual_crop_canvas"
-                android:title="@string/crop_manually"/>
+            <item
+                android:id="@+id/sem_manual_crop_canvas"
+                android:enabled="false"
+                android:title="@string/crop_manually" />
             <item android:id="@+id/sem_numbers_crop_canvas"
                 android:title="@string/crop_to_numbers"/>
         </menu>

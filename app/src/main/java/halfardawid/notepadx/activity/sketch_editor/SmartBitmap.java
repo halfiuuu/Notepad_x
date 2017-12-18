@@ -220,7 +220,11 @@ public class SmartBitmap {
     }
 
     public void resetOffsetToCenter(SketchCanvas sketchCanvas) {
-        offset.copy(new Vector2i(sketchCanvas).divide(2).sub(new Vector2i(bitmap).divide(2)));
+        offset.copy(
+                new Vector2i(sketchCanvas).divide(2).sub(
+                        new Vector2i(bitmap).divide(2).multiply(scale)
+                )
+        );
     }
 
     public synchronized void crop(Vector2i new_size, Vector2i crop_offset){

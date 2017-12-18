@@ -1,4 +1,4 @@
-package halfardawid.notepadx.activity.colorpalette.alpha;
+package halfardawid.notepadx.activity.sketch_editor.colorpalette.alpha;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -6,11 +6,10 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 
 import halfardawid.notepadx.R;
-import halfardawid.notepadx.activity.colorpalette.ColorSlider;
+import halfardawid.notepadx.activity.sketch_editor.colorpalette.ColorSlider;
 import halfardawid.notepadx.util.exceptions.InvalidContextException;
 
 /**

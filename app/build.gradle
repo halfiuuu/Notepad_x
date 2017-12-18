@@ -10,7 +10,7 @@ android {
         versionCode 5
         versionName "PROTOTYPE-05"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        vectorDrawables{
+        vectorDrawables {
             useSupportLibrary true
         }
     }

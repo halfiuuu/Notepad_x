@@ -1,4 +1,4 @@
-package halfardawid.notepadx.activity.colorpalette;
+package halfardawid.notepadx.activity.sketch_editor.colorpalette;
 
 import android.content.Context;
 import android.graphics.Canvas;

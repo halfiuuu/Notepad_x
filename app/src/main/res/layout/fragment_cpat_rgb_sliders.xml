@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <halfardawid.notepadx.activity.colorpalette.rgb.RedCanalSlider
+    <halfardawid.notepadx.activity.sketch_editor.colorpalette.rgb.RedCanalSlider
         android:id="@+id/s0"
         style="@style/SliderDefaultStyle"
         android:layout_marginLeft="8dp"
@@ -15,7 +15,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <halfardawid.notepadx.activity.colorpalette.rgb.GreenCanalSlider
+    <halfardawid.notepadx.activity.sketch_editor.colorpalette.rgb.GreenCanalSlider
         android:id="@+id/s1"
         style="@style/SliderDefaultStyle"
         android:layout_marginLeft="8dp"
@@ -26,7 +26,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/s0"/>
 
-    <halfardawid.notepadx.activity.colorpalette.rgb.BlueCanalSlider
+    <halfardawid.notepadx.activity.sketch_editor.colorpalette.rgb.BlueCanalSlider
         android:id="@+id/s2"
         style="@style/SliderDefaultStyle"
         android:layout_marginLeft="8dp"
@@ -36,7 +36,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/s1" />
-    <halfardawid.notepadx.activity.colorpalette.alpha.AlphaCanalSlider
+    <halfardawid.notepadx.activity.sketch_editor.colorpalette.alpha.AlphaCanalSlider
         style="@style/SliderDefaultStyle"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"

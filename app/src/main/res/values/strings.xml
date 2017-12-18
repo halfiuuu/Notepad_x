@@ -47,4 +47,10 @@
     <string name="auto_crop">Auto-crop</string>
     <string name="crop_manually">Crop manually</string>
     <string name="crop_to_numbers">Crop to numbers</string>
+    <string name="Cutout_x">Right cutout</string>
+    <string name="Cutout_y">Top cutout</string>
+    <string name="newSize_x">New width</string>
+    <string name="newSize_y">New Height</string>
+    <string name="must_be_greater_than_0">Value must be greater than 0</string>
+    <string name="must_be_greater_than_0_or_equal">Value must be at least 0</string>
 </resources>

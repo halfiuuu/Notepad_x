@@ -1,20 +1,14 @@
-package halfardawid.notepadx.activity.colorpalette;
+package halfardawid.notepadx.activity.sketch_editor.colorpalette;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.RectF;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.view.View;
-
-import halfardawid.notepadx.util.ColorUtils;
-import halfardawid.notepadx.util.exceptions.InvalidContextException;
 
 public abstract class ColorSlider extends ColorSliderGeneric {
     public static final int POINTERCOLOR = Color.BLACK;

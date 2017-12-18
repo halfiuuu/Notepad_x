@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="halfardawid.notepadx.activity.colorpicker.ColorPickerActivity">
+    tools:context=".activity.generic.colorpicker.ColorPickerActivity">
 
     <Button
         android:id="@+id/acp_cancel"
@@ -19,7 +19,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" />
 
-    <halfardawid.notepadx.activity.colorpicker.ColorPickerGrid
+    <halfardawid.notepadx.activity.generic.colorpicker.ColorPickerGrid
         android:id="@+id/cpl_grid"
         android:layout_width="0dp"
         android:layout_height="0dp"

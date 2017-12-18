@@ -7,17 +7,19 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import halfardawid.notepadx.activity.colorpalette.ColorPaletteActivityTab;
+import halfardawid.notepadx.activity.sketch_editor.colorpalette.ColorPaletteActivityTab;
 import halfardawid.notepadx.activity.generic.layouts.Updatable;
 import halfardawid.notepadx.activity.sketch_editor.brushes.Brush;
 import halfardawid.notepadx.activity.sketch_editor.brushes.PAINTING_MODE;
 import halfardawid.notepadx.activity.sketch_editor.brushes.types.SoftTipCircle;
 import halfardawid.notepadx.activity.sketch_editor.finger_movement.Fingers;
+import halfardawid.notepadx.util.vectors.Vector2i;
 
 
 public class SketchCanvas extends View {
@@ -57,8 +59,13 @@ public class SketchCanvas extends View {
 
     private SmartBitmap image;
 
+    private boolean doOnce_onDraw_reset=true;
     @Override
     protected void onDraw(Canvas c){
+        if(doOnce_onDraw_reset){
+            doOnce_onDraw_reset=false;
+            resetOffset();
+        }
         c.save();
         c.drawColor(Color.TRANSPARENT);
         image.drawOnCanvas(c);
@@ -69,6 +76,11 @@ public class SketchCanvas extends View {
         controller.handleEvent(me);
         postInvalidate();
         return true;
+    }
+
+    @Override
+    public void onMeasure(int x, int y){
+        super.onMeasure(x,y);
     }
 
     public boolean toggleMove() {
@@ -138,11 +150,17 @@ public class SketchCanvas extends View {
 
     public void clearCanvas() {
         image.clear();
-        invalidate();
+        resetOffset();
     }
 
     public void autoCropCanvas() {
         image.autoCrop();
-        invalidate();
+        resetOffset();
+    }
+
+    public void cropCanvas(Vector2i new_size, Vector2i cutout) {
+        Log.d("Cropping to",new_size+" "+cutout);
+        image.crop(new_size, cutout);
+        resetOffset();
     }
 }

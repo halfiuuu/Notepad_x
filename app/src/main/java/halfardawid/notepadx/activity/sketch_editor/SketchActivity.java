@@ -3,21 +3,20 @@ package halfardawid.notepadx.activity.sketch_editor;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.res.ResourcesCompat;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import halfardawid.notepadx.R;
-import halfardawid.notepadx.activity.colorpalette.ColorPaletteActivityTab;
+import halfardawid.notepadx.activity.sketch_editor.colorpalette.ColorPaletteActivityTab;
 import halfardawid.notepadx.activity.generic.GenericNoteActivity;
 import halfardawid.notepadx.activity.generic.layouts.SimpleProgressBar;
 import halfardawid.notepadx.util.note.types.SketchNote;
+import halfardawid.notepadx.util.vectors.Vector2i;
 
 public final class SketchActivity extends GenericNoteActivity<SketchNote> {
     public static final String TAG="SKETCH_EDITOR";
@@ -44,11 +43,24 @@ public final class SketchActivity extends GenericNoteActivity<SketchNote> {
 
     @Override
     public void onActivityResult(int code,int r, Intent intent){
-        super.onActivityResult(code,r,intent);
         switch(code){
             case ColorPaletteActivityTab.CODE:
                 if(intent.hasExtra(ColorPaletteActivityTab.EXTRA_COLOR))
-                    sketch.setBrushColor(intent.getIntExtra(ColorPaletteActivityTab.EXTRA_COLOR,ColorPaletteActivityTab.DEFAULT_COLOR));
+                    sketch.setBrushColor(
+                            intent.getIntExtra(ColorPaletteActivityTab.EXTRA_COLOR,
+                                    ColorPaletteActivityTab.DEFAULT_COLOR));
+                break;
+            case CropToNumbers.CODE:
+                if(intent!=null){
+                    Vector2i new_size=new Vector2i(
+                            intent.getIntExtra(CropToNumbers.SIZE_X,0),
+                            intent.getIntExtra(CropToNumbers.SIZE_Y,0));
+                    Vector2i cutout=new Vector2i(
+                            intent.getIntExtra(CropToNumbers.CUT_X,0),
+                            intent.getIntExtra(CropToNumbers.CUT_Y,0));
+                    sketch.cropCanvas(new_size,cutout);
+                }
+                break;
         }
     }
 
@@ -91,6 +103,10 @@ public final class SketchActivity extends GenericNoteActivity<SketchNote> {
                 return true;
             case R.id.sem_auto_crop_canvas:
                 sketch.autoCropCanvas();
+                return true;
+            case R.id.sem_numbers_crop_canvas:
+                startManualCrop();
+                return true;
             default:
                 return false;
         }
@@ -116,6 +132,11 @@ public final class SketchActivity extends GenericNoteActivity<SketchNote> {
         Intent i=new Intent(this,ColorPaletteActivityTab.class);
         i.putExtra(ColorPaletteActivityTab.EXTRA_COLOR,sketch.getBrushColor());
         startActivityForResult(i, ColorPaletteActivityTab.CODE);
+    }
+
+    private void startManualCrop() {
+        Intent i=new Intent(this,CropToNumbers.class);
+        startActivityForResult(i, CropToNumbers.CODE);
     }
 
     @Override

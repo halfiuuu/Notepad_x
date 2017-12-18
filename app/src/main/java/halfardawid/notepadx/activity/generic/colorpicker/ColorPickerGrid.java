@@ -1,16 +1,11 @@
-package halfardawid.notepadx.activity.colorpicker;
+package halfardawid.notepadx.activity.generic.colorpicker;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
-
-import halfardawid.notepadx.util.note.Note;
 
 public class ColorPickerGrid extends GridView {
 

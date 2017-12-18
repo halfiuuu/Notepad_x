@@ -2,7 +2,6 @@ package halfardawid.notepadx.activity.generic;
 
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,8 +19,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 import halfardawid.notepadx.R;
-import halfardawid.notepadx.activity.colorpicker.ColorPickerActivity;
-import halfardawid.notepadx.activity.colorpicker.ColorPickerGrid;
+import halfardawid.notepadx.activity.generic.colorpicker.ColorPickerActivity;
 import halfardawid.notepadx.util.ColorUtils;
 import halfardawid.notepadx.util.exceptions.NoSuchNoteTypeException;
 import halfardawid.notepadx.util.note.Note;

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="200dp">
 
-    <halfardawid.notepadx.activity.colorpalette.ColorGrid
+    <halfardawid.notepadx.activity.sketch_editor.colorpalette.ColorGrid
         android:id="@+id/colorGrid"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -21,9 +21,9 @@
         app:layout_constraintLeft_toRightOf="@+id/HSVCanalSlider"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"></halfardawid.notepadx.activity.colorpalette.ColorGrid>
+        app:layout_constraintVertical_bias="0.0"></halfardawid.notepadx.activity.sketch_editor.colorpalette.ColorGrid>
 
-    <halfardawid.notepadx.activity.colorpalette.hsv.HSVCanalSlider
+    <halfardawid.notepadx.activity.sketch_editor.colorpalette.hsv.HSVCanalSlider
         android:id="@+id/HSVCanalSlider"
         style="@style/SliderVertStyle"
         android:layout_marginBottom="8dp"
@@ -36,7 +36,7 @@
         app:layout_constraintVertical_bias="0.0"
         app:type="hue" />
 
-    <halfardawid.notepadx.activity.colorpalette.alpha.AlphaCanalSlider
+    <halfardawid.notepadx.activity.sketch_editor.colorpalette.alpha.AlphaCanalSlider
         android:id="@+id/AlphaCanalSlider"
         style="@style/SliderVertStyle"
         android:layout_marginBottom="8dp"
