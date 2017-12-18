@@ -7,9 +7,12 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
@@ -113,7 +116,23 @@ public final class MainActivity extends AppCompatActivity {
 
     private void initGridView(@IdRes int id){
         adapter=new NoteAdapter(this,notes);
-        ((GridView)findViewById(id)).setAdapter(adapter);
+        GridView gv = (GridView) findViewById(id);
+        gv.setAdapter(adapter);
+        registerForContextMenu(gv);
+        gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+                open(adapter.getNote(position));
+            }
+        });
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.context_note_tile_menu, menu);
     }
 
     public void open(Note t) {
@@ -129,6 +148,8 @@ public final class MainActivity extends AppCompatActivity {
                 break;
         }
     }
+
+
 
     private void reload_list() {
         adapter.reloadWhole(this);

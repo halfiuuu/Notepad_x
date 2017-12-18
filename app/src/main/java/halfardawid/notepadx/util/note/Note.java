@@ -93,12 +93,6 @@ public abstract class Note {
         }
         final Note t=this;
         applyColors(rec);
-        rec.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                con.open(t);
-            }
-        });
         View top_bar=rec.findViewById(R.id.amt_top_bar);
         if(hasTitle()!=(top_bar.getVisibility()==View.VISIBLE))top_bar.setVisibility(hasTitle()?View.VISIBLE:View.GONE);
         ((TextView)rec.findViewById(R.id.amt_title)).setText(getTitle());

@@ -9,7 +9,7 @@
     <string name="loading_went_wrong">Loading of the note went terribly wrong... You kind of should report it, that should not happen, like... at all.</string>
     <string name="change_title">Change title</string>
     <string name="save_n_exit">Save and exit</string>
-    <string name="delete_note">Delete this note</string>
+    <string name="delete_note">Delete note</string>
     <string name="save">Save</string>
     <string name="exit">Exit</string>
     <string name="input_new_title">Input new title</string>
@@ -53,4 +53,5 @@
     <string name="newSize_y">New Height</string>
     <string name="must_be_greater_than_0">Value must be greater than 0</string>
     <string name="must_be_greater_than_0_or_equal">Value must be at least 0</string>
+    <string name="edit_that_note">Edit note</string>
 </resources>

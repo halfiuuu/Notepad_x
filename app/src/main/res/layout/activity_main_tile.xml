@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/placeholder_colorTile"
-    style="@style/Widget.AppCompat.Button.Colored">
+    android:focusable="false"
+    android:descendantFocusability="blocksDescendants">
 
     <RelativeLayout
         android:id="@+id/amt_top_bar"

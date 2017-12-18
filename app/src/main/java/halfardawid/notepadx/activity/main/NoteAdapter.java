@@ -40,4 +40,8 @@ public class NoteAdapter extends BaseAdapter{
         notes.reloadAll(con);
         notifyDataSetChanged();
     }
+
+    public Note getNote(int position) {
+        return notes.get(position);
+    }
 }

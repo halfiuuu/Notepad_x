@@ -13,6 +13,5 @@
         android:layout_marginRight="@dimen/std_margin"
         android:ems="10"
         android:hint="@string/input_new_title"
-        android:inputType="textPersonName"
-        android:singleLine="true" />
+        android:inputType="textPersonName"/>
 </RelativeLayout>
