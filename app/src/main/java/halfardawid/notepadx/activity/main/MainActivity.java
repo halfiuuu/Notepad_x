@@ -1,5 +1,6 @@
 package halfardawid.notepadx.activity.main;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.IdRes;
@@ -7,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import halfardawid.notepadx.util.note.Note;
@@ -21,7 +24,7 @@ import halfardawid.notepadx.util.note.NoteList;
 import halfardawid.notepadx.R;
 import halfardawid.notepadx.util.note.NoteType;
 
-public final class MainActivity extends AppCompatActivity {
+public final class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener{
 
     public static final String TAG="MAIN_ACTIVITY";
     public static final int NOTE_EDITOR_RESULT = 6422;
@@ -114,6 +117,7 @@ public final class MainActivity extends AppCompatActivity {
         Toast.makeText(this, R.string.sorry_error, Toast.LENGTH_LONG).show();
     }
 
+    Note context_choice=null;
     private void initGridView(@IdRes int id){
         adapter=new NoteAdapter(this,notes);
         GridView gv = (GridView) findViewById(id);
@@ -125,14 +129,21 @@ public final class MainActivity extends AppCompatActivity {
                 open(adapter.getNote(position));
             }
         });
-    }
+        final MainActivity context=this;
+        gv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                context_choice=adapter.getNote(position);
+                PopupMenu popup = new PopupMenu(context, view);
+                popup.setOnMenuItemClickListener(context);
+                MenuInflater inflater = popup.getMenuInflater();
+                inflater.inflate(R.menu.context_note_tile_menu, popup.getMenu());
+                popup.show();
+                return true;
+            }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v,
-                                    ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.context_note_tile_menu, menu);
+
+        });
     }
 
     public void open(Note t) {
@@ -149,9 +160,22 @@ public final class MainActivity extends AppCompatActivity {
         }
     }
 
-
-
     private void reload_list() {
         adapter.reloadWhole(this);
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.cnt_delete:
+                context_choice.deleteFile(this);
+                reload_list();
+                return true;
+            case R.id.cnt_edit:
+                open(context_choice);
+                return true;
+            default:
+                return false;
+        }
     }
 }
