@@ -1,4 +1,4 @@
-package halfardawid.notepadx.activity.sketch_editor;
+package halfardawid.notepadx.activity.sketch_editor.crop;
 
 import android.content.Intent;
 import android.support.annotation.IdRes;
@@ -38,14 +38,14 @@ public final class CropToNumbers extends AppCompatActivity {
 
     private boolean validate(Intent i){
         boolean valid=true;
-        if(i.getIntExtra(CUT_X,0)<0){
+        /*if(i.getIntExtra(CUT_X,0)<0){
             setError(R.id.acn_offset_x,R.string.must_be_greater_than_0_or_equal);
             valid=false;
         }
         if(i.getIntExtra(CUT_Y,0)<0){
             setError(R.id.acn_offset_y,R.string.must_be_greater_than_0_or_equal);
             valid=false;
-        }
+        }*/
         if(i.getIntExtra(SIZE_X,0)<=0){
             setError(R.id.acn_size_x,R.string.must_be_greater_than_0);
             valid=false;

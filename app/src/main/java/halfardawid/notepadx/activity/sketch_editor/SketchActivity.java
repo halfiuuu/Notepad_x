@@ -3,7 +3,6 @@ package halfardawid.notepadx.activity.sketch_editor;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,6 +14,7 @@ import halfardawid.notepadx.R;
 import halfardawid.notepadx.activity.sketch_editor.colorpalette.ColorPaletteActivityTab;
 import halfardawid.notepadx.activity.generic.GenericNoteActivity;
 import halfardawid.notepadx.activity.generic.layouts.SimpleProgressBar;
+import halfardawid.notepadx.activity.sketch_editor.crop.CropToNumbers;
 import halfardawid.notepadx.util.note.types.SketchNote;
 import halfardawid.notepadx.util.vectors.Vector2i;
 

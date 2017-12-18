@@ -37,20 +37,16 @@ public class SmartBitmap {
     }
 
     public void drawOnCanvas(Canvas c) {
-        /*Bitmap bitmap;
-        float scale;
-        synchronized (this){
-            bitmap=this.bitmap;
-            scale=this.scale;
-        }*/
         drawOutlined(
                 c,
                 (scale==1)?
                         bitmap:
-                        Bitmap.createScaledBitmap(bitmap,(int)(bitmap.getWidth()*scale),(int)(bitmap.getHeight()*scale),true)
+                        Bitmap.createScaledBitmap(
+                                bitmap,
+                                (int)(bitmap.getWidth()*scale),
+                                (int)(bitmap.getHeight()*scale),
+                                true)
         );
-
-        //Log.d(TAG,"Drawing the bitmap");
     }
 
     private void drawOutlined(Canvas c,Bitmap img) {
@@ -167,9 +163,10 @@ public class SmartBitmap {
         Bitmap b = makeClearBitmap(new_size);
         final Vector2i size_bitmap=new Vector2i(bitmap);
         Vector2i read_off=new Vector2i(off).cutAllPositive().multiply(-1);
+        final Vector2i on_drop_size=new Vector2i(bitmap).sub(read_off);
         Vector2i copy_size=new Vector2i(
-                size_bitmap.x<new_size.x?size_bitmap.x:new_size.x,
-                size_bitmap.y<new_size.y?size_bitmap.y:new_size.y);
+                on_drop_size.x<new_size.x?on_drop_size.x:new_size.x,
+                on_drop_size.y<new_size.y?on_drop_size.y:new_size.y);
         int[] pixels=new int[copy_size.length()];
         bitmap.getPixels(pixels,0,copy_size.x,read_off.x,read_off.y,copy_size.x,copy_size.y);
         Vector2i noff=new Vector2i(off).cutAllNegative();

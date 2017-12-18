@@ -6,7 +6,7 @@
     android:minWidth="200dp"
     android:maxWidth="300dp"
     android:layout_height="wrap_content"
-    tools:context="halfardawid.notepadx.activity.sketch_editor.CropToNumbers">
+    tools:context="halfardawid.notepadx.activity.sketch_editor.crop.CropToNumbers">
 
     <Button
         android:id="@+id/acn_cancel"
@@ -59,7 +59,7 @@
             android:layout_weight="1"
             android:ems="10"
             android:hint="@string/Cutout_x"
-            android:inputType="number" />
+            android:inputType="numberSigned" />
 
         <EditText
             android:id="@+id/acn_offset_y"
@@ -68,7 +68,7 @@
             android:layout_weight="1"
             android:ems="10"
             android:hint="@string/Cutout_y"
-            android:inputType="number" />
+            android:inputType="numberSigned" />
     </LinearLayout>
 
     <LinearLayout
