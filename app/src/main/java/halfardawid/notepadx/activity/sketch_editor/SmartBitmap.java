@@ -80,7 +80,10 @@ public class SmartBitmap {
     }
 
     public void securePositionDirect(Vector2i pos){
+        Vector2i offset=new Vector2i(this.offset);
         expandIfNeeded(pos);
+        if(offset.equals(this.offset))return;
+        pos.add(offset.sub(this.offset));
     }
 
 
@@ -108,7 +111,7 @@ public class SmartBitmap {
             bitmap.setPixel(pos.x, pos.y, c);
     }
 
-    public Vector2i normalizeVector(Vector2i arg0){
+    public Vector2i normalizeVector(final Vector2i arg0){
         Vector2i var=new Vector2i(arg0);
         var.sub(offset);
         if(scale!=1)var.divide(scale);

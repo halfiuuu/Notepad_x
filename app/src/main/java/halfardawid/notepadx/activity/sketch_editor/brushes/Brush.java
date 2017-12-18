@@ -84,7 +84,7 @@ public abstract class Brush {
         Vector2i pp=new Vector2i(pos);
         pp.sub(radius);
         bitmap.securePositionDirect(pp);
-        pp.copy(pos);
+        pp.add(radius);
         pp.add(radius);
         bitmap.securePositionDirect(pp);
     }
