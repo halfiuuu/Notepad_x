@@ -83,6 +83,13 @@ public class Vector2i {
         return this;
     }
 
+
+    public Vector2i cutAllNegative() {
+        if(x<0)x=0;
+        if(y<0)y=0;
+        return this;
+    }
+
     public Vector2i checkInBounds(Vector2i size,int steps) {
         Vector2i r=new Vector2i(0,0);
         if(x>=size.x){
@@ -156,5 +163,6 @@ public class Vector2i {
     public int length() {
         return x*y;
     }
+
 }
 

@@ -160,16 +160,17 @@ public class SmartBitmap {
     }
 
 
-    private Bitmap copyOnBitmap(Vector2i new_size,Vector2i o) {
+    private synchronized Bitmap copyOnBitmap(Vector2i new_size,Vector2i off) {
         Bitmap b = makeClearBitmap(new_size);
-        Log.d(TAG, b.getWidth()+"/"+b.getHeight()+" new bitmap");
-        Log.d(TAG, bitmap.getWidth()+"/"+bitmap.getHeight()+" old bitmap");
-        for(int x=0;x<bitmap.getWidth();x++)
-            for(int y=0;y<bitmap.getHeight();y++) {
-                //Log.d(TAG,"copy "+x+"/"+y+" to "+(x+o.x)+"/"+(y+o.y));
-                b.setPixel(x + o.x, y + o.y, bitmap.getPixel(x, y));
-            }
-        Log.d(TAG,"Whole bitmap copied!");
+        final Vector2i size_bitmap=new Vector2i(bitmap);
+        Vector2i read_off=new Vector2i(off).cutAllPositive().multiply(-1);
+        Vector2i copy_size=new Vector2i(
+                size_bitmap.x<new_size.x?size_bitmap.x:new_size.x,
+                size_bitmap.y<new_size.y?size_bitmap.y:new_size.y);
+        int[] pixels=new int[copy_size.length()];
+        bitmap.getPixels(pixels,0,copy_size.x,read_off.x,read_off.y,copy_size.x,copy_size.y);
+        Vector2i noff=new Vector2i(off).cutAllNegative();
+        b.setPixels(pixels,0,copy_size.x,noff.x,noff.y,copy_size.x,copy_size.y);
         return b;
     }
 
@@ -229,7 +230,7 @@ public class SmartBitmap {
 
     public synchronized void crop(Vector2i new_size, Vector2i crop_offset){
         Log.d("Cropping","Cropping "+new Vector2i(bitmap)+" to "+new_size+" with offset of "+offset);
-        Bitmap b=Bitmap.createBitmap(bitmap,crop_offset.x,crop_offset.y,new_size.x,new_size.y);
+        Bitmap b=copyOnBitmap(new_size,new Vector2i(crop_offset).multiply(-1));
         bitmap=b;
     }
 
