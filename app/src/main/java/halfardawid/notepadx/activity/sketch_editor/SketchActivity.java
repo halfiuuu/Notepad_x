@@ -43,6 +43,7 @@ public final class SketchActivity extends GenericNoteActivity<SketchNote> {
 
     @Override
     public void onActivityResult(int code,int r, Intent intent){
+        super.onActivityResult(code,r,intent);
         switch(code){
             case ColorPaletteActivityTab.CODE:
                 if(intent.hasExtra(ColorPaletteActivityTab.EXTRA_COLOR))

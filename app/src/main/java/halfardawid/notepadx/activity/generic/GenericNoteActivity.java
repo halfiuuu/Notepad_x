@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -78,6 +79,7 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
     abstract public void prepareForSave();
 
     @Override
+    @CallSuper
     public void onActivityResult(int code,int r, Intent intent){
         Log.d(TAG,"Generic note call child activity result with code "+code+"// "+r+" "+intent);
         switch(code){
@@ -149,23 +151,23 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
         b.show();
     }
 
-    protected void changeColor(){
+    protected final void changeColor(){
         startActivityForResult(new Intent(this,ColorPickerActivity.class),ColorPickerActivity.CODE);
     }
 
 
-    private void saveAndQuit() {
+    private final void saveAndQuit() {
         saveNote();
         finish();
     }
 
-    protected void deleteNote() {
+    protected final void deleteNote() {
         note.deleteFile(this);
         finish();
     }
 
     @Override
-    public void finish() {
+    public final void finish() {
         setResult(RESULT_OK,new Intent());
         super.finish();
     }
@@ -198,7 +200,7 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
     }
 
 
-    public void saveNote() {
+    public final void saveNote() {
         prepareForSave();
         try {
             note.saveToFile(this);
@@ -209,7 +211,7 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
         }
     }
 
-    public void refreshDataToView(){
+    public final void refreshDataToView(){
         if(note==null){
             Log.wtf(TAG,"called refresh with null element, good job dummy...");
             return;
