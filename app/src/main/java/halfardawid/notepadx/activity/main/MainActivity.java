@@ -15,10 +15,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import org.json.JSONException;
+
+import java.io.IOException;
+
+import halfardawid.notepadx.activity.generic.colorpicker.ColorPickerActivity;
 import halfardawid.notepadx.util.note.Note;
 import halfardawid.notepadx.util.note.NoteList;
 import halfardawid.notepadx.R;
@@ -123,13 +129,25 @@ public final class MainActivity extends AppCompatActivity implements PopupMenu.O
         GridView gv = (GridView) findViewById(id);
         gv.setAdapter(adapter);
         registerForContextMenu(gv);
-        gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        final MainActivity context=this;
+        gv.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+                context_choice=adapter.getNote(position);
+                PopupMenu popup = new PopupMenu(context, v);
+                popup.setOnMenuItemClickListener(context);
+                MenuInflater inflater = popup.getMenuInflater();
+                inflater.inflate(R.menu.context_note_tile_menu, popup.getMenu());
+                popup.show();
+            }
+        });
+        /*gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
                 open(adapter.getNote(position));
             }
         });
-        final MainActivity context=this;
         gv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -141,9 +159,7 @@ public final class MainActivity extends AppCompatActivity implements PopupMenu.O
                 popup.show();
                 return true;
             }
-
-
-        });
+        });*/
     }
 
     public void open(Note t) {
@@ -157,7 +173,27 @@ public final class MainActivity extends AppCompatActivity implements PopupMenu.O
             case NOTE_EDITOR_RESULT:
                 reload_list();
                 break;
+            case ColorPickerActivity.CODE:
+                handleColorPick(d);
+                break;
+
         }
+    }
+
+    private void handleColorPick(Intent d) {
+        if(d.hasExtra(ColorPickerActivity.COLOR_ID)) {
+            context_choice.setColor(this,d.getIntExtra(ColorPickerActivity.COLOR_ID, 0));
+            saveWithToast(context_choice);
+        }
+    }
+
+    private void saveWithToast(Note note) {
+        try {
+            note.saveToFile(this);
+        } catch (Exception e) {
+            Toast.makeText(this,e.getMessage(),Toast.LENGTH_LONG).show();
+        }
+        reload_list();
     }
 
     private void reload_list() {
@@ -174,8 +210,39 @@ public final class MainActivity extends AppCompatActivity implements PopupMenu.O
             case R.id.cnt_edit:
                 open(context_choice);
                 return true;
+            case R.id.cnt_change_color:
+                startActivityForResult(new Intent(this,ColorPickerActivity.class),ColorPickerActivity.CODE);
+                return true;
+            case R.id.cnt_change_title:
+                changeTitleDialog();
+                return true;
             default:
                 return false;
         }
+    }
+
+    protected void changeTitleDialog(){
+        android.app.AlertDialog.Builder b = new android.app.AlertDialog.Builder(this);
+        b.setMessage(R.string.input_new_title);
+        //b.setTitle(R.string.change_title); Redundant...
+        View v=getLayoutInflater().inflate(R.layout.activity_title_change,null);
+        final EditText et=((EditText)v.findViewById(R.id.atch_title));
+        final Note note=context_choice;
+        et.setText(note.getTitle());
+        b.setView(v);
+        final Context context=this;
+        b.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                note.setTitle(et.getText().toString());
+                saveWithToast(note);
+                dialog.dismiss();
+            }
+        });
+        b.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+        b.show();
     }
 }

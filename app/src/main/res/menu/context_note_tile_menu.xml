@@ -5,12 +5,10 @@
         android:title="@string/edit_that_note"/>
     <item
         android:id="@+id/cnt_change_title"
-        android:title="@string/change_title"
-        android:enabled="false"/>
+        android:title="@string/change_title"/>
     <item
         android:id="@+id/cnt_change_color"
-        android:title="@string/change_color"
-        android:enabled="false"/>
+        android:title="@string/change_color"/>
     <item
         android:id="@+id/cnt_delete"
         android:title="@string/delete_note"/>
