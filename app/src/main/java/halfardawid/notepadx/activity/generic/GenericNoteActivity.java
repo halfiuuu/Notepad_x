@@ -121,6 +121,7 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
     }
 
     private void onQuitSaveAsk() {
+        prepareForSave();
         if(!note.saveNeeded()){
             finish();
             return;
@@ -188,7 +189,7 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
         try {
             String nuuid=s.getString(NOTE_UUID);
             UUID uuid=(nuuid!=null)?UUID.fromString(s.getString(NOTE_UUID)):null;
-            note=(T)Note.getNote(new JSONObject(s.getString(NOTE_JSON_DATA)), uuid);
+            note=(T)Note.getNote(s.getString(NOTE_JSON_DATA), uuid);
         } catch (JSONException|NoSuchNoteTypeException e) {
             Log.wtf(TAG,"Okey, json parsing blew up on loading...",e);
         }

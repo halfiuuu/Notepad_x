@@ -17,6 +17,8 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -51,6 +53,7 @@ import halfardawid.notepadx.util.note.types.TextNote;
 public abstract class Note {
 
     public static final java.lang.Class types[]={TextNote.class, SketchNote.class};
+    private String md5;
 
     public static NoteType[] getPossibleNotes(Context con){
         List<NoteType> list=new ArrayList<>();
@@ -77,7 +80,6 @@ public abstract class Note {
     protected String title="";
     protected String color=null;
     protected UUID uuid;
-    protected boolean changed=false;
 
     abstract protected String getType();
     abstract public Intent getEditIntent(Context con);
@@ -116,7 +118,6 @@ public abstract class Note {
         try(FileWriter fw=new FileWriter(file)) {
             fw.write(getParsedFileData());
         }
-        changed=false;
     }
 
     @NonNull
@@ -152,13 +153,14 @@ public abstract class Note {
 
     //IMPORTANT::BAE>BAY
     public static Note loadNote(File file) throws JSONException, FileNotFoundException,NoSuchNoteTypeException {
-        JSONObject object = getContent(file);
+        String content=getContent(file);
         //Log.d(TAG,"loading "+file.getName()+", "+object.toString());
-        return getNote(object,UUID.fromString(file.getName()));
+        return getNote(content,UUID.fromString(file.getName()));
     }
 
     @NonNull
-    public static Note getNote(JSONObject object,UUID uuid) throws JSONException, NoSuchNoteTypeException {
+    public static Note getNote(String content,UUID uuid) throws JSONException, NoSuchNoteTypeException {
+        JSONObject object=new JSONObject(content);
         String title = object.has(TITLE)?object.getString(TITLE):"";
         String data = (object.has(DATA))?object.getString(DATA):null;
         String type = object.getString(TYPE);
@@ -167,6 +169,7 @@ public abstract class Note {
                 if(!typePair.is(type))continue;
                 Note n=typePair.build(uuid,data,title);
                 if(object.has(COLOR))n.setColorIni(object.getString(COLOR));
+                n.initializeMD5(content);
                 return n;
             } catch (NoSuchFieldException|IllegalAccessException|NoSuchMethodException|InvocationTargetException |InstantiationException e) {
                 Log.wtf(TAG,"Yea, those errors are unacceptable, but still accounted for i guess...",e);
@@ -176,9 +179,9 @@ public abstract class Note {
     }
 
 
-    private static JSONObject getContent(File arg) throws JSONException, FileNotFoundException{
+    private static String getContent(File arg) throws JSONException, FileNotFoundException{
         try(Scanner sc=new Scanner(arg)){
-            return new JSONObject(sc.useDelimiter("\\A").next());
+            return sc.useDelimiter("\\A").next();
         }
     }
 
@@ -217,10 +220,6 @@ public abstract class Note {
         title=arg;
     }
 
-    public final void changeOccurred(){
-        changed=true;
-    }
-
     public String getUUID() {
         return (uuid!=null)?uuid.toString():null;
     }
@@ -231,15 +230,40 @@ public abstract class Note {
 
     public void setColor(Context c,int id) {
         this.color = ColorUtils.recognizeColorId(c,id);
-        changeOccurred();
         //Log.w(TAG,"set color to "+color);
     }
 
     public boolean saveNeeded(){
-        return changed;
+        try {
+            return !this.md5.equals(calculateCurrentMD5());
+        } catch (JSONException|NoSuchAlgorithmException e) {
+            Log.wtf(TAG,"Error when checking for reasons to save",e);
+            return true;
+        }
     }
 
     public String getColor() {
         return color;
+    }
+
+    public final void initializeMD5(String content) {
+        try {
+            this.md5 = calculateMD5(content);
+        } catch (NoSuchAlgorithmException e) {
+            Log.wtf(TAG,"Error during MD5 initialization... Whatever...",e);
+        }
+    }
+
+    public final String calculateMD5(String content) throws NoSuchAlgorithmException{
+        MessageDigest digest=MessageDigest.getInstance("MD5");
+        byte[] md=digest.digest(content.getBytes());
+        StringBuilder result=new StringBuilder();
+        for (byte b:md)
+            result.append(String.format("%02X",b));
+        return result.toString();
+    }
+
+    private String calculateCurrentMD5() throws JSONException,NoSuchAlgorithmException {
+        return calculateMD5(getParsedFileData());
     }
 }
