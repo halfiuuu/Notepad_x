@@ -235,7 +235,7 @@ public abstract class Note {
 
     public boolean saveNeeded(){
         try {
-            return !this.md5.equals(calculateCurrentMD5());
+            return !calculateCurrentMD5().equals(this.md5);
         } catch (JSONException|NoSuchAlgorithmException e) {
             Log.wtf(TAG,"Error when checking for reasons to save",e);
             return true;
