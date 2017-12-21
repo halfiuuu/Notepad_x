@@ -1,8 +1,25 @@
+/*
+ * Copyright (c) 2017 anno Domini.
+ *
+ * Code below is a part of
+ * https://github.com/halfiuuu/Notepad_x
+ * available for use under the
+ * GNU Affero General Public License v3.0
+ * as stated in
+ * https://github.com/halfiuuu/Notepad_x/blob/master/LICENSE
+ *
+ * Created by Dawid Halfar
+ * contact possible via halfardawid@gmail.com
+ *
+ * I'm not sure what else this thing should state... Whatever.
+ */
+
 package halfardawid.notepadx.util.note;
 
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +47,6 @@ import halfardawid.notepadx.util.ColorUtils;
 import halfardawid.notepadx.util.exceptions.NoSuchNoteTypeException;
 import halfardawid.notepadx.util.note.types.SketchNote;
 import halfardawid.notepadx.util.note.types.TextNote;
-
 /**
  * note to self, i guess...
  *
@@ -109,6 +125,10 @@ public abstract class Note {
         int cid= ColorUtils.recognizeColorString(rec.getContext(),color);
         ColorUtils.applyColors(rec,R.id.amt_whole,cid,R.array.color_light);
         ColorUtils.applyColors(rec,R.id.amt_top_bar,cid,R.array.color_base);
+        ((TextView)rec.findViewById(R.id.amt_title)).setTextColor(
+                ResourcesCompat.getColor(rec.getResources(),ColorUtils.calcContrast(
+                    ColorUtils.getColorSpecific(rec.getContext(),cid,R.array.color_base)),
+                        rec.getContext().getTheme()));
         return 0;
     }
 
@@ -116,7 +136,9 @@ public abstract class Note {
         chkUUID(context);
         File file = getFile(context);
         try(FileWriter fw=new FileWriter(file)) {
-            fw.write(getParsedFileData());
+            String s=getParsedFileData();
+            fw.write(s);
+            initializeMD5(s);
         }
     }
 

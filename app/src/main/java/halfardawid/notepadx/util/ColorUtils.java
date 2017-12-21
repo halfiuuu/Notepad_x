@@ -1,9 +1,28 @@
+/*
+ * Copyright (c) 2017 anno Domini.
+ *
+ * Code below is a part of
+ * https://github.com/halfiuuu/Notepad_x
+ * available for use under the
+ * GNU Affero General Public License v3.0
+ * as stated in
+ * https://github.com/halfiuuu/Notepad_x/blob/master/LICENSE
+ *
+ * Created by Dawid Halfar
+ * contact possible via halfardawid@gmail.com
+ *
+ * I'm not sure what else this thing should state... Whatever.
+ */
+
 package halfardawid.notepadx.util;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
+import android.support.annotation.ArrayRes;
+import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
 import android.support.annotation.IdRes;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -11,18 +30,14 @@ import android.view.View;
 
 import halfardawid.notepadx.R;
 
-/**
- * Created by Dawid on 2017-11-10.
- */
-
 public final class ColorUtils {
     private ColorUtils(){}
 
-    static public int calcContrast( int color) {
+    static public @ColorRes int calcContrast(@ColorInt int color) {
         return (calcContrastActivation(color))?android.R.color.white:android.R.color.black;
     }
 
-    public static boolean calcContrastActivation(int color) {
+    public static boolean calcContrastActivation(@ColorInt int color) {
         final int c[]=new int[]{Color.red(color),Color.green(color),Color.blue(color)};
         int activation=0;
         for(int i=0;i<c.length;i++)
@@ -32,7 +47,7 @@ public final class ColorUtils {
         return activation<60;
     }
 
-    public static int getColorSpecific(Context c, int id, int array){
+    public static int getColorSpecific(Context c, int id,@ArrayRes int array){
         return c.getResources().getIntArray(array)[id];
     }
 
