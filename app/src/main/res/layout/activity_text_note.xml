@@ -4,14 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="halfardawid.notepadx.activity.text_editor.TextNoteActivity">
-
-    <EditText
-        android:id="@+id/atn_note_editor"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="8dp"
-        android:ems="10"
-        android:gravity="top"
-        android:inputType="textMultiLine"
-        />
+        android:fillViewport="true">
+
+        <EditText
+            android:id="@+id/atn_note_editor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:ems="10"
+            android:gravity="top"
+            android:background="@android:color/transparent"
+            android:inputType="textMultiLine" />
+    </ScrollView>
 </RelativeLayout>
