@@ -1,10 +1,9 @@
 package halfardawid.notepadx.activity.sketch_editor.brushes;
 
-import android.graphics.Color;
 import android.support.annotation.Nullable;
 
-import halfardawid.notepadx.activity.sketch_editor.brushes.painting_modes.EraserMode;
-import halfardawid.notepadx.activity.sketch_editor.brushes.painting_modes.NormalMixMode;
+import halfardawid.notepadx.activity.sketch_editor.brushes.mix_modes.EraserMode;
+import halfardawid.notepadx.activity.sketch_editor.brushes.mix_modes.NormalMixMode;
 import halfardawid.notepadx.util.vectors.Vector2i;
 
 /**

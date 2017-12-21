@@ -1,4 +1,4 @@
-package halfardawid.notepadx.activity.sketch_editor.brushes.painting_modes;
+package halfardawid.notepadx.activity.sketch_editor.brushes.mix_modes;
 
 import android.graphics.Color;
 import android.support.annotation.Nullable;
