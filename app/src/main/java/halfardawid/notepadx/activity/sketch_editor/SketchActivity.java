@@ -161,7 +161,7 @@ public final class SketchActivity extends GenericNoteActivity<SketchNote> implem
     }
 
     public void onBrushEditorClicked(View v){
-        Toast.makeText(this,"Wowser!",Toast.LENGTH_SHORT);
+        Toast.makeText(this,"Wowser!",Toast.LENGTH_SHORT).show();
     }
 
     public void onColorPaletteClicked(View v){
