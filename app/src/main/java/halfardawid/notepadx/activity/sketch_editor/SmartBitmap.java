@@ -24,6 +24,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import halfardawid.notepadx.util.exceptions.CropFailed;
+import halfardawid.notepadx.util.exceptions.ExpansionFailed;
+import halfardawid.notepadx.util.exceptions.MemoryException;
 import halfardawid.notepadx.util.vectors.Vector2i;
 
 /**
@@ -79,7 +82,7 @@ public class SmartBitmap {
     }
 
     @Deprecated
-    public void drawPixel(Vector2i pos, int c) {
+    public void drawPixel(Vector2i pos, int c) throws ExpansionFailed {
         Vector2i np=normalizeVector(pos);
         expandIfNeeded(np);
         np=normalizeVector(pos);
@@ -87,11 +90,11 @@ public class SmartBitmap {
     }
 
     @Deprecated
-    public void securePosition(Vector2i pos){
+    public void securePosition(Vector2i pos) throws ExpansionFailed {
         expandIfNeeded(normalizeVector(pos));
     }
 
-    public void securePositionDirect(Vector2i pos){
+    public void securePositionDirect(Vector2i pos) throws ExpansionFailed {
         Vector2i offset=new Vector2i(this.offset);
         expandIfNeeded(pos);
         if(offset.equals(this.offset))return;
@@ -153,7 +156,7 @@ public class SmartBitmap {
     }
 
     @NonNull
-    private void expandIfNeeded(Vector2i pos) {
+    private void expandIfNeeded(Vector2i pos) throws ExpansionFailed {
         Vector2i changes = pos.checkInBounds(new Vector2i(bitmap),steps);
         if(changes.isNone())return;
         Log.d(TAG,"Changes needed for "+pos+" as "+changes);
@@ -165,29 +168,37 @@ public class SmartBitmap {
         f.cutAllPositive();
         f.abs();
         Log.d(TAG,"new offset "+f);
-        if(scale!=1)f.multiply(scale);
         synchronized (this) {
-            bitmap = copyOnBitmap(addSize, f);
-            offset.sub(f);
+            try {
+                bitmap = copyOnBitmap(addSize, f);
+                if(scale!=1)f.multiply(scale);
+                offset.sub(f);
+            } catch (MemoryException e) {
+                throw new ExpansionFailed(e);
+            }
         }
         Log.d(TAG,"Bitmap expanded!");
 
     }
 
 
-    private synchronized Bitmap copyOnBitmap(Vector2i new_size,Vector2i off) {
-        Bitmap b = makeClearBitmap(new_size);
-        final Vector2i size_bitmap=new Vector2i(bitmap);
-        Vector2i read_off=new Vector2i(off).cutAllPositive().multiply(-1);
-        final Vector2i on_drop_size=new Vector2i(bitmap).sub(read_off);
-        Vector2i copy_size=new Vector2i(
-                on_drop_size.x<new_size.x?on_drop_size.x:new_size.x,
-                on_drop_size.y<new_size.y?on_drop_size.y:new_size.y);
-        int[] pixels=new int[copy_size.length()];
-        bitmap.getPixels(pixels,0,copy_size.x,read_off.x,read_off.y,copy_size.x,copy_size.y);
-        Vector2i noff=new Vector2i(off).cutAllNegative();
-        b.setPixels(pixels,0,copy_size.x,noff.x,noff.y,copy_size.x,copy_size.y);
-        return b;
+    private synchronized Bitmap copyOnBitmap(Vector2i new_size,Vector2i off) throws MemoryException {
+        try{
+            Bitmap b = makeClearBitmap(new_size);
+            final Vector2i size_bitmap=new Vector2i(bitmap);
+            Vector2i read_off=new Vector2i(off).cutAllPositive().multiply(-1);
+            final Vector2i on_drop_size=new Vector2i(bitmap).sub(read_off);
+            Vector2i copy_size=new Vector2i(
+                    on_drop_size.x<new_size.x?on_drop_size.x:new_size.x,
+                    on_drop_size.y<new_size.y?on_drop_size.y:new_size.y);
+            int[] pixels = new int[copy_size.length()];
+            bitmap.getPixels(pixels, 0, copy_size.x, read_off.x, read_off.y, copy_size.x, copy_size.y);
+            Vector2i noff = new Vector2i(off).cutAllNegative();
+            b.setPixels(pixels, 0, copy_size.x, noff.x, noff.y, copy_size.x, copy_size.y);
+            return b;
+        }catch(OutOfMemoryError e){
+            throw new MemoryException(e);
+        }
     }
 
     public Bitmap getData() {
@@ -244,13 +255,16 @@ public class SmartBitmap {
         );
     }
 
-    public synchronized void crop(Vector2i new_size, Vector2i crop_offset){
-        Log.d("Cropping","Cropping "+new Vector2i(bitmap)+" to "+new_size+" with offset of "+offset);
-        Bitmap b=copyOnBitmap(new_size,new Vector2i(crop_offset).multiply(-1));
-        bitmap=b;
+    public synchronized void crop(Vector2i new_size, Vector2i crop_offset) throws CropFailed {
+        try {
+            Bitmap b=copyOnBitmap(new_size,new Vector2i(crop_offset).multiply(-1));
+            bitmap=b;
+        } catch (MemoryException e) {
+            throw new CropFailed(e);
+        }
     }
 
-    public synchronized void autoCrop() {
+    public synchronized void autoCrop() throws CropFailed {
         Vector2i v=new Vector2i(bitmap);
         Vector2i new_size=new Vector2i(0);
         Vector2i crop_offset=new Vector2i(0);

@@ -16,6 +16,7 @@
 
 package halfardawid.notepadx.activity.sketch_editor.finger_movement;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -25,6 +26,8 @@ import java.util.List;
 import halfardawid.notepadx.activity.generic.layouts.Updatable;
 import halfardawid.notepadx.activity.sketch_editor.SketchCanvas;
 import halfardawid.notepadx.activity.sketch_editor.SmartBitmap;
+import halfardawid.notepadx.activity.sketch_editor.brushes.SplatFailed;
+import halfardawid.notepadx.util.exceptions.ErrorReportable;
 import halfardawid.notepadx.util.vectors.Vector2i;
 
 public class Fingers {
@@ -50,7 +53,7 @@ public class Fingers {
     }
 
 
-    void fingerMoved(int id, Vector2i pos) {
+    void fingerMoved(int id, Vector2i pos) throws SplatFailed {
         if(DEBUG_SPAM)Log.d(TAG,"fingers "+fingers.size()+" "+fingers);
         if(id>=fingers.size()){
             Log.d(TAG,"No finger data, i dunno");
@@ -122,6 +125,12 @@ public class Fingers {
 
     public void refreshView() {
         canvas.postInvalidate();
+    }
+
+    public void reportError(SplatFailed e) {
+        Context c=canvas.getContext();
+        if (c instanceof ErrorReportable)
+            ((ErrorReportable)c).reportError(e);
     }
 }
 

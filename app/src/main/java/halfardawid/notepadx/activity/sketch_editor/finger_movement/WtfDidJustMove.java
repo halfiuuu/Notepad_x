@@ -24,6 +24,7 @@ import android.view.MotionEvent;
  */
 class WtfDidJustMove extends FingerMovement {
     public WtfDidJustMove(MotionEvent me) {
+        super(null);
         Log.wtf(Fingers.TAG, "Yea... What is this? " + me);
     }
 

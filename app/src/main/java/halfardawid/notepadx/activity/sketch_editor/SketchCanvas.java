@@ -35,6 +35,7 @@ import halfardawid.notepadx.activity.sketch_editor.brushes.Brush;
 import halfardawid.notepadx.activity.sketch_editor.brushes.PAINTING_MODE;
 import halfardawid.notepadx.activity.sketch_editor.brushes.types.SoftTipCircle;
 import halfardawid.notepadx.activity.sketch_editor.finger_movement.Fingers;
+import halfardawid.notepadx.util.exceptions.CropFailed;
 import halfardawid.notepadx.util.vectors.Vector2i;
 
 
@@ -169,12 +170,12 @@ public class SketchCanvas extends View {
         resetOffset();
     }
 
-    public void autoCropCanvas() {
+    public void autoCropCanvas() throws CropFailed {
         image.autoCrop();
         resetOffset();
     }
 
-    public void cropCanvas(Vector2i new_size, Vector2i cutout) {
+    public void cropCanvas(Vector2i new_size, Vector2i cutout) throws CropFailed {
         Log.d("Cropping to",new_size+" "+cutout);
         image.crop(new_size, cutout);
         resetOffset();

@@ -18,6 +18,7 @@ package halfardawid.notepadx.activity.sketch_editor.finger_movement;
 
 import android.view.MotionEvent;
 
+import halfardawid.notepadx.activity.sketch_editor.brushes.SplatFailed;
 import halfardawid.notepadx.util.vectors.Vector2i;
 
 /**
@@ -27,8 +28,17 @@ abstract class SingleFingerMovement extends FingerMovement {
     protected int id;
     protected Vector2i last_pos;
 
-    public SingleFingerMovement(MotionEvent me) {
+    public SingleFingerMovement(Fingers fingers, MotionEvent me) {
+        super(fingers);
         this.id = me.getActionIndex();
         this.last_pos = new Vector2i((int) me.getX(id), (int) me.getY(id));
+    }
+
+    public void fingerMoved() {
+        try {
+            fingers.fingerMoved(id, last_pos);
+        } catch (SplatFailed splatFailed) {
+            fingers.reportError(splatFailed);
+        }
     }
 }

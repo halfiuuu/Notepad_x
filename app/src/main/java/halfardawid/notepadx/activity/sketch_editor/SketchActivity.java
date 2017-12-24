@@ -16,9 +16,11 @@
 
 package halfardawid.notepadx.activity.sketch_editor;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -31,10 +33,12 @@ import halfardawid.notepadx.activity.sketch_editor.colorpalette.ColorPaletteActi
 import halfardawid.notepadx.activity.generic.GenericNoteActivity;
 import halfardawid.notepadx.activity.generic.layouts.SimpleProgressBar;
 import halfardawid.notepadx.activity.sketch_editor.crop.CropToNumbers;
+import halfardawid.notepadx.util.exceptions.CropFailed;
+import halfardawid.notepadx.util.exceptions.ErrorReportable;
 import halfardawid.notepadx.util.note.types.SketchNote;
 import halfardawid.notepadx.util.vectors.Vector2i;
 
-public final class SketchActivity extends GenericNoteActivity<SketchNote> {
+public final class SketchActivity extends GenericNoteActivity<SketchNote> implements ErrorReportable{
     public static final String TAG="SKETCH_EDITOR";
 
     private SketchCanvas sketch;
@@ -75,7 +79,11 @@ public final class SketchActivity extends GenericNoteActivity<SketchNote> {
                     Vector2i cutout=new Vector2i(
                             intent.getIntExtra(CropToNumbers.CUT_X,0),
                             intent.getIntExtra(CropToNumbers.CUT_Y,0));
-                    sketch.cropCanvas(new_size,cutout);
+                    try {
+                        sketch.cropCanvas(new_size,cutout);
+                    } catch (CropFailed cropFailed) {
+                        reportError(cropFailed);
+                    }
                 }
                 break;
         }
@@ -119,7 +127,11 @@ public final class SketchActivity extends GenericNoteActivity<SketchNote> {
                 sketch.clearCanvas();
                 return true;
             case R.id.sem_auto_crop_canvas:
-                sketch.autoCropCanvas();
+                try {
+                    sketch.autoCropCanvas();
+                } catch (CropFailed cropFailed) {
+                    reportError(cropFailed);
+                }
                 return true;
             case R.id.sem_numbers_crop_canvas:
                 startManualCrop();
@@ -127,6 +139,17 @@ public final class SketchActivity extends GenericNoteActivity<SketchNote> {
             default:
                 return false;
         }
+    }
+
+    public void reportError(final Exception e) {
+        final Context t=this;
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(t,"Action ended up as a failure...\n"+e.getMessage(),Toast.LENGTH_LONG).show();
+            }
+        });
+        Log.wtf(TAG,"Some failure happened...",e);
     }
 
     public void onMoveModeToggleClicked(View v){

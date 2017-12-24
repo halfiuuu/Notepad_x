@@ -14,11 +14,14 @@
  * I'm not sure what else this thing should state... Whatever.
  */
 
-package halfardawid.notepadx.activity.sketch_editor.finger_movement;
+package halfardawid.notepadx.util.exceptions;
 
-public abstract class FingerMovement implements Runnable {
-    protected Fingers fingers;
-    FingerMovement(Fingers fingers){
-        this.fingers=fingers;
+/**
+ * Created by Dawid on 2017-12-24.
+ */
+
+public class CropFailed extends Exception {
+    public CropFailed(Exception e) {
+        super(e);
     }
 }
