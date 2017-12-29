@@ -89,12 +89,14 @@ public abstract class Note {
     private static final String TITLE = "t";
     private static final String TYPE = "tp";
     private static final String COLOR = "c";
+    private static final String ORDER = "o";
 
     public static final String UUID_EXTRA="UUID";
     //public static final int FLAGS=Base64.NO_PADDING|Base64.NO_WRAP|Base64.NO_CLOSE;
 
     protected String title="";
     protected String color=null;
+    protected int order=0;
     protected UUID uuid;
 
     abstract protected String getType();
@@ -102,6 +104,10 @@ public abstract class Note {
     abstract protected String getData();
     abstract protected void setData(String arg);
     abstract protected View getMiniatureContent(Context con);
+
+    public int getOrder(){
+        return order;
+    }
 
 
     public View getMiniature(final MainActivity con, View rec){
@@ -148,6 +154,7 @@ public abstract class Note {
         obj.put(TITLE,getTitle());
         obj.put(TYPE,getType());
         obj.put(DATA,getData());
+        obj.put(ORDER,order);
         if(color!=null)obj.put(COLOR,color);
 
         //Log.d(TAG,((uuid!=null)?uuid.toString():"unsaved note")+":"+obj.toString());
@@ -191,6 +198,7 @@ public abstract class Note {
                 if(!typePair.is(type))continue;
                 Note n=typePair.build(uuid,data,title);
                 if(object.has(COLOR))n.setColorIni(object.getString(COLOR));
+                if(object.has(ORDER))n.order=(object.getInt(ORDER));
                 n.initializeMD5(content);
                 return n;
             } catch (NoSuchFieldException|IllegalAccessException|NoSuchMethodException|InvocationTargetException |InstantiationException e) {
@@ -209,6 +217,7 @@ public abstract class Note {
 
     private void chkUUID(Context con) {
         if(uuid==null)newUUID(con);
+        if(order==0)order=NoteList.getPossibleLastOrder(con);
     }
 
     private void newUUID(Context con){

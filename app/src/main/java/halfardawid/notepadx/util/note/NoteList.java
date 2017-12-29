@@ -24,18 +24,21 @@ import org.json.JSONException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import halfardawid.notepadx.util.exceptions.NoSuchNoteTypeException;
-
-/**
- * Created by Dawid on 2017-09-24.
- */
 
 public final class NoteList extends ArrayList<Note> {
     public static final String TAG="NOTE_LIST";
     public NoteList(Context context){
         loadAll(context);
     }
+
+    static public int getPossibleLastOrder(Context c){
+        return getFilesDir(c).listFiles().length;
+    }
+
     private void loadAll(Context context){
         for(File f: getFilesDir(context).listFiles())
             try {
@@ -43,6 +46,16 @@ public final class NoteList extends ArrayList<Note> {
             }catch(JSONException |FileNotFoundException |NoSuchNoteTypeException e){
                 Log.wtf(TAG,"Loading note went terribly wrong on "+f.getName(),e);
             }
+        sortNotes();
+    }
+
+    private void sortNotes() {
+        Collections.sort(this,new Comparator<Note>() {
+            @Override
+            public int compare(Note o1, Note o2) {
+                return o1.getOrder()-o2.getOrder();
+            }
+        });
     }
 
     public static File getFilesDir(Context context) {

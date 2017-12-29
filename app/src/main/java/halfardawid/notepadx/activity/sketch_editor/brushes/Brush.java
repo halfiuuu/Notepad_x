@@ -18,6 +18,7 @@ package halfardawid.notepadx.activity.sketch_editor.brushes;
 
 import android.graphics.Color;
 
+import halfardawid.notepadx.R;
 import halfardawid.notepadx.activity.sketch_editor.SmartBitmap;
 import halfardawid.notepadx.util.exceptions.ExpansionFailed;
 import halfardawid.notepadx.util.vectors.Vector2i;
@@ -30,16 +31,22 @@ import halfardawid.notepadx.util.vectors.Vector2i;
 public abstract class Brush {
     private static final String TAG="BRUSH";
 
-    protected float spacing;
-    protected float radius;
+    @BrushParameter(type=Float.class, name=R.string.brush_spacing)
+    @SliderValue(min=0.01f,max=10)
+    private Float spacing=1f;
+    @BrushParameter(type=Float.class, name=R.string.brush_radius)
+    @SliderValue(min=1,max=100)
+    protected Float radius=1f;
 
     /**
      * Returns a 0f-1f based on a distance. For circle-gradient types of brushes
-     * @param distance sqrt((x^2)+(y^2))
+     * @param position we'll see
      * @return [0f-1f]
      */
-    abstract protected float smoothing(float distance);
+    abstract protected float smoothing(final Vector2i position);
     protected static final int expand=3;
+    public Brush(){}
+
     protected Brush(float spacing, float radius){
         this.spacing=spacing;
         this.radius=radius;
@@ -83,7 +90,7 @@ public abstract class Brush {
                     for (int y = 0; y < ry; y++, splat_pos_radius.y++) {
                         final int index = y * rx + x;
                         splat_col = painting_mode.mix(
-                                smoothing(splat_pos_radius.pythagoras()),
+                                smoothing(splat_pos_radius),
                                 x, y, splat_pos_radius, splat_pixel_map,
                                 index, alpha, r, g, b, color);
                         if (splat_col == null) continue;

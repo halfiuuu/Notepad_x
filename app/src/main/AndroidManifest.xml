@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2017 anno Domini.
   ~
   ~ Code below is a part of
@@ -13,8 +12,7 @@
   ~ contact possible via halfardawid@gmail.com
   ~
   ~ I'm not sure what else this thing should state... Whatever.
-  -->
-
+-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="halfardawid.notepadx">
 
@@ -46,8 +44,17 @@
         <activity
             android:name=".activity.sketch_editor.colorpalette.ColorPaletteActivityTab"
             android:theme="@style/AppTheme.PopUpTheme" />
-        <activity android:name=".activity.sketch_editor.crop.CropToNumbers"
-            android:theme="@style/AppTheme.PopUpTheme"/>
+        <activity
+            android:name=".activity.sketch_editor.crop.CropToNumbers"
+            android:theme="@style/AppTheme.PopUpTheme" />
+        <activity
+            android:name=".activity.general_settings.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".activity.main.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="halfardawid.notepadx.activity.main.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -14,14 +14,13 @@
  * I'm not sure what else this thing should state... Whatever.
  */
 
-package halfardawid.notepadx.activity.sketch_editor.brushes.types;
+package halfardawid.notepadx.activity.sketch_editor.brushes;
 
 /**
- * Created by Dawid on 2017-10-17.
+ * Created by Dawid on 2017-12-29.
  */
 
-public class BasicBrush extends SolidCircleBrush {
-    protected BasicBrush() {
-        super(1, 4);
-    }
+public @interface SliderValue {
+    float min();
+    float max();
 }
