@@ -24,8 +24,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.ActionMode;
-import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -36,10 +34,7 @@ import android.widget.GridView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
-import org.json.JSONException;
-
-import java.io.IOException;
-
+import halfardawid.notepadx.activity.general_settings.SettingsActivity;
 import halfardawid.notepadx.activity.generic.colorpicker.ColorPickerActivity;
 import halfardawid.notepadx.util.note.Note;
 import halfardawid.notepadx.util.note.NoteList;
@@ -65,7 +60,7 @@ public final class MainActivity extends AppCompatActivity implements PopupMenu.O
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.mainactivity, menu);
+        inflater.inflate(R.menu.mainactivity_menu, menu);
         return true;
     }
 
@@ -76,6 +71,9 @@ public final class MainActivity extends AppCompatActivity implements PopupMenu.O
                 return add_new_note();
             case R.id.mam_delete:
                 return delete_all_notes();
+            case R.id.mam_settings:
+                openSettings();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -186,13 +184,13 @@ public final class MainActivity extends AppCompatActivity implements PopupMenu.O
     public void onActivityResult(int c,int r, Intent d){
         Log.d(TAG,"Activity ended, "+c+" "+r+" "+d);
         switch(c){
+            case SettingsActivity.INTENT_CODE:
             case NOTE_EDITOR_RESULT:
                 reload_list();
                 break;
             case ColorPickerActivity.CODE:
                 handleColorPick(d);
                 break;
-
         }
     }
 
@@ -260,5 +258,9 @@ public final class MainActivity extends AppCompatActivity implements PopupMenu.O
             }
         });
         b.show();
+    }
+
+    private void openSettings(){
+        startActivityForResult(new Intent(this,SettingsActivity.class),SettingsActivity.INTENT_CODE);
     }
 }

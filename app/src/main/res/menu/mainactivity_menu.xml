@@ -21,12 +21,17 @@
     <item
         android:id="@+id/mam_add"
         android:icon="@drawable/add_note"
-        android:title="@string/mam_addnote"
+        android:title="@string/add_note"
         android:visible="true"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/mam_delete"
-        android:title="@string/mam_delete"
+        android:title="@string/delete_all_notes"
+        android:visible="true"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/mam_settings"
+        android:title="@string/action_settings"
         android:visible="true"
         app:showAsAction="never" />
 </menu>

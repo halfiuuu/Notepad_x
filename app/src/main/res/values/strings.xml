@@ -16,8 +16,8 @@
 
 <resources>
     <string name="app_name">Notepad+x</string>
-    <string name="mam_addnote">Add a note</string>
-    <string name="mam_delete">Delete all</string>
+    <string name="add_note">Add a note</string>
+    <string name="delete_all_notes">Delete all</string>
     <string name="confirm">Confirm</string>
     <string name="are_you_sure_delete_all">Are you sure you want to delete every single note you\'ve stored here?</string>
     <string name="yes">Yes</string>
