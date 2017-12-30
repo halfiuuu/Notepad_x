@@ -83,4 +83,25 @@
     <string name="very_large">Bardzo duże</string>
     <string name="very_small">Bardzo małe</string>
     <string name="yes">Tak</string>
+    <string-array name="color_names">
+        <item>Czerwony</item>
+        <item>Różowy</item>
+        <item>Fioletowy</item>
+        <item>Głęboki Fiolet</item>
+        <item>Indigo</item>
+        <item>Niebieski</item>
+        <item>Jasny Niebieski</item>
+        <item>Cyan</item>
+        <item>Teal</item>
+        <item>Zielony</item>
+        <item>Jasny Zielony</item>
+        <item>Limetkowy</item>
+        <item>Żółty</item>
+        <item>Amber</item>
+        <item>Pomarańczowy</item>
+        <item>Ciemny Pomarańczowy</item>
+        <item>Brązowy</item>
+        <item>Szary</item>
+        <item>Szary Niebieski</item>
+    </string-array>
 </resources>

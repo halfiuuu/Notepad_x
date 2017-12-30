@@ -84,4 +84,25 @@
     <string name="very_large">Very large</string>
     <string name="huge">Huge</string>
     <string name="very_small">Very small</string>
+    <string-array name="color_names">
+        <item>Red</item>
+        <item>Pink</item>
+        <item>Purple</item>
+        <item>Deep Purple</item>
+        <item>Indigo</item>
+        <item>Blue</item>
+        <item>Light Blue</item>
+        <item>Cyan</item>
+        <item>Teal</item>
+        <item>Green</item>
+        <item>Light Green</item>
+        <item>Lime</item>
+        <item>Yellow</item>
+        <item>Amber</item>
+        <item>Orange</item>
+        <item>Deep Orange</item>
+        <item>Brown</item>
+        <item>Grey</item>
+        <item>Blue Grey</item>
+    </string-array>
 </resources>
