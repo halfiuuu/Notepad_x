@@ -17,7 +17,7 @@
 
 <resources>
     <string name="pref_note_tile_per_row_key" translatable="false">PREFERENCE_TILE_PER_ROW</string>
-    <string-array name="pref_note_tile_per_row_entries">
+    <string-array translatable="false" name="pref_note_tile_per_row_entries">
         <item>6</item>
         <item>5</item>
         <item>4</item>
