@@ -29,6 +29,7 @@ import android.view.View;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+import halfardawid.notepadx.activity.sketch_editor.brushes.types.SolidCircleBrush;
 import halfardawid.notepadx.activity.sketch_editor.colorpalette.ColorPaletteActivityTab;
 import halfardawid.notepadx.activity.generic.layouts.Updatable;
 import halfardawid.notepadx.activity.sketch_editor.brushes.Brush;
@@ -47,7 +48,7 @@ public class SketchCanvas extends View {
     private Fingers controller;
     private boolean move=false;
     private boolean erase=false;
-    private Brush brush=new SoftTipCircle(20,40);
+    private Brush brush=new SolidCircleBrush(10,10);
     private Updatable bar=null;
     private AtomicInteger brush_color=new AtomicInteger(ColorPaletteActivityTab.DEFAULT_COLOR);
 

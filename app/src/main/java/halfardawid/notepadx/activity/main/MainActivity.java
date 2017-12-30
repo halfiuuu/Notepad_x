@@ -19,7 +19,10 @@ package halfardawid.notepadx.activity.main;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -47,11 +50,13 @@ public final class MainActivity extends AppCompatActivity implements PopupMenu.O
     public static final int NOTE_EDITOR_RESULT = 6422;
     private NoteList notes;
     private NoteAdapter adapter;
+    SharedPreferences sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        sharedPref=PreferenceManager.getDefaultSharedPreferences(this);
         notes=new NoteList(getApplicationContext());
         initGridView(R.id.main_grid);
     }
@@ -140,6 +145,7 @@ public final class MainActivity extends AppCompatActivity implements PopupMenu.O
     private void initGridView(@IdRes int id){
         adapter=new NoteAdapter(this,notes);
         GridView gv = (GridView) findViewById(id);
+        applySettings(gv);
         gv.setAdapter(adapter);
         registerForContextMenu(gv);
         final MainActivity context=this;
@@ -162,19 +168,14 @@ public final class MainActivity extends AppCompatActivity implements PopupMenu.O
                 open(adapter.getNote(position));
             }
         });
-        /*
-        gv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                context_choice=adapter.getNote(position);
-                PopupMenu popup = new PopupMenu(context, view);
-                popup.setOnMenuItemClickListener(context);
-                MenuInflater inflater = popup.getMenuInflater();
-                inflater.inflate(R.menu.context_note_tile_menu, popup.getMenu());
-                popup.show();
-                return true;
-            }
-        });*/
+    }
+
+    @NonNull
+    private void applySettings(GridView gv) {
+        String tile_size = sharedPref.getString(
+                        getString(R.string.pref_note_tile_per_row_key),
+                        getString(R.string.pref_note_tile_per_row_default));
+        gv.setNumColumns(Integer.parseInt(tile_size));
     }
 
     public void open(Note t) {
