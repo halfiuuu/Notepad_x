@@ -240,8 +240,8 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
     }
 
     private void refreshColors() {
-        ColorUtils.applyColors(this,note.getColor());
-        ColorUtils.applyColorsToBar(this,note.getColor());
+        ColorUtils.applyColors(this,note.getColor(this));
+        ColorUtils.applyColorsToBar(this,note.getColor(this));
     }
 
     public abstract void inherentRefresh();

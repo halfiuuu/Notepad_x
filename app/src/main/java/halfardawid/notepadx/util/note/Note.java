@@ -25,6 +25,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -129,13 +130,14 @@ public abstract class Note {
     }
 
     private int applyColors(View rec) {
-        int cid= ColorUtils.recognizeColorString(rec.getContext(),color);
+        Context context = rec.getContext();
+        int cid= ColorUtils.recognizeColorString(context,color);
         ColorUtils.applyColors(rec,R.id.amt_whole,cid,R.array.color_light);
         ColorUtils.applyColors(rec,R.id.amt_top_bar,cid,R.array.color_base);
         ((TextView)rec.findViewById(R.id.amt_title)).setTextColor(
                 ResourcesCompat.getColor(rec.getResources(),ColorUtils.calcContrast(
-                    ColorUtils.getColorSpecific(rec.getContext(),cid,R.array.color_base)),
-                        rec.getContext().getTheme()));
+                    ColorUtils.getColorSpecific(context,cid,R.array.color_base)),
+                        context.getTheme()));
         return 0;
     }
 
@@ -274,7 +276,10 @@ public abstract class Note {
         }
     }
 
-    public String getColor() {
+    public String getColor(Context context) {
+        if(null==color){
+            color=ColorUtils.pickRandomColor(context);
+        }
         return color;
     }
 

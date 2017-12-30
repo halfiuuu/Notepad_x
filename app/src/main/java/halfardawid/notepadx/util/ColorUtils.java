@@ -27,6 +27,7 @@ import android.support.annotation.IdRes;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Toast;
 
 import halfardawid.notepadx.R;
 
@@ -84,5 +85,10 @@ public final class ColorUtils {
             activity.getWindow().setStatusBarColor(getColorSpecific(activity, cid, R.array.color_dark));
         }
 
+    }
+
+    public static String pickRandomColor(Context c) {
+        String[] tab=c.getResources().getStringArray(R.array.color_names);
+        return tab[((int)(Math.random()*1000))%tab.length];
     }
 }
