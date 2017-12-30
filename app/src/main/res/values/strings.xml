@@ -73,7 +73,6 @@
     <string name="brush_spacing">Spacing</string>
     <string name="brush_radius">Radius</string>
     <string name="bubble_brush">Bubble brush</string>
-    <string name="title_activity_settings">Settings</string>
     <string name="placeholder">Placeholder string</string>
     <string name="note_list">Note list</string>
     <string name="note_tile_per_row">Tiles per row</string>

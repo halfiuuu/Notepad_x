@@ -49,7 +49,7 @@
             android:theme="@style/AppTheme.PopUpTheme" />
         <activity
             android:name=".activity.general_settings.SettingsActivity"
-            android:label="@string/title_activity_settings"
+            android:label="@string/action_settings"
             android:parentActivityName=".activity.main.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
