@@ -56,7 +56,6 @@ public final class MainActivity extends AppCompatActivity implements PopupMenu.O
         initGridView(R.id.main_grid);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -144,9 +143,9 @@ public final class MainActivity extends AppCompatActivity implements PopupMenu.O
         gv.setAdapter(adapter);
         registerForContextMenu(gv);
         final MainActivity context=this;
-        gv.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        gv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
             @Override
-            public void onItemClick(AdapterView<?> parent, View v,
+            public boolean onItemLongClick(AdapterView<?> parent, View v,
                                     int position, long id) {
                 context_choice=adapter.getNote(position);
                 PopupMenu popup = new PopupMenu(context, v);
@@ -154,14 +153,16 @@ public final class MainActivity extends AppCompatActivity implements PopupMenu.O
                 MenuInflater inflater = popup.getMenuInflater();
                 inflater.inflate(R.menu.context_note_tile_menu, popup.getMenu());
                 popup.show();
+                return true;
             }
         });
-        /*gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
                 open(adapter.getNote(position));
             }
         });
+        /*
         gv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {

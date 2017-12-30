@@ -37,6 +37,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
@@ -96,7 +97,7 @@ public abstract class Note {
 
     protected String title="";
     protected String color=null;
-    protected int order=0;
+    protected long order=0;
     protected UUID uuid;
 
     abstract protected String getType();
@@ -105,7 +106,7 @@ public abstract class Note {
     abstract protected void setData(String arg);
     abstract protected View getMiniatureContent(Context con);
 
-    public int getOrder(){
+    public long getOrder(){
         return order;
     }
 
@@ -154,7 +155,7 @@ public abstract class Note {
         obj.put(TITLE,getTitle());
         obj.put(TYPE,getType());
         obj.put(DATA,getData());
-        obj.put(ORDER,order);
+        //obj.put(ORDER,order);
         if(color!=null)obj.put(COLOR,color);
 
         //Log.d(TAG,((uuid!=null)?uuid.toString():"unsaved note")+":"+obj.toString());
@@ -184,11 +185,11 @@ public abstract class Note {
     public static Note loadNote(File file) throws JSONException, FileNotFoundException,NoSuchNoteTypeException {
         String content=getContent(file);
         //Log.d(TAG,"loading "+file.getName()+", "+object.toString());
-        return getNote(content,UUID.fromString(file.getName()));
+        return getNote(file.lastModified(),content,UUID.fromString(file.getName()));
     }
 
     @NonNull
-    public static Note getNote(String content,UUID uuid) throws JSONException, NoSuchNoteTypeException {
+    public static Note getNote(long modified, String content, UUID uuid) throws JSONException, NoSuchNoteTypeException {
         JSONObject object=new JSONObject(content);
         String title = object.has(TITLE)?object.getString(TITLE):"";
         String data = (object.has(DATA))?object.getString(DATA):null;
@@ -198,7 +199,7 @@ public abstract class Note {
                 if(!typePair.is(type))continue;
                 Note n=typePair.build(uuid,data,title);
                 if(object.has(COLOR))n.setColorIni(object.getString(COLOR));
-                if(object.has(ORDER))n.order=(object.getInt(ORDER));
+                n.order=modified;
                 n.initializeMD5(content);
                 return n;
             } catch (NoSuchFieldException|IllegalAccessException|NoSuchMethodException|InvocationTargetException |InstantiationException e) {

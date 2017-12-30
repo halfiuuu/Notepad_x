@@ -53,7 +53,7 @@ public final class NoteList extends ArrayList<Note> {
         Collections.sort(this,new Comparator<Note>() {
             @Override
             public int compare(Note o1, Note o2) {
-                return o1.getOrder()-o2.getOrder();
+                return (int) (o2.getOrder()-o1.getOrder());
             }
         });
     }

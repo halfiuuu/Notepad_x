@@ -45,6 +45,7 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
     private static final String TAG = "GENERIC_NOTE";
     public static final String NOTE_JSON_DATA = "NOTE_JSON_DATA";
     public static final String NOTE_UUID = "NOTE_UUID";
+    private static final String NOTE_MODIFIED = "NOTE_MODIFIED";
     public T note;
 
     protected void loadIntentData(Class<T> ref) {
@@ -52,7 +53,7 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
         try {
             note=intent.hasExtra(Note.UUID_EXTRA)? (T) Note.loadNote(getApplicationContext(), intent.getStringExtra(Note.UUID_EXTRA)) :ref.newInstance();
         } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), R.string.loading_went_wrong,Toast.LENGTH_LONG);
+            Toast.makeText(getApplicationContext(), R.string.loading_went_wrong,Toast.LENGTH_LONG).show();
             try {
                 note=ref.newInstance();
             } catch (Exception e1) {
@@ -194,6 +195,7 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
         prepareForSave();
         try {
             s.putString(NOTE_JSON_DATA,note.getParsedFileData());
+            s.putLong(NOTE_MODIFIED,note.getOrder());
         } catch (JSONException e) {
             Log.wtf(TAG,"Okey, json parsing blew up on saving...",e);
         }
@@ -205,9 +207,9 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
     protected void onRestoreInstanceState(Bundle s) {
         super.onRestoreInstanceState(s);
         try {
-            String nuuid=s.getString(NOTE_UUID);
-            UUID uuid=(nuuid!=null)?UUID.fromString(s.getString(NOTE_UUID)):null;
-            note=(T)Note.getNote(s.getString(NOTE_JSON_DATA), uuid);
+            String new_uuid=s.getString(NOTE_UUID);
+            UUID uuid=(new_uuid!=null)?UUID.fromString(s.getString(NOTE_UUID)):null;
+            note=(T)Note.getNote(s.getLong(NOTE_MODIFIED),s.getString(NOTE_JSON_DATA), uuid);
         } catch (JSONException|NoSuchNoteTypeException e) {
             Log.wtf(TAG,"Okey, json parsing blew up on loading...",e);
         }
@@ -220,10 +222,10 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
         prepareForSave();
         try {
             note.saveToFile(this);
-            Toast.makeText(this,R.string.saved,Toast.LENGTH_LONG);
+            Toast.makeText(this,R.string.saved,Toast.LENGTH_LONG).show();
         } catch (IOException |JSONException e){
             Log.wtf(getTag(),"saving went terribad...?",e);
-            Toast.makeText(this,R.string.saving_went_bad,Toast.LENGTH_LONG);
+            Toast.makeText(this,R.string.saving_went_bad,Toast.LENGTH_LONG).show();
         }
     }
 
