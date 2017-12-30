@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2017 anno Domini.
+  ~
+  ~ Code below is a part of
+  ~ https://github.com/halfiuuu/Notepad_x
+  ~ available for use under the
+  ~ GNU Affero General Public License v3.0
+  ~ as stated in
+  ~ https://github.com/halfiuuu/Notepad_x/blob/master/LICENSE
+  ~
+  ~ Created by Dawid Halfar
+  ~ contact possible via halfardawid@gmail.com
+  ~
+  ~ I'm not sure what else this thing should state... Whatever.
+  -->
+
+<resources>
+    <string name="app_name">Notepad+x</string>
+    <string name="Cutout_x">Wcięcie z prawej</string>
+    <string name="Cutout_y">Wcięcie z góry</string>
+    <string name="action_settings">Ustawienia</string>
+    <string name="add_note">Dodaj notatkę</string>
+    <string name="any_unsaved_changes_will_be_discarded">Niezapisane zmiany zostaną utracone</string>
+    <string name="are_you_sure_delete_all">Jesteś pewien że chcesz usunąć wszystkie notatki?</string>
+    <string name="are_you_sure_quit">Jesteś pewien że chcesz przestać edytować tę notatkę?</string>
+    <string name="auto_crop">Automatyczne wycinanie</string>
+    <string name="brush_radius">Promień</string>
+    <string name="brush_spacing">Odstęp</string>
+    <string name="bubble_brush">Pędzel bąbelkowy</string>
+    <string name="cancel">Anuluj</string>
+    <string name="change_color">Zmień kolor</string>
+    <string name="change_title">Zmień tytuł</string>
+    <string name="choose_note_type">Wybierz typ notatki</string>
+    <string name="clear_canvas">Wyczyść płótno</string>
+    <string name="color_palette">Paleta kolorów</string>
+    <string name="confirm">Potwierdz</string>
+    <string name="crop_canvas">Utnij płótno</string>
+    <string name="crop_manually">Utnij ręcznie</string>
+    <string name="crop_to_numbers">Utnij do konkretnych wymiarów</string>
+    <string name="delete_all_notes">Usuń wszystko</string>
+    <string name="delete_note">Usuń notatkę</string>
+    <string name="edit_that_note">Edytuj notatkę</string>
+    <string name="exit">Wyjdź</string>
+    <string name="file">Plik</string>
+    <string name="hsv_sliders">Suwaki HSV</string>
+    <string name="huge">Ogromne</string>
+    <string name="i_m_sure_exit">Tak, wyjdź</string>
+    <string name="input_new_title">Wpisz nowy tytuł</string>
+    <string name="large">Duże</string>
+    <string name="loading_went_wrong">Ładowanie notatki zakończone krytyczną porażką. Powinieneś to zgłosić, to nie powinno się w ogóle wydarzyć. Wybacz…</string>
+    <string name="medium">Średnie</string>
+    <string name="move_mode">Przesuń widok</string>
+    <string name="must_be_greater_than_0">Wartość musi być większa niż 0</string>
+    <string name="must_be_greater_than_0_or_equal">Wartość musi wynosić co najmniej 0</string>
+    <string name="newSize_x">Nowa szerokość</string>
+    <string name="newSize_y">Nowa wysokość</string>
+    <string name="no">Nie</string>
+    <string name="no_editor_what">To dziwne. Tu powinien być edytor, a jednak nie potrafię go znaleźć.</string>
+    <string name="note_list">Lista notatek</string>
+    <string name="note_tile_per_row">Płytek na wiersz</string>
+    <string name="note_tile_per_row_summary">Określa ilość płytek w jednym wierszu</string>
+    <string name="ok">Ok</string>
+    <string name="pick_color_from_palette">Paleta kolorów</string>
+    <string name="pick_note_background_color">Wybierz nowy kolor jako tło dla notatki</string>
+    <string name="placeholder">Jestem wartością zastępczą</string>
+    <string name="reset_position">Zrestartuj przesunięcie</string>
+    <string name="reset_zoom">Wyzeruj przybliżenie</string>
+    <string name="rgb_sliders">Suwaki RGB</string>
+    <string name="save">Zapisz</string>
+    <string name="save_n_exit">Zapisz i wyjdź</string>
+    <string name="saved">Notatka zapisana</string>
+    <string name="saving_went_bad">Zapisywanie poszło niezgodnie z planem, notatka nie została zapisana. ;(</string>
+    <string name="select_brush">Wybór pędzla</string>
+    <string name="sketch_note">Szkic</string>
+    <string name="small">Małe</string>
+    <string name="soft_circle">Miękki okrąg</string>
+    <string name="solid_circle">Twardy okrąg</string>
+    <string name="sorry_error">Przykro mi, ale ktoś tego nie przetestował i błąd którego bardzo łatwo uniknąć przerwał wykonanie tej operacji! :(</string>
+    <string name="text_note">Notatka tekstowa</string>
+    <string name="title_activity_settings">Ustawienia</string>
+    <string name="toggle_eraser">Przełącz gumowanie</string>
+    <string name="very_large">Bardzo duże</string>
+    <string name="very_small">Bardzo małe</string>
+    <string name="yes">Tak</string>
+</resources>
