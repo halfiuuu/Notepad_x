@@ -29,9 +29,6 @@ import halfardawid.notepadx.util.exceptions.ExpansionFailed;
 import halfardawid.notepadx.util.exceptions.MemoryException;
 import halfardawid.notepadx.util.vectors.Vector2i;
 
-/**
- * Created by Dawid on 2017-10-26.
- */
 
 public class SmartBitmap {
     public static final String TAG="SMART_BITMAP";

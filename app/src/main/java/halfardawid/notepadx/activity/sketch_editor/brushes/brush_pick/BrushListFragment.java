@@ -16,24 +16,42 @@
 
 package halfardawid.notepadx.activity.sketch_editor.brushes.brush_pick;
 
+import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import halfardawid.notepadx.R;
+import halfardawid.notepadx.activity.sketch_editor.brushes.BrushTypes;
 
-public class BrushList extends Fragment {
+public class BrushListFragment extends Fragment {
+
+    private BrushFlowManager brushFlowManager=null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.fragment_brush_list,null);
-        ListView listView= (ListView) v.findViewById(R.id.fbl_list);
+        ListView listView = (ListView) v.findViewById(R.id.fbl_list);
         listView.setAdapter(new BrushListAdapter());
+        listView.setOnItemClickListener(new LocalOnItemClickListener());
         return v;
+    }
+
+    public void setCallback(BrushFlowManager flow){
+        brushFlowManager=flow;
+    }
+
+    private class LocalOnItemClickListener implements android.widget.AdapterView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            if(brushFlowManager==null)return;
+            brushFlowManager.goToDetail(BrushTypes.values()[(int) id]);
+        }
     }
 }

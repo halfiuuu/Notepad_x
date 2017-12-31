@@ -17,17 +17,15 @@
 package halfardawid.notepadx.activity.sketch_editor.brushes.brush_pick;
 
 import android.database.DataSetObserver;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import halfardawid.notepadx.R;
-import halfardawid.notepadx.activity.sketch_editor.brushes.Brush;
 import halfardawid.notepadx.activity.sketch_editor.brushes.BrushType;
-import halfardawid.notepadx.activity.sketch_editor.brushes.BrushesTypeList;
+import halfardawid.notepadx.activity.sketch_editor.brushes.BrushTypes;
 
 /**
  * Created by Dawid on 2017-12-31.
@@ -57,12 +55,12 @@ class BrushListAdapter implements ListAdapter {
 
     @Override
     public int getCount() {
-        return BrushesTypeList.values().length;
+        return BrushTypes.values().length;
     }
 
     @Override
     public Object getItem(int position) {
-        return BrushesTypeList.values()[position].getType();
+        return BrushTypes.values()[position].getType();
     }
 
     @Override
@@ -78,7 +76,7 @@ class BrushListAdapter implements ListAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if(convertView==null){
-            convertView=new TextView(parent.getContext());
+            convertView=LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_brush_list_element,null);
         }
         Object object=getItem(position);
         TextView tv = (TextView) convertView;

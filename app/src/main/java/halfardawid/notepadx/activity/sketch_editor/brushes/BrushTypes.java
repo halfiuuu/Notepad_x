@@ -21,13 +21,13 @@ import halfardawid.notepadx.activity.sketch_editor.brushes.types.SoftTipCircle;
 import halfardawid.notepadx.activity.sketch_editor.brushes.types.SolidCircleBrush;
 
 //Lists out possible brushes for BrushesActivity or whatever i've called it.
-public enum BrushesTypeList {
+public enum BrushTypes {
     SOFT_TIP_CIRCLE(SoftTipCircle.class),
     SOLID_CIRCLE_BRUSH(SolidCircleBrush.class),
     BUBBLE_BRUSH(BubbleBrush.class);
 
     private final Class<? extends Brush> type;
-    BrushesTypeList(Class<? extends Brush> type) {
+    BrushTypes(Class<? extends Brush> type) {
         this.type = type;
     }
     public Class<? extends Brush> getType(){

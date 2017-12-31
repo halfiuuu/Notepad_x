@@ -15,11 +15,11 @@
   ~ I'm not sure what else this thing should state... Whatever.
   -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fble_content"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/ab_master"/>
-</RelativeLayout>
+    android:layout_height="wrap_content"
+    android:padding="@dimen/std_padding"
+    android:text="@string/placeholder"
+    android:textAlignment="center"
+    android:textAppearance="@style/TextAppearance.AppCompat.Button"></TextView>
