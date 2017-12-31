@@ -29,6 +29,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import halfardawid.notepadx.R;
+import halfardawid.notepadx.activity.sketch_editor.brushes.brush_pick.BrushesActivity;
 import halfardawid.notepadx.activity.sketch_editor.colorpalette.ColorPaletteActivityTab;
 import halfardawid.notepadx.activity.generic.GenericNoteActivity;
 import halfardawid.notepadx.activity.generic.layouts.SimpleProgressBar;
@@ -161,7 +162,12 @@ public final class SketchActivity extends GenericNoteActivity<SketchNote> implem
     }
 
     public void onBrushEditorClicked(View v){
-        Toast.makeText(this,"Wowser!",Toast.LENGTH_SHORT).show();
+        startBrushEditor();
+    }
+
+    private void startBrushEditor() {
+        Intent i=new Intent(this, BrushesActivity.class);
+        startActivityForResult(i, BrushesActivity.CODE);
     }
 
     public void onColorPaletteClicked(View v){

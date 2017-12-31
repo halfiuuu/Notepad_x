@@ -55,6 +55,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="halfardawid.notepadx.activity.main.MainActivity" />
         </activity>
+        <activity
+            android:name=".activity.sketch_editor.brushes.brush_pick.BrushesActivity"
+            android:theme="@style/AppTheme.PopUpTheme"/>
     </application>
 
 </manifest>

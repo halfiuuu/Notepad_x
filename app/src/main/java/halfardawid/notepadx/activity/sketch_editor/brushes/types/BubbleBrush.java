@@ -17,7 +17,6 @@
 package halfardawid.notepadx.activity.sketch_editor.brushes.types;
 
 import halfardawid.notepadx.R;
-import halfardawid.notepadx.activity.sketch_editor.brushes.Brush;
 import halfardawid.notepadx.activity.sketch_editor.brushes.BrushType;
 import halfardawid.notepadx.util.vectors.Vector2i;
 

@@ -35,16 +35,16 @@
     <string name="saved">Saved note</string>
     <string name="text_note">Text note</string>
     <string name="choose_note_type">Pick a type of note</string>
-    <string name="sorry_error">I\'m sorry, but whoever built this, didn\'t test this... An error occured! :(</string>
+    <string name="sorry_error">I\'m sorry, but whoever built this, didn\'t test this… An error occurred! :(</string>
     <string name="sketch_note">Sketch</string>
-    <string name="no_editor_what">This is odd... There should be an editor, yet i couldn\'t find it...</string>
+    <string name="no_editor_what">This is odd… There should be an editor, yet i couldn\'t find it…</string>
     <string name="change_color">Change color</string>
     <string name="select_brush">Select brush</string>
     <string name="color_palette">Color palette</string>
     <string name="toggle_eraser">Toggle eraser</string>
     <string name="move_mode">Move view</string>
     <string name="are_you_sure_quit">Are you sure you want to quit editing this note?</string>
-    <string name="any_unsaved_changes_will_be_discarded">Any unsaved changes shall be discarded, lost forever...</string>
+    <string name="any_unsaved_changes_will_be_discarded">Any unsaved changes shall be discarded, lost forever…</string>
     <string name="pick_note_background_color">Pick new color for the note to use as a background</string>
     <string name="i_m_sure_exit">Yes, quit</string>
     <string name="rgb" translatable="false">RGB</string>
