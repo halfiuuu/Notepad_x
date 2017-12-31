@@ -51,7 +51,8 @@ public class BrushesActivity extends AppCompatActivity implements BrushFlowManag
 
     @Override
     public void goToDetail(BrushTypes brushType) {
-        Fragment frag=new BrushDetailFragment();
+        BrushDetailFragment frag=new BrushDetailFragment();
+        frag.setSelected(brushType);
         getFragmentManager().beginTransaction().replace(doubleScreen?detail:master,frag).commit();
     }
 }

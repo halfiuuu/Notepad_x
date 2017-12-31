@@ -25,7 +25,6 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-@interface BrushParameter {
-    Class type();
+public @interface BrushParameter {
     @StringRes int name();
 }

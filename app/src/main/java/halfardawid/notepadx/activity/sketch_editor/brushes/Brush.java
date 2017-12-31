@@ -31,12 +31,12 @@ import halfardawid.notepadx.util.vectors.Vector2i;
 public abstract class Brush {
     private static final String TAG="BRUSH";
 
-    @BrushParameter(type=Float.class, name=R.string.brush_spacing)
-    @SliderValue(min=0.01f,max=10)
-    private Float spacing=1f;
-    @BrushParameter(type=Float.class, name=R.string.brush_radius)
+    @BrushParameter(name=R.string.brush_spacing)
+    @SliderValue(min=0.01f,max=50)
+    public Float spacing=1f;
+    @BrushParameter(name=R.string.brush_radius)
     @SliderValue(min=1,max=100)
-    protected Float radius=1f;
+    public Float radius=1f;
 
     /**
      * Returns a 0f-1f based on a distance. For circle-gradient types of brushes
