@@ -20,6 +20,9 @@
     <color name="colorPrimaryDark">#616161</color>
     <color name="colorAccent">#ffab40</color>
 
+    <color name="text_default">@android:color/secondary_text_light</color>
+    <color name="text_white">@android:color/secondary_text_dark</color>
+
     <color name="placeholder_colorTile">#a1887f</color>
     <color name="placeholder_colorTile_top">#795548</color>
 

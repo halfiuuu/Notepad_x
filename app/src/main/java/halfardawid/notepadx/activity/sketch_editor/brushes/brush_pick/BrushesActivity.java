@@ -33,24 +33,29 @@ public class BrushesActivity extends AppCompatActivity implements BrushFlowManag
     @IdRes private static final int master=R.id.ab_master;
     @IdRes private static final int detail=R.id.ab_detail;
     boolean doubleScreen;
+    private BrushTypes selected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_brushes);
         doubleScreen=(findViewById(detail)!=null);
+        selected=BrushTypes.SOFT_TIP_CIRCLE;
         goToList();
+        if(doubleScreen)goToDetail(selected);
     }
 
     @Override
     public void goToList() {
         BrushListFragment frag=new BrushListFragment();
         frag.setCallback(this);
+        if(selected!=null)frag.setSelected(selected);
         getFragmentManager().beginTransaction().replace(master,frag).commit();
     }
 
     @Override
     public void goToDetail(BrushTypes brushType) {
+        selected = brushType;
         BrushDetailFragment frag=new BrushDetailFragment();
         frag.setSelected(brushType);
         getFragmentManager().beginTransaction().replace(doubleScreen?detail:master,frag).commit();

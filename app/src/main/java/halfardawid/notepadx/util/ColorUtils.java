@@ -35,7 +35,7 @@ public final class ColorUtils {
     private ColorUtils(){}
 
     static public @ColorRes int calcContrast(@ColorInt int color) {
-        return (calcContrastActivation(color))?android.R.color.white:android.R.color.black;
+        return (calcContrastActivation(color))?R.color.text_white:R.color.text_default;
     }
 
     public static boolean calcContrastActivation(@ColorInt int color) {

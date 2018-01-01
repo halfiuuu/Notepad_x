@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import halfardawid.notepadx.R;
 import halfardawid.notepadx.activity.sketch_editor.brushes.BrushTypes;
@@ -32,14 +33,17 @@ import halfardawid.notepadx.activity.sketch_editor.brushes.BrushTypes;
 public class BrushListFragment extends Fragment {
 
     private BrushFlowManager brushFlowManager=null;
+    private ListView listView;
+    private BrushTypes selected;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.fragment_brush_list,null);
-        ListView listView = (ListView) v.findViewById(R.id.fbl_list);
+        listView = (ListView) v.findViewById(R.id.fbl_list);
         listView.setAdapter(new BrushListAdapter());
         listView.setOnItemClickListener(new LocalOnItemClickListener());
+        setSelected(BrushTypes.SOFT_TIP_CIRCLE);
         return v;
     }
 
@@ -47,11 +51,20 @@ public class BrushListFragment extends Fragment {
         brushFlowManager=flow;
     }
 
+    public void setSelected(BrushTypes selected) {
+        this.selected = selected;
+        if(listView!=null) {
+            listView.setItemChecked(selected.ordinal(),true);
+        }
+    }
+
     private class LocalOnItemClickListener implements android.widget.AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             if(brushFlowManager==null)return;
-            brushFlowManager.goToDetail(BrushTypes.values()[(int) id]);
+            BrushTypes type = BrushTypes.values()[(int) id];
+            setSelected(type);
+            brushFlowManager.goToDetail(type);
         }
     }
 }
