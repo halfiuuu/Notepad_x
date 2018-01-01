@@ -27,4 +27,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface BrushParameter {
     @StringRes int name();
+
+    float min();
+    float max();
+
+    boolean percent() default false;
 }

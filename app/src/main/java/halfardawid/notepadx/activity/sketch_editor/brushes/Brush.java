@@ -26,18 +26,12 @@ import halfardawid.notepadx.util.exceptions.ExpansionFailed;
 import halfardawid.notepadx.util.vectors.Vector2i;
 
 
-/**
- * Created by Dawid on 2017-10-17.
- */
-
 public abstract class Brush implements Serializable{
     private static final String TAG="BRUSH";
 
-    @BrushParameter(name=R.string.brush_spacing)
-    @SliderValue(min=0.01f,max=50)
+    @BrushParameter(name=R.string.brush_spacing, min=0.01f, max=50)
     public Float spacing=1f;
-    @BrushParameter(name=R.string.brush_radius)
-    @SliderValue(min=1,max=100)
+    @BrushParameter(name=R.string.brush_radius, min=1,max=100)
     public Float radius=1f;
 
     /**

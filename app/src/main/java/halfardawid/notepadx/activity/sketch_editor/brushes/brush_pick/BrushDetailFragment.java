@@ -16,8 +16,11 @@
 
 package halfardawid.notepadx.activity.sketch_editor.brushes.brush_pick;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +38,7 @@ import halfardawid.notepadx.activity.sketch_editor.brushes.BrushParameter;
 import halfardawid.notepadx.activity.sketch_editor.brushes.BrushTypes;
 
 public class BrushDetailFragment extends Fragment {
+    public static final int MAX = 1000;
     private BrushTypes selected;
     private List<ParameterReferences> parameterReferencesList=null;
     private LinearLayout layout;
@@ -60,8 +64,48 @@ public class BrushDetailFragment extends Fragment {
             if(param==null)continue;
             ParameterReferences references = new ParameterReferences(inflater);
             parameterReferencesList.add(references);
-            references.getTextView().setText(param.name());
+            setupText(param, references);
+            setupEdit(param, references);
+            setupSeek(param, references);
         }
+    }
+
+    private void setupText(BrushParameter param, ParameterReferences references) {
+        references.getTextView().setText(param.name());
+    }
+
+    private void setupEdit(BrushParameter param, final ParameterReferences references) {
+        references.getEdit().setHint(param.name());
+        references.getEdit().setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                references.updateSeek(Float.parseFloat(v.getText().toString()));
+                return false;
+            }
+        });
+    }
+
+    private void setupSeek(final BrushParameter param, final ParameterReferences references) {
+        references.getSeek().setMax(MAX);
+        final float range=param.max()-param.min();
+        references.getSeek().setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if(!fromUser)return;
+                Log.d("seek","progress:"+progress);
+                references.updateText((progress*range)/MAX+param.min());
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
     }
 
     public void setSelected(BrushTypes selected) {
@@ -97,6 +141,18 @@ public class BrushDetailFragment extends Fragment {
 
         public View getRoot() {
             return view;
+        }
+
+        public void updateSeek(float v) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                seek.setProgress((int) (seek.getMax()*v),true);
+            else
+                seek.setProgress((int) (seek.getMax()*v));
+        }
+
+        public void updateText(float v) {
+            v=((float)(int)(v*100))/100;
+            edit.setText(String.format("%s", v));
         }
     }
 }

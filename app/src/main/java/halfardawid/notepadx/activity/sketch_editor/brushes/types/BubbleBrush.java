@@ -20,7 +20,6 @@ import halfardawid.notepadx.R;
 import halfardawid.notepadx.activity.sketch_editor.brushes.Brush;
 import halfardawid.notepadx.activity.sketch_editor.brushes.BrushParameter;
 import halfardawid.notepadx.activity.sketch_editor.brushes.BrushType;
-import halfardawid.notepadx.activity.sketch_editor.brushes.SliderValue;
 import halfardawid.notepadx.util.vectors.Vector2i;
 
 /**
@@ -29,8 +28,7 @@ import halfardawid.notepadx.util.vectors.Vector2i;
 
 @BrushType(name = R.string.bubble_brush)
 public class BubbleBrush extends Brush{
-    @BrushParameter(name=R.string.hollow)
-    @SliderValue(min=0,max=1,percent=true)
+    @BrushParameter(name=R.string.hollow, min=0, max=1, percent=true)
     public Float hollow=.5f;
 
     public BubbleBrush(float spacing, float radius) {
