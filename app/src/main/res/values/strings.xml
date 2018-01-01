@@ -84,6 +84,7 @@
     <string name="huge">Huge</string>
     <string name="very_small">Very small</string>
     <string name="go_back">Go back</string>
+    <string name="hollow">Hollow</string>
     <string-array name="color_names">
         <item>Red</item>
         <item>Pink</item>

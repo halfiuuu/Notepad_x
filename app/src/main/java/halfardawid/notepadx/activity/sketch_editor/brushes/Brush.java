@@ -18,6 +18,8 @@ package halfardawid.notepadx.activity.sketch_editor.brushes;
 
 import android.graphics.Color;
 
+import java.io.Serializable;
+
 import halfardawid.notepadx.R;
 import halfardawid.notepadx.activity.sketch_editor.SmartBitmap;
 import halfardawid.notepadx.util.exceptions.ExpansionFailed;
@@ -28,7 +30,7 @@ import halfardawid.notepadx.util.vectors.Vector2i;
  * Created by Dawid on 2017-10-17.
  */
 
-public abstract class Brush {
+public abstract class Brush implements Serializable{
     private static final String TAG="BRUSH";
 
     @BrushParameter(name=R.string.brush_spacing)
@@ -44,7 +46,7 @@ public abstract class Brush {
      * @return [0f-1f]
      */
     abstract protected float smoothing(final Vector2i position);
-    protected static final int expand=3;
+    private transient static final int expand=3;
     public Brush(){}
 
     protected Brush(float spacing, float radius){
@@ -57,10 +59,10 @@ public abstract class Brush {
     }
 
 
-    private int[] splat_pixel_map=null;
-    private int splat_pixel_map_size=-1;
-    private Integer splat_col;
-    private Vector2i splat_pos_radius=new Vector2i(0);
+    transient private int[] splat_pixel_map=null;
+    transient private int splat_pixel_map_size=-1;
+    transient private Integer splat_col;
+    transient private Vector2i splat_pos_radius=new Vector2i(0);
     public synchronized final void splat(SmartBitmap bitmap, Vector2i pos_arg, int color,PAINTING_MODE painting_mode) throws SplatFailed {
         try {
             Vector2i radius = new Vector2i(real_radius());

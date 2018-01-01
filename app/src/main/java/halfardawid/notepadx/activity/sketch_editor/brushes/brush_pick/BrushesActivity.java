@@ -33,6 +33,7 @@ public class BrushesActivity extends AppCompatActivity implements BrushFlowManag
     @IdRes private static final int master=R.id.ab_master;
     @IdRes private static final int detail=R.id.ab_detail;
     boolean doubleScreen;
+    boolean finishOnHome;
     private BrushTypes selected;
 
     @Override
@@ -51,6 +52,7 @@ public class BrushesActivity extends AppCompatActivity implements BrushFlowManag
         frag.setCallback(this);
         if(selected!=null)frag.setSelected(selected);
         getFragmentManager().beginTransaction().replace(master,frag).commit();
+        finishOnHome=true;
     }
 
     @Override
@@ -59,9 +61,17 @@ public class BrushesActivity extends AppCompatActivity implements BrushFlowManag
         BrushDetailFragment frag=new BrushDetailFragment();
         frag.setSelected(brushType);
         getFragmentManager().beginTransaction().replace(doubleScreen?detail:master,frag).commit();
+        finishOnHome=false;
     }
 
     public void onHomeClick(View v){
+        if(finishOnHome||doubleScreen)
+            quit();
+        else
+            goToList();
+    }
 
+    private void quit() {
+        finish();
     }
 }

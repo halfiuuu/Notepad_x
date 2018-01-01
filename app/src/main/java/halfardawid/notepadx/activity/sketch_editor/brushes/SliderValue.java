@@ -23,4 +23,6 @@ package halfardawid.notepadx.activity.sketch_editor.brushes;
 public @interface SliderValue {
     float min();
     float max();
+
+    boolean percent() default false;
 }

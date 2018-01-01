@@ -43,7 +43,7 @@ public class BrushListFragment extends Fragment {
         listView = (ListView) v.findViewById(R.id.fbl_list);
         listView.setAdapter(new BrushListAdapter());
         listView.setOnItemClickListener(new LocalOnItemClickListener());
-        setSelected(BrushTypes.SOFT_TIP_CIRCLE);
+        //setSelected(BrushTypes.SOFT_TIP_CIRCLE);
         return v;
     }
 
