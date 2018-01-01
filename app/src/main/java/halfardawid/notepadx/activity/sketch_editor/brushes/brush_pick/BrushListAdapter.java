@@ -27,10 +27,6 @@ import halfardawid.notepadx.R;
 import halfardawid.notepadx.activity.sketch_editor.brushes.BrushType;
 import halfardawid.notepadx.activity.sketch_editor.brushes.BrushTypes;
 
-/**
- * Created by Dawid on 2017-12-31.
- */
-
 class BrushListAdapter implements ListAdapter {
 
     @Override

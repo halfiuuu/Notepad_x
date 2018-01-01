@@ -60,4 +60,8 @@ public class BrushesActivity extends AppCompatActivity implements BrushFlowManag
         frag.setSelected(brushType);
         getFragmentManager().beginTransaction().replace(doubleScreen?detail:master,frag).commit();
     }
+
+    public void onHomeClick(View v){
+
+    }
 }

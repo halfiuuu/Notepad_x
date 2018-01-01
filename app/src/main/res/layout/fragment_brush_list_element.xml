@@ -23,4 +23,4 @@
     android:text="@string/placeholder"
     android:textAlignment="center"
     android:textAppearance="@style/TextAppearance.AppCompat.Button"
-    android:textColor="@color/highlightable_text"></TextView>
+    android:textColor="@color/highlightable_text"/>

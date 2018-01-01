@@ -63,8 +63,12 @@ public class BrushListFragment extends Fragment {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             if(brushFlowManager==null)return;
             BrushTypes type = BrushTypes.values()[(int) id];
-            setSelected(type);
-            brushFlowManager.goToDetail(type);
+            selectType(type);
         }
+    }
+
+    private void selectType(BrushTypes type) {
+        setSelected(type);
+        brushFlowManager.goToDetail(type);
     }
 }
