@@ -59,8 +59,10 @@ public abstract class Brush implements Serializable{
     transient private int[] splat_pixel_map=null;
     transient private int splat_pixel_map_size=-1;
     transient private Integer splat_col;
-    transient private Vector2i splat_pos_radius=new Vector2i(0);
+    transient private Vector2i splat_pos_radius=null;
     public synchronized final void splat(SmartBitmap bitmap, Vector2i pos_arg, int color,PAINTING_MODE painting_mode) throws SplatFailed {
+        if(splat_pos_radius==null)
+            splat_pos_radius=new Vector2i(0);
         try {
             Vector2i radius = new Vector2i(real_radius());
             Vector2i real_position = bitmap.normalizeVector(pos_arg);
