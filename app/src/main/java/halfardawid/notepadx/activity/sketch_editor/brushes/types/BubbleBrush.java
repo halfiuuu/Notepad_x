@@ -35,6 +35,8 @@ public class BubbleBrush extends Brush{
         super(spacing, radius);
     }
 
+    public BubbleBrush() {}
+
     @Override
     protected float smoothing(Vector2i position) {
         float distance=position.pythagoras();

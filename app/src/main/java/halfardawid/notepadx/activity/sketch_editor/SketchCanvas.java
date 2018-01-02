@@ -48,7 +48,7 @@ public class SketchCanvas extends View {
     private Fingers controller;
     private boolean move=false;
     private boolean erase=false;
-    private Brush brush=new SolidCircleBrush(10,10);
+    private Brush brush=new SolidCircleBrush(5,5);
     private Updatable bar=null;
     private AtomicInteger brush_color=new AtomicInteger(ColorPaletteActivityTab.DEFAULT_COLOR);
 
@@ -180,5 +180,9 @@ public class SketchCanvas extends View {
         Log.d("Cropping to",new_size+" "+cutout);
         image.crop(new_size, cutout);
         resetOffset();
+    }
+
+    public void setBrush(Brush brush) {
+        this.brush = brush;
     }
 }

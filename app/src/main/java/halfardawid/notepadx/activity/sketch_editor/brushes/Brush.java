@@ -19,9 +19,11 @@ package halfardawid.notepadx.activity.sketch_editor.brushes;
 import android.graphics.Color;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
 
 import halfardawid.notepadx.R;
 import halfardawid.notepadx.activity.sketch_editor.SmartBitmap;
+import halfardawid.notepadx.activity.sketch_editor.brushes.brush_pick.BrushDetailFragment;
 import halfardawid.notepadx.util.exceptions.ExpansionFailed;
 import halfardawid.notepadx.util.vectors.Vector2i;
 
@@ -41,6 +43,7 @@ public abstract class Brush implements Serializable{
      */
     abstract protected float smoothing(final Vector2i position);
     private transient static final int expand=3;
+
     public Brush(){}
 
     protected Brush(float spacing, float radius){
@@ -126,5 +129,29 @@ public abstract class Brush implements Serializable{
 
     public float getSpacing(SmartBitmap bitmap) {
         return spacing*bitmap.getScale();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb=new StringBuilder();
+        sb.append(getClass().getName());
+        sb.append("[");
+        Field[] fields = getClass().getFields();
+        for (Field field:fields) {
+            BrushParameter param = field.getAnnotation(BrushParameter.class);
+            if(param==null)continue;
+            sb.append(field.getName());
+            sb.append(":");
+            try {
+                sb.append(field.get(this));
+            } catch (IllegalAccessException e) {
+                sb.append("Access Denied");
+            }
+            sb.append(";");
+        }
+        sb.append("](super:");
+        sb.append(super.toString());
+        sb.append(")");
+        return sb.toString();
     }
 }

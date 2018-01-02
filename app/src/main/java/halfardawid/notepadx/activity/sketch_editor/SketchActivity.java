@@ -29,6 +29,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import halfardawid.notepadx.R;
+import halfardawid.notepadx.activity.sketch_editor.brushes.Brush;
 import halfardawid.notepadx.activity.sketch_editor.brushes.brush_pick.BrushesActivity;
 import halfardawid.notepadx.activity.sketch_editor.colorpalette.ColorPaletteActivityTab;
 import halfardawid.notepadx.activity.generic.GenericNoteActivity;
@@ -42,15 +43,15 @@ import halfardawid.notepadx.util.vectors.Vector2i;
 public final class SketchActivity extends GenericNoteActivity<SketchNote> implements ErrorReportable{
     public static final String TAG="SKETCH_EDITOR";
 
-    private SketchCanvas sketch;
+    private SketchCanvas canvas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         loadIntentData(SketchNote.class);
         setContentView(R.layout.activity_sketch);
-        sketch=(SketchCanvas)findViewById(R.id.as_sketchcanvas);
-        sketch.setUpdatable((SimpleProgressBar)findViewById(R.id.progress_bar));
+        canvas =(SketchCanvas)findViewById(R.id.as_sketchcanvas);
+        canvas.setUpdatable((SimpleProgressBar)findViewById(R.id.progress_bar));
         refreshDataToView();
     }
 
@@ -58,8 +59,8 @@ public final class SketchActivity extends GenericNoteActivity<SketchNote> implem
     @Override
     public void inherentRefresh() {
         Bitmap b;
-        if(!(sketch!=null&&note!=null&&(b=note.getBitmap())!=null))return;
-        sketch.setBitmap(b);
+        if(!(canvas !=null&&note!=null&&(b=note.getBitmap())!=null))return;
+        canvas.setBitmap(b);
     }
 
     @Override
@@ -68,7 +69,7 @@ public final class SketchActivity extends GenericNoteActivity<SketchNote> implem
         switch(code){
             case ColorPaletteActivityTab.CODE:
                 if(intent.hasExtra(ColorPaletteActivityTab.EXTRA_COLOR))
-                    sketch.setBrushColor(
+                    canvas.setBrushColor(
                             intent.getIntExtra(ColorPaletteActivityTab.EXTRA_COLOR,
                                     ColorPaletteActivityTab.DEFAULT_COLOR));
                 break;
@@ -81,29 +82,34 @@ public final class SketchActivity extends GenericNoteActivity<SketchNote> implem
                             intent.getIntExtra(CropToNumbers.CUT_X,0),
                             intent.getIntExtra(CropToNumbers.CUT_Y,0));
                     try {
-                        sketch.cropCanvas(new_size,cutout);
+                        canvas.cropCanvas(new_size,cutout);
                     } catch (CropFailed cropFailed) {
                         reportError(cropFailed);
                     }
                 }
+                break;
+            case BrushesActivity.CODE:
+                if(intent==null||!intent.hasExtra(BrushesActivity.BRUSH))
+                    break;
+                canvas.setBrush((Brush)intent.getSerializableExtra(BrushesActivity.BRUSH));
                 break;
         }
     }
 
     @Override
     protected void loadSettings(Bundle s) {
-        sketch.loadSettings(s);
+        canvas.loadSettings(s);
     }
 
     @Override
     protected void saveSettings(Bundle s) {
-        sketch.saveSettings(s);
+        canvas.saveSettings(s);
     }
 
     @Override
     public void prepareForSave() {
-        if(sketch==null)return;
-        Bitmap b=sketch.getBitmap();
+        if(canvas ==null)return;
+        Bitmap b= canvas.getBitmap();
         if(b==null)return;
         note.setBitmap(b);
     }
@@ -119,17 +125,17 @@ public final class SketchActivity extends GenericNoteActivity<SketchNote> implem
     protected boolean menuButtonPressed(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.sem_reset_zoom:
-                sketch.resetZoom();
+                canvas.resetZoom();
                 return true;
             case R.id.sem_reset_position:
-                sketch.resetOffset();
+                canvas.resetOffset();
                 return true;
             case R.id.sem_clear_canvas:
-                sketch.clearCanvas();
+                canvas.clearCanvas();
                 return true;
             case R.id.sem_auto_crop_canvas:
                 try {
-                    sketch.autoCropCanvas();
+                    canvas.autoCropCanvas();
                 } catch (CropFailed cropFailed) {
                     reportError(cropFailed);
                 }
@@ -154,11 +160,11 @@ public final class SketchActivity extends GenericNoteActivity<SketchNote> implem
     }
 
     public void onMoveModeToggleClicked(View v){
-        sketch.setMoveMode(((ToggleButton)(v)).isChecked());
+        canvas.setMoveMode(((ToggleButton)(v)).isChecked());
     }
 
     public void onEraserModeToggleClicked(View v){
-        sketch.setErasing(((ToggleButton)(v)).isChecked());
+        canvas.setErasing(((ToggleButton)(v)).isChecked());
     }
 
     public void onBrushEditorClicked(View v){
@@ -176,7 +182,7 @@ public final class SketchActivity extends GenericNoteActivity<SketchNote> implem
 
     private void startColorPalette() {
         Intent i=new Intent(this,ColorPaletteActivityTab.class);
-        i.putExtra(ColorPaletteActivityTab.EXTRA_COLOR,sketch.getBrushColor());
+        i.putExtra(ColorPaletteActivityTab.EXTRA_COLOR, canvas.getBrushColor());
         startActivityForResult(i, ColorPaletteActivityTab.CODE);
     }
 

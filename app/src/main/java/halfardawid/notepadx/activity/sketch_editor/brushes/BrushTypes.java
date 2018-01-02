@@ -16,6 +16,8 @@
 
 package halfardawid.notepadx.activity.sketch_editor.brushes;
 
+import java.lang.reflect.InvocationTargetException;
+
 import halfardawid.notepadx.activity.sketch_editor.brushes.types.BubbleBrush;
 import halfardawid.notepadx.activity.sketch_editor.brushes.types.SoftTipCircle;
 import halfardawid.notepadx.activity.sketch_editor.brushes.types.SolidCircleBrush;
@@ -32,5 +34,8 @@ public enum BrushTypes {
     }
     public Class<? extends Brush> getType(){
         return type;
+    }
+    public Brush getInstance() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        return type.getConstructor().newInstance();
     }
 }

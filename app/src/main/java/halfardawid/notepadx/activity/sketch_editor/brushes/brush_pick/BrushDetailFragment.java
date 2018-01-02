@@ -16,9 +16,11 @@
 
 package halfardawid.notepadx.activity.sketch_editor.brushes.brush_pick;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -28,17 +30,25 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
 import halfardawid.notepadx.R;
+import halfardawid.notepadx.activity.sketch_editor.brushes.Brush;
 import halfardawid.notepadx.activity.sketch_editor.brushes.BrushParameter;
 import halfardawid.notepadx.activity.sketch_editor.brushes.BrushTypes;
+import halfardawid.notepadx.activity.sketch_editor.brushes.types.BubbleBrush;
 
-public class BrushDetailFragment extends Fragment {
+public class BrushDetailFragment extends BrushFlowManagedFragment {
     public static final int MAX = 1000;
+    public static final String TAG = "BD_FRAG";
     private BrushTypes selected;
     private List<ParameterReferences> parameterReferencesList=null;
     private LinearLayout layout;
@@ -48,8 +58,19 @@ public class BrushDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_brush_detail, null);
         layout = (LinearLayout) view.findViewById(R.id.fbd_content);
+        view.findViewById(R.id.fbd_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                applyBrush();
+            }
+        });
         populateParameterList();
         return view;
+    }
+
+    public void applyBrush(){
+        //Toast.makeText(layout.getContext(), bundle.toString(), Toast.LENGTH_SHORT).show();
+        brushFlowManager.returnResult(parseBrush());
     }
 
     private void populateParameterList() {
@@ -62,11 +83,28 @@ public class BrushDetailFragment extends Fragment {
         for (Field field:fields) {
             BrushParameter param = field.getAnnotation(BrushParameter.class);
             if(param==null)continue;
-            ParameterReferences references = new ParameterReferences(inflater);
+            ParameterReferences references = new ParameterReferences(field,inflater);
             parameterReferencesList.add(references);
             setupText(param, references);
             setupEdit(param, references);
             setupSeek(param, references);
+        }
+    }
+
+    private Brush parseBrush(){
+        try {
+            Brush brush =selected.getInstance();
+            for(ParameterReferences reference:parameterReferencesList){
+                Field field=reference.getField();
+                field.set(brush, reference.getValue());
+            }
+            //Log.d(TAG,"Parsed: "+brush);
+            return brush;
+        } catch (Exception e) {
+            Log.wtf(TAG,
+                    "Brush creation terribly failed, " +
+                            "someone didn't ensure constructor(void) for brush...",e);
+            return null;
         }
     }
 
@@ -118,12 +156,14 @@ public class BrushDetailFragment extends Fragment {
         private final EditText edit;
         private final SeekBar seek;
         private final View view;
+        private final Field field;
 
-        ParameterReferences(LayoutInflater inflater){
+        ParameterReferences(Field field, LayoutInflater inflater){
             view = inflater.inflate(R.layout.fragment_brush_detail_element, null);
             textView = (TextView) view.findViewById(R.id.fbde_text);
             edit = (EditText) view.findViewById(R.id.fbde_edit);
             seek = (SeekBar) view.findViewById(R.id.fbde_slide);
+            this.field=field;
             layout.addView(view);
         }
 
@@ -153,6 +193,14 @@ public class BrushDetailFragment extends Fragment {
         public void updateText(float v) {
             v=((float)(int)(v*100))/100;
             edit.setText(String.format("%s", v));
+        }
+
+        public Field getField() {
+            return field;
+        }
+
+        public Float getValue() {
+            return Float.parseFloat(edit.getText().toString());
         }
     }
 }

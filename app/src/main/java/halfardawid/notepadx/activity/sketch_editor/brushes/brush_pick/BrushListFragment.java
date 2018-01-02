@@ -30,9 +30,8 @@ import android.widget.Toast;
 import halfardawid.notepadx.R;
 import halfardawid.notepadx.activity.sketch_editor.brushes.BrushTypes;
 
-public class BrushListFragment extends Fragment {
+public class BrushListFragment extends BrushFlowManagedFragment {
 
-    private BrushFlowManager brushFlowManager=null;
     private ListView listView;
     private BrushTypes selected;
 
@@ -43,12 +42,7 @@ public class BrushListFragment extends Fragment {
         listView = (ListView) v.findViewById(R.id.fbl_list);
         listView.setAdapter(new BrushListAdapter());
         listView.setOnItemClickListener(new LocalOnItemClickListener());
-        //setSelected(BrushTypes.SOFT_TIP_CIRCLE);
         return v;
-    }
-
-    public void setCallback(BrushFlowManager flow){
-        brushFlowManager=flow;
     }
 
     public void setSelected(BrushTypes selected) {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 anno Domini.
+ * Copyright (c) 2018 anno Domini.
  *
  * Code below is a part of
  * https://github.com/halfiuuu/Notepad_x
@@ -16,13 +16,11 @@
 
 package halfardawid.notepadx.activity.sketch_editor.brushes.brush_pick;
 
-import android.os.Bundle;
+import android.app.Fragment;
 
-import halfardawid.notepadx.activity.sketch_editor.brushes.Brush;
-import halfardawid.notepadx.activity.sketch_editor.brushes.BrushTypes;
-
-interface BrushFlowManager {
-    void goToList();
-    void goToDetail(BrushTypes brushType);
-    void returnResult(Brush brush);
+public abstract class BrushFlowManagedFragment extends Fragment {
+    protected BrushFlowManager brushFlowManager=null;
+    public void setCallback(BrushFlowManager flow){
+        brushFlowManager=flow;
+    }
 }

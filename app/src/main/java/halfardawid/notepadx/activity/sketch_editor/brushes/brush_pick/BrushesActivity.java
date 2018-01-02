@@ -16,14 +16,14 @@
 
 package halfardawid.notepadx.activity.sketch_editor.brushes.brush_pick;
 
-import android.app.Fragment;
+import android.content.Intent;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import halfardawid.notepadx.R;
+import halfardawid.notepadx.activity.sketch_editor.brushes.Brush;
 import halfardawid.notepadx.activity.sketch_editor.brushes.BrushTypes;
 
 public class BrushesActivity extends AppCompatActivity implements BrushFlowManager{
@@ -32,6 +32,7 @@ public class BrushesActivity extends AppCompatActivity implements BrushFlowManag
 
     @IdRes private static final int master=R.id.ab_master;
     @IdRes private static final int detail=R.id.ab_detail;
+    public static final String BRUSH = "BRUSH";
     boolean doubleScreen;
     boolean finishOnHome;
     private BrushTypes selected;
@@ -59,9 +60,18 @@ public class BrushesActivity extends AppCompatActivity implements BrushFlowManag
     public void goToDetail(BrushTypes brushType) {
         selected = brushType;
         BrushDetailFragment frag=new BrushDetailFragment();
+        frag.setCallback(this);
         frag.setSelected(brushType);
         getFragmentManager().beginTransaction().replace(doubleScreen?detail:master,frag).commit();
         finishOnHome=false;
+    }
+
+    @Override
+    public void returnResult(Brush brush) {
+        Intent intent=new Intent();
+        intent.putExtra(BRUSH, brush);
+        setResult(RESULT_OK,intent);
+        quit();
     }
 
     public void onHomeClick(View v){
