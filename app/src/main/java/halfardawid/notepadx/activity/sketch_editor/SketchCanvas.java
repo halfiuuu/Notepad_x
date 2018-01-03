@@ -48,7 +48,7 @@ public class SketchCanvas extends View {
     private Fingers controller;
     private boolean move=false;
     private boolean erase=false;
-    private Brush brush=new SolidCircleBrush(5,5);
+    private Brush brush=Brush.getDefaultBrush();
     private Updatable bar=null;
     private AtomicInteger brush_color=new AtomicInteger(ColorPaletteActivityTab.DEFAULT_COLOR);
 

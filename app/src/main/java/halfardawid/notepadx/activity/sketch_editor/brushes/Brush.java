@@ -24,6 +24,7 @@ import java.lang.reflect.Field;
 import halfardawid.notepadx.R;
 import halfardawid.notepadx.activity.sketch_editor.SmartBitmap;
 import halfardawid.notepadx.activity.sketch_editor.brushes.brush_pick.BrushDetailFragment;
+import halfardawid.notepadx.activity.sketch_editor.brushes.types.SolidCircleBrush;
 import halfardawid.notepadx.util.exceptions.ExpansionFailed;
 import halfardawid.notepadx.util.vectors.Vector2i;
 
@@ -35,6 +36,13 @@ public abstract class Brush implements Serializable{
     public Float spacing=1f;
     @BrushParameter(name=R.string.brush_radius, min=1,max=100)
     public Float radius=1f;
+
+    public static Brush getDefaultBrush() {
+        SolidCircleBrush solidCircleBrush = new SolidCircleBrush();
+        solidCircleBrush.radius=5f;
+        solidCircleBrush.spacing=3f;
+        return solidCircleBrush;
+    }
 
     /**
      * Returns a 0f-1f based on a distance. For circle-gradient types of brushes

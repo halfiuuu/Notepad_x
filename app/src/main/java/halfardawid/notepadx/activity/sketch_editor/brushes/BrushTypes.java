@@ -21,14 +21,18 @@ import android.util.Log;
 import java.lang.reflect.InvocationTargetException;
 
 import halfardawid.notepadx.activity.sketch_editor.brushes.types.BubbleBrush;
+import halfardawid.notepadx.activity.sketch_editor.brushes.types.RectBrush;
 import halfardawid.notepadx.activity.sketch_editor.brushes.types.SoftTipCircle;
 import halfardawid.notepadx.activity.sketch_editor.brushes.types.SolidCircleBrush;
+import halfardawid.notepadx.activity.sketch_editor.brushes.types.SquareBrush;
 
 //Lists out possible brushes for BrushesActivity or whatever i've called it.
 public enum BrushTypes {
     SOFT_TIP_CIRCLE(SoftTipCircle.class),
     SOLID_CIRCLE_BRUSH(SolidCircleBrush.class),
-    BUBBLE_BRUSH(BubbleBrush.class);
+    BUBBLE_BRUSH(BubbleBrush.class),
+    SQUARE_BRUSH(SquareBrush.class),
+    RECT_BRUSH(RectBrush.class);
 
     private final Class<? extends Brush> type;
     BrushTypes(Class<? extends Brush> type) {

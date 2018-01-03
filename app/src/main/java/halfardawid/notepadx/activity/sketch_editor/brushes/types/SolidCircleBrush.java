@@ -24,10 +24,6 @@ import halfardawid.notepadx.util.vectors.Vector2i;
 
 @BrushType(name = R.string.solid_circle)
 public class SolidCircleBrush extends Brush {
-    public SolidCircleBrush(){}
-    public SolidCircleBrush(float spacing, float radius) {
-        super(spacing, radius);
-    }
 
     @Override
     protected float smoothing(Vector2i a) {

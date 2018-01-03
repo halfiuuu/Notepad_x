@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 anno Domini.
+ * Copyright (c) 2018 anno Domini.
  *
  * Code below is a part of
  * https://github.com/halfiuuu/Notepad_x
@@ -18,22 +18,14 @@ package halfardawid.notepadx.activity.sketch_editor.brushes.types;
 
 import halfardawid.notepadx.R;
 import halfardawid.notepadx.activity.sketch_editor.brushes.Brush;
-import halfardawid.notepadx.activity.sketch_editor.brushes.BrushParameter;
 import halfardawid.notepadx.activity.sketch_editor.brushes.BrushType;
 import halfardawid.notepadx.util.vectors.Vector2i;
 
-/**
- * This is pretty much just a test
- */
-
-@BrushType(name = R.string.bubble_brush)
-public class BubbleBrush extends Brush{
-    @BrushParameter(name=R.string.hollow, min=0, max=1, percent=true)
-    public Float hollow=.5f;
-
+@BrushType(name = R.string.square_brush)
+public class SquareBrush extends Brush {
     @Override
     protected float smoothing(Vector2i position) {
-        float distance=position.pythagoras();
-        return (distance<=radius&&distance>= radius*hollow)?1:0;
+        Vector2i absolute=new Vector2i(position).abs();
+        return (absolute.x<=radius&&absolute.y<=radius)?1:0;
     }
 }

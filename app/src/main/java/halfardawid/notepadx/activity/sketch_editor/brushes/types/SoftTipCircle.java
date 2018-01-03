@@ -25,11 +25,6 @@ import halfardawid.notepadx.util.vectors.Vector2i;
 
 @BrushType(name = R.string.soft_circle)
 public class SoftTipCircle extends Brush {
-    public SoftTipCircle(){}
-    public SoftTipCircle(float spacing, float radius) {
-        super(spacing, radius);
-    }
-
 
     @BrushParameter(name=R.string.inner_solid, min=0, max=1, percent=true)
     public Float solid=.5f;

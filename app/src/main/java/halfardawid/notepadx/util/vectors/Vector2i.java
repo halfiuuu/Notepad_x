@@ -143,9 +143,9 @@ public class Vector2i {
         return "V2I["+x+"/"+y+"]";
     }
 
-    public Vector2i multiply(float multipler) {
-        x*=multipler;
-        y*=multipler;
+    public Vector2i multiply(float multiplier) {
+        x*=multiplier;
+        y*=multiplier;
         return this;
     }
 
@@ -180,5 +180,10 @@ public class Vector2i {
         return x*y;
     }
 
+    public Vector2i multiply(final Vector2i arg0) {
+        x*=arg0.x;
+        y*=arg0.y;
+        return this;
+    }
 }
 
