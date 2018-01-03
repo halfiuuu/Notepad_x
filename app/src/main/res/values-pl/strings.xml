@@ -110,4 +110,7 @@
     <string name="value_too_big">Wartość zbyt duża</string>
     <string name="value_too_small">Wartość zbyt mała</string>
     <string name="inner_solid">Procent solidnego koloru</string>
+    <string name="ratio">Stosunek wysokości do szerokości</string>
+    <string name="rect_brush">Czworokątny pędzel</string>
+    <string name="square_brush">Pędzel kwadratowy</string>
 </resources>
