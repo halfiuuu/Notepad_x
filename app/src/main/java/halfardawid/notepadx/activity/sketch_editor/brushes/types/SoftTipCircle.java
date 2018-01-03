@@ -18,20 +18,26 @@ package halfardawid.notepadx.activity.sketch_editor.brushes.types;
 
 import halfardawid.notepadx.R;
 import halfardawid.notepadx.activity.sketch_editor.brushes.Brush;
+import halfardawid.notepadx.activity.sketch_editor.brushes.BrushParameter;
 import halfardawid.notepadx.activity.sketch_editor.brushes.BrushType;
 import halfardawid.notepadx.util.vectors.Vector2i;
 
 
 @BrushType(name = R.string.soft_circle)
 public class SoftTipCircle extends Brush {
-    public SoftTipCircle(){super();}
+    public SoftTipCircle(){}
     public SoftTipCircle(float spacing, float radius) {
         super(spacing, radius);
     }
 
+
+    @BrushParameter(name=R.string.inner_solid, min=0, max=1, percent=true)
+    public Float solid=.5f;
+
     @Override
     protected float smoothing(Vector2i a) {
         float distance=a.pythagoras();
-        return (distance<=radius)?1F-distance/radius:0;
+        float solid_radius = radius * solid;
+        return (distance<=radius)?((distance>solid_radius)?1F-(distance-solid_radius)/(radius-solid_radius):1):0;
     }
 }

@@ -85,6 +85,11 @@
     <string name="very_small">Very small</string>
     <string name="go_back">Go back</string>
     <string name="hollow">Hollow</string>
+    <string name="cant_be_empty">This can not be empty</string>
+    <string name="not_a_number">This doesn\'t look like a number</string>
+    <string name="value_too_big">Value too big</string>
+    <string name="value_too_small">Value too small</string>
+    <string name="inner_solid">Inner solid percent</string>
     <string-array name="color_names">
         <item>Red</item>
         <item>Pink</item>

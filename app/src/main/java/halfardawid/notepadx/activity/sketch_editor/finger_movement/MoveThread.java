@@ -28,6 +28,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import halfardawid.notepadx.activity.generic.layouts.Updatable;
 
+import static android.view.MotionEvent.ACTION_CANCEL;
 import static android.view.MotionEvent.ACTION_DOWN;
 import static android.view.MotionEvent.ACTION_MOVE;
 import static android.view.MotionEvent.ACTION_POINTER_DOWN;
@@ -102,6 +103,7 @@ final class MoveThread extends Thread{
     private FingerMovement getFingerMovement(MotionEvent me) {
         switch (me.getActionMasked()) {
             case ACTION_UP:
+            case ACTION_CANCEL:
                 return new LastFingerUp(fingers, me);
             case ACTION_POINTER_UP:
                 return new FingerUp(fingers, me);

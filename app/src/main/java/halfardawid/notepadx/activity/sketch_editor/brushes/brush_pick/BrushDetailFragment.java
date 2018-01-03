@@ -20,6 +20,8 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -70,7 +72,40 @@ public class BrushDetailFragment extends BrushFlowManagedFragment {
 
     public void applyBrush(){
         //Toast.makeText(layout.getContext(), bundle.toString(), Toast.LENGTH_SHORT).show();
-        brushFlowManager.returnResult(parseBrush());
+        if(validateFields())
+            brushFlowManager.returnResult(parseBrush());
+    }
+
+    private boolean validateFields() {
+        boolean valid=true;
+        for(ParameterReferences reference:parameterReferencesList)
+            valid&=isValid(reference);
+        return valid;
+    }
+
+    private boolean isValid(ParameterReferences reference) {
+        String text = reference.getValue();
+        if(text.isEmpty()){
+            reference.setError(R.string.cant_be_empty);
+            return false;
+        }
+        float value;
+        try {
+            value = Float.parseFloat(text);
+        }catch (NumberFormatException e){
+            reference.setError(R.string.not_a_number);
+            return false;
+        }
+        BrushParameter parameter = reference.getParameter();
+        if(value>parameter.max()){
+            reference.setError(R.string.value_too_big);
+            return false;
+        }
+        if(value<parameter.min()){
+            reference.setError(R.string.value_too_small);
+            return false;
+        }
+        return true;
     }
 
     private void populateParameterList() {
@@ -83,7 +118,7 @@ public class BrushDetailFragment extends BrushFlowManagedFragment {
         for (Field field:fields) {
             BrushParameter param = field.getAnnotation(BrushParameter.class);
             if(param==null)continue;
-            ParameterReferences references = new ParameterReferences(field,inflater);
+            ParameterReferences references = new ParameterReferences(param,field,inflater);
             parameterReferencesList.add(references);
             setupText(param, references);
             setupEdit(param, references);
@@ -96,7 +131,7 @@ public class BrushDetailFragment extends BrushFlowManagedFragment {
             Brush brush =selected.getInstance();
             for(ParameterReferences reference:parameterReferencesList){
                 Field field=reference.getField();
-                field.set(brush, reference.getValue());
+                field.set(brush, Float.parseFloat(reference.getValue()));
             }
             //Log.d(TAG,"Parsed: "+brush);
             return brush;
@@ -117,7 +152,11 @@ public class BrushDetailFragment extends BrushFlowManagedFragment {
         references.getEdit().setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                references.updateSeek(Float.parseFloat(v.getText().toString()));
+                try {
+                    references.updateSeek(Float.parseFloat(v.getText().toString()));
+                }catch (NumberFormatException e){
+                    //Ignore for now I guess...
+                }
                 return false;
             }
         });
@@ -157,8 +196,10 @@ public class BrushDetailFragment extends BrushFlowManagedFragment {
         private final SeekBar seek;
         private final View view;
         private final Field field;
+        private final BrushParameter parameter;
 
-        ParameterReferences(Field field, LayoutInflater inflater){
+        ParameterReferences(BrushParameter param, Field field, LayoutInflater inflater){
+            parameter=param;
             view = inflater.inflate(R.layout.fragment_brush_detail_element, null);
             textView = (TextView) view.findViewById(R.id.fbde_text);
             edit = (EditText) view.findViewById(R.id.fbde_edit);
@@ -167,7 +208,7 @@ public class BrushDetailFragment extends BrushFlowManagedFragment {
             layout.addView(view);
         }
 
-        public TextView getTextView() {
+        TextView getTextView() {
             return textView;
         }
 
@@ -175,7 +216,7 @@ public class BrushDetailFragment extends BrushFlowManagedFragment {
             return edit;
         }
 
-        public SeekBar getSeek() {
+        SeekBar getSeek() {
             return seek;
         }
 
@@ -183,24 +224,33 @@ public class BrushDetailFragment extends BrushFlowManagedFragment {
             return view;
         }
 
-        public void updateSeek(float v) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                seek.setProgress((int) (seek.getMax()*v),true);
-            else
-                seek.setProgress((int) (seek.getMax()*v));
+        public BrushParameter getParameter(){
+            return parameter;
         }
 
-        public void updateText(float v) {
+        void updateSeek(float v) {
+            float val = seek.getMax() * ((v-parameter.min())/(parameter.max()-parameter.min()));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                seek.setProgress((int) val,true);
+            else
+                seek.setProgress((int) val);
+        }
+
+        void updateText(float v) {
             v=((float)(int)(v*100))/100;
             edit.setText(String.format("%s", v));
         }
 
-        public Field getField() {
+        Field getField() {
             return field;
         }
 
-        public Float getValue() {
-            return Float.parseFloat(edit.getText().toString());
+        public String getValue() {
+            return edit.getText().toString();
+        }
+
+        public void setError(@StringRes int error) {
+            edit.setError(layout.getContext().getString(error));
         }
     }
 }

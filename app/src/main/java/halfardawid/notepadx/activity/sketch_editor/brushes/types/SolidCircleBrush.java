@@ -18,12 +18,13 @@ package halfardawid.notepadx.activity.sketch_editor.brushes.types;
 
 import halfardawid.notepadx.R;
 import halfardawid.notepadx.activity.sketch_editor.brushes.Brush;
+import halfardawid.notepadx.activity.sketch_editor.brushes.BrushParameter;
 import halfardawid.notepadx.activity.sketch_editor.brushes.BrushType;
 import halfardawid.notepadx.util.vectors.Vector2i;
 
 @BrushType(name = R.string.solid_circle)
 public class SolidCircleBrush extends Brush {
-    public SolidCircleBrush(){super();}
+    public SolidCircleBrush(){}
     public SolidCircleBrush(float spacing, float radius) {
         super(spacing, radius);
     }

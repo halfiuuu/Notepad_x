@@ -103,4 +103,10 @@
         <item>Szary</item>
         <item>Szary Niebieski</item>
     </string-array>
+    <string name="cant_be_empty">To nie może być puste</string>
+    <string name="go_back">Wstecz</string>
+    <string name="hollow">Wewnętrzne wcięcie</string>
+    <string name="not_a_number">To nie wygląda jak liczba</string>
+    <string name="value_too_big">Wartość zbyt duża</string>
+    <string name="value_too_small">Wartość zbyt mała</string>
 </resources>
