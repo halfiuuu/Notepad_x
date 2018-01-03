@@ -42,6 +42,7 @@ public enum BrushTypes {
     }
 
     public static BrushTypes getEnum(Brush latestBrush) {
+        if(latestBrush==null)return null;
         for(BrushTypes type:values())
             if(type.getType().equals(latestBrush.getClass()))return type;
         Log.wtf("BrushTypes","Non registered brush type! Wtf, "+latestBrush);

@@ -21,6 +21,7 @@ import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import halfardawid.notepadx.R;
 import halfardawid.notepadx.activity.sketch_editor.brushes.Brush;
@@ -37,6 +38,8 @@ public class BrushesActivity extends AppCompatActivity implements BrushFlowManag
     boolean finishOnHome;
     private BrushTypes selected;
     private Brush latestBrush;
+    private BrushListFragment brushListFragment;
+    private BrushDetailFragment brushDetailFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,22 +54,36 @@ public class BrushesActivity extends AppCompatActivity implements BrushFlowManag
     }
 
     @Override
-    public void goToList() {
-        BrushListFragment frag=new BrushListFragment();
-        frag.setCallback(this);
-        if(selected!=null)frag.setSelected(selected);
-        getFragmentManager().beginTransaction().replace(master,frag).commit();
+    public synchronized void goToList() {
+        brushListFragment = new BrushListFragment();
+        updateBrush();
+        brushListFragment.setSelected(selected);
+        brushListFragment.setCallback(this);
+        getFragmentManager().beginTransaction().replace(master, brushListFragment).commit();
         finishOnHome=true;
     }
 
+    private void updateBrush() {
+        if(brushDetailFragment==null)return;
+        Brush temp = brushDetailFragment.getBrushIfYouCan();
+        if(temp!=null) {
+            latestBrush = temp;
+            selected = BrushTypes.getEnum(temp);
+        }
+    }
+
     @Override
-    public void goToDetail(BrushTypes brushType) {
+    public synchronized void goToDetail(BrushTypes brushType) {
+        if(doubleScreen){
+            updateBrush();
+        }
         selected = brushType;
-        BrushDetailFragment frag=new BrushDetailFragment();
-        frag.setCallback(this);
-        frag.setSelected(brushType);
-        if(latestBrush!=null)frag.copyParameters(latestBrush);
-        getFragmentManager().beginTransaction().replace(doubleScreen?detail:master,frag).commit();
+        brushDetailFragment = new BrushDetailFragment();
+        brushDetailFragment.setCallback(this);
+        brushDetailFragment.setSelected(brushType);
+        if(latestBrush!=null)
+            brushDetailFragment.copyParameters(latestBrush);
+        getFragmentManager().beginTransaction().replace(doubleScreen?detail:master, brushDetailFragment).commit();
         finishOnHome=false;
     }
 

@@ -43,6 +43,8 @@ public class BrushListFragment extends BrushFlowManagedFragment {
         listView = (ListView) v.findViewById(R.id.fbl_list);
         listView.setAdapter(new BrushListAdapter());
         listView.setOnItemClickListener(new LocalOnItemClickListener());
+        if(selected!=null)
+            listView.setItemChecked(selected.ordinal(),true);
         return v;
     }
 

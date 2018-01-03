@@ -78,6 +78,7 @@ public class BrushDetailFragment extends BrushFlowManagedFragment {
     }
 
     private boolean validateFields() {
+        if(parameterReferencesList==null)return false;
         boolean valid=true;
         for(ParameterReferences reference:parameterReferencesList)
             valid&=isValid(reference);
@@ -124,6 +125,7 @@ public class BrushDetailFragment extends BrushFlowManagedFragment {
             setupText(param, references);
             setupEdit(param, references);
             setupSeek(param, references);
+            references.loadFromTemplate();
         }
     }
 
@@ -218,6 +220,12 @@ public class BrushDetailFragment extends BrushFlowManagedFragment {
         }
     }
 
+    public Brush getBrushIfYouCan() {
+        if(validateFields())
+            return parseBrush();
+        return null;
+    }
+
     private class ParameterReferences{
 
         private final TextView textView;
@@ -233,17 +241,21 @@ public class BrushDetailFragment extends BrushFlowManagedFragment {
             textView = (TextView) view.findViewById(R.id.fbde_text);
             edit = (EditText) view.findViewById(R.id.fbde_edit);
             seek = (SeekBar) view.findViewById(R.id.fbde_slide);
+            this.field=field;
+            layout.addView(view);
+        }
+
+        public void loadFromTemplate() {
             if(template!=null){
                 try {
                     Float o = (Float) field.get(template);
+                    if(o==null)return;
                     updateText(o);
                     updateSeek(o);
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
             }
-            this.field=field;
-            layout.addView(view);
         }
 
         TextView getTextView() {
