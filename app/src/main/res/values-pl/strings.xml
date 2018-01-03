@@ -109,4 +109,5 @@
     <string name="not_a_number">To nie wygląda jak liczba</string>
     <string name="value_too_big">Wartość zbyt duża</string>
     <string name="value_too_small">Wartość zbyt mała</string>
+    <string name="inner_solid">Procent solidnego koloru</string>
 </resources>
