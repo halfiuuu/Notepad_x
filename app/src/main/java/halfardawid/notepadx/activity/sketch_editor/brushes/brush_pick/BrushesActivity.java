@@ -36,13 +36,16 @@ public class BrushesActivity extends AppCompatActivity implements BrushFlowManag
     boolean doubleScreen;
     boolean finishOnHome;
     private BrushTypes selected;
+    private Brush latestBrush;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_brushes);
         doubleScreen=(findViewById(detail)!=null);
-        selected=BrushTypes.SOFT_TIP_CIRCLE;
+        latestBrush = (Brush) getIntent().getSerializableExtra(BRUSH);
+        if(latestBrush!=null)
+            selected=BrushTypes.getEnum(latestBrush);
         goToList();
         if(doubleScreen)goToDetail(selected);
     }
@@ -62,6 +65,7 @@ public class BrushesActivity extends AppCompatActivity implements BrushFlowManag
         BrushDetailFragment frag=new BrushDetailFragment();
         frag.setCallback(this);
         frag.setSelected(brushType);
+        if(latestBrush!=null)frag.copyParameters(latestBrush);
         getFragmentManager().beginTransaction().replace(doubleScreen?detail:master,frag).commit();
         finishOnHome=false;
     }

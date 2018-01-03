@@ -23,8 +23,8 @@ android {
         applicationId "halfardawid.notepadx"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 11
-        versionName "BETA-11"
+        versionCode 12
+        versionName "BETA-12"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary true

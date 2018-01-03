@@ -52,6 +52,7 @@ public class BrushDetailFragment extends BrushFlowManagedFragment {
     public static final int MAX = 1000;
     public static final String TAG = "BD_FRAG";
     private BrushTypes selected;
+    private Brush template;
     private List<ParameterReferences> parameterReferencesList=null;
     private LinearLayout layout;
 
@@ -187,6 +188,34 @@ public class BrushDetailFragment extends BrushFlowManagedFragment {
 
     public void setSelected(BrushTypes selected) {
         this.selected = selected;
+        try {
+            template=selected.getInstance();
+        } catch (Exception e) {
+            Log.wtf(TAG,"Oh hell...",e);
+        }
+    }
+
+    public void copyParameters(Brush latestBrush) {
+        if(template==null||latestBrush==null)return;
+        Field[] latest_fields = latestBrush.getClass().getFields();
+        Field[] template_fields = template.getClass().getFields();
+        for(Field latest_field: latest_fields){
+            BrushParameter annotation = latest_field.getAnnotation(BrushParameter.class);
+            if(annotation==null)continue;
+            for(Field template_field:template_fields){
+                BrushParameter target_annotation = template_field.getAnnotation(BrushParameter.class);
+                if(target_annotation==null)continue;
+                if(template_field.getName().equals(latest_field.getName()) &&
+                        template_field.getType().equals(latest_field.getType())){
+                    try {
+                        template_field.set(template,
+                                latest_field.get(latestBrush));
+                    } catch (IllegalAccessException e) {
+                        Log.wtf(TAG,"Access denied, good luck",e);
+                    }
+                }
+            }
+        }
     }
 
     private class ParameterReferences{
@@ -204,6 +233,15 @@ public class BrushDetailFragment extends BrushFlowManagedFragment {
             textView = (TextView) view.findViewById(R.id.fbde_text);
             edit = (EditText) view.findViewById(R.id.fbde_edit);
             seek = (SeekBar) view.findViewById(R.id.fbde_slide);
+            if(template!=null){
+                try {
+                    Float o = (Float) field.get(template);
+                    updateText(o);
+                    updateSeek(o);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
             this.field=field;
             layout.addView(view);
         }

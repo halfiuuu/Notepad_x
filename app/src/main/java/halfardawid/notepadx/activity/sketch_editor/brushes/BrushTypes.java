@@ -16,6 +16,8 @@
 
 package halfardawid.notepadx.activity.sketch_editor.brushes;
 
+import android.util.Log;
+
 import java.lang.reflect.InvocationTargetException;
 
 import halfardawid.notepadx.activity.sketch_editor.brushes.types.BubbleBrush;
@@ -37,5 +39,12 @@ public enum BrushTypes {
     }
     public Brush getInstance() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         return type.getConstructor().newInstance();
+    }
+
+    public static BrushTypes getEnum(Brush latestBrush) {
+        for(BrushTypes type:values())
+            if(type.getType().equals(latestBrush.getClass()))return type;
+        Log.wtf("BrushTypes","Non registered brush type! Wtf, "+latestBrush);
+        return null;
     }
 }

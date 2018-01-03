@@ -173,6 +173,7 @@ public final class SketchActivity extends GenericNoteActivity<SketchNote> implem
 
     private void startBrushEditor() {
         Intent i=new Intent(this, BrushesActivity.class);
+        i.putExtra(BrushesActivity.BRUSH,getBrush());
         startActivityForResult(i, BrushesActivity.CODE);
     }
 
@@ -196,4 +197,7 @@ public final class SketchActivity extends GenericNoteActivity<SketchNote> implem
         return TAG;
     }
 
+    public Brush getBrush() {
+        return canvas.getBrush();
+    }
 }

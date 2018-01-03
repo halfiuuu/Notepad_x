@@ -28,6 +28,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import halfardawid.notepadx.R;
+import halfardawid.notepadx.activity.sketch_editor.brushes.Brush;
 import halfardawid.notepadx.activity.sketch_editor.brushes.BrushTypes;
 
 public class BrushListFragment extends BrushFlowManagedFragment {
