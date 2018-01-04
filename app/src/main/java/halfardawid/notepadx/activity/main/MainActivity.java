@@ -37,6 +37,9 @@ import android.widget.GridView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.util.prefs.PreferenceChangeEvent;
 import java.util.prefs.PreferenceChangeListener;
 
@@ -247,9 +250,22 @@ public final class MainActivity
             case R.id.cnt_change_title:
                 changeTitleDialog();
                 return true;
+            case R.id.cnt_duplicate:
+                duplicateNote();
             default:
                 return false;
         }
+    }
+
+    private void duplicateNote() {
+        Note note=context_choice;
+        try {
+            note.saveAsNew(this);
+        } catch (Exception e) {
+            Log.wtf(TAG,"Duplicating went terribly bad",e);
+            Toast.makeText(this, R.string.sorry_error, Toast.LENGTH_SHORT).show();
+        }
+        reload_list();
     }
 
     protected void changeTitleDialog(){

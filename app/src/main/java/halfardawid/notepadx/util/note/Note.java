@@ -303,4 +303,9 @@ public abstract class Note {
     private String calculateCurrentMD5() throws JSONException,NoSuchAlgorithmException {
         return calculateMD5(getParsedFileData());
     }
+
+    public void saveAsNew(Context context) throws IOException, JSONException {
+        uuid=null;
+        saveToFile(context);
+    }
 }

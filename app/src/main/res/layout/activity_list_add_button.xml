@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2018 anno Domini.
+  ~
+  ~ Code below is a part of
+  ~ https://github.com/halfiuuu/Notepad_x
+  ~ available for use under the
+  ~ GNU Affero General Public License v3.0
+  ~ as stated in
+  ~ https://github.com/halfiuuu/Notepad_x/blob/master/LICENSE
+  ~
+  ~ Created by Dawid Halfar
+  ~ contact possible via halfardawid@gmail.com
+  ~
+  ~ I'm not sure what else this thing should state... Whatever.
+  -->
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="right">
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_entry" />
+</FrameLayout>

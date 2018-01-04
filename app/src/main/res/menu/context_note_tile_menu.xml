@@ -20,6 +20,9 @@
         android:id="@+id/cnt_edit"
         android:title="@string/edit_that_note"/>
     <item
+        android:id="@+id/cnt_duplicate"
+        android:title="@string/duplicate"/>
+    <item
         android:id="@+id/cnt_change_title"
         android:title="@string/change_title"/>
     <item
