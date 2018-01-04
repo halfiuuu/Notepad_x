@@ -26,6 +26,11 @@
             android:entryValues="@array/pref_note_tile_per_row_entries"
             android:defaultValue="@string/pref_note_tile_per_row_default"
             />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/pref_note_list_floating_add_button"
+            android:title="@string/additional_buttons_main_list"
+            android:summary="@string/additional_buttons_main_list_summary"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/placeholder">

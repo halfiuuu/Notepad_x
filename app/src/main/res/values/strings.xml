@@ -93,6 +93,8 @@
     <string name="square_brush">Square Brush</string>
     <string name="rect_brush">Rectangular brush</string>
     <string name="ratio">Width/Height ratio</string>
+    <string name="additional_buttons_main_list">Floating buttons</string>
+    <string name="additional_buttons_main_list_summary">Turns on and off additional floating buttons in the bottom of note list</string>
     <string-array name="color_names">
         <item>Red</item>
         <item>Pink</item>

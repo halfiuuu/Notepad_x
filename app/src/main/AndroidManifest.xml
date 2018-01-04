@@ -57,7 +57,8 @@
         </activity>
         <activity
             android:name=".activity.sketch_editor.brushes.brush_pick.BrushesActivity"
-            android:theme="@style/AppTheme.PopUpTheme"/>
+            android:theme="@style/AppTheme.PopUpTheme" />
+        <activity android:name=".activity.todo_list_editor.ListActivity"></activity>
     </application>
 
 </manifest>

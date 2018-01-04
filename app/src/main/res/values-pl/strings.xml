@@ -113,4 +113,6 @@
     <string name="ratio">Stosunek wysokości do szerokości</string>
     <string name="rect_brush">Czworokątny pędzel</string>
     <string name="square_brush">Pędzel kwadratowy</string>
+    <string name="additional_buttons_main_list">Dodatkowe przyciski</string>
+    <string name="additional_buttons_main_list_summary">Pozwala ukryć dodatkowe przyciski z dołu głównej listy notatek</string>
 </resources>

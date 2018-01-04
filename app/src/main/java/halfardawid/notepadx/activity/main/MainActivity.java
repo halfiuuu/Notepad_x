@@ -37,6 +37,9 @@ import android.widget.GridView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import java.util.prefs.PreferenceChangeEvent;
+import java.util.prefs.PreferenceChangeListener;
+
 import halfardawid.notepadx.activity.general_settings.SettingsActivity;
 import halfardawid.notepadx.activity.generic.colorpicker.ColorPickerActivity;
 import halfardawid.notepadx.util.note.Note;
@@ -44,13 +47,16 @@ import halfardawid.notepadx.util.note.NoteList;
 import halfardawid.notepadx.R;
 import halfardawid.notepadx.util.note.NoteType;
 
-public final class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener{
+public final class MainActivity
+        extends AppCompatActivity
+        implements PopupMenu.OnMenuItemClickListener {
 
     public static final String TAG="MAIN_ACTIVITY";
     public static final int NOTE_EDITOR_RESULT = 6422;
     private NoteList notes;
     private NoteAdapter adapter;
     SharedPreferences sharedPref;
+    private GridView gv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +65,18 @@ public final class MainActivity extends AppCompatActivity implements PopupMenu.O
         sharedPref=PreferenceManager.getDefaultSharedPreferences(this);
         notes=new NoteList(getApplicationContext());
         initGridView(R.id.main_grid);
+        applySettings();
+    }
+
+    private void applySettings() {
+        findViewById(R.id.am_floating_add).setVisibility(
+                sharedPref.getBoolean(getString(
+                        R.string.pref_note_list_floating_add_button),true)?
+                        View.VISIBLE:View.INVISIBLE);
+        String tiles_count = sharedPref.getString(
+                getString(R.string.pref_note_tile_per_row_key),
+                getString(R.string.pref_note_tile_per_row_default));
+        gv.setNumColumns(Integer.parseInt(tiles_count));
     }
 
     @Override
@@ -105,6 +123,10 @@ public final class MainActivity extends AppCompatActivity implements PopupMenu.O
         return true;
     }
 
+    public void onAddNewNoteButtonPressed(View v){
+        add_new_note();
+    }
+
     private boolean add_new_note() {
         try {
             final NoteType[] ntp = Note.getPossibleNotes(this);
@@ -144,8 +166,7 @@ public final class MainActivity extends AppCompatActivity implements PopupMenu.O
     Note context_choice=null;
     private void initGridView(@IdRes int id){
         adapter=new NoteAdapter(this,notes);
-        GridView gv = (GridView) findViewById(id);
-        applySettings(gv);
+        gv = (GridView) findViewById(id);
         gv.setAdapter(adapter);
         registerForContextMenu(gv);
         final MainActivity context=this;
@@ -170,14 +191,6 @@ public final class MainActivity extends AppCompatActivity implements PopupMenu.O
         });
     }
 
-    @NonNull
-    private void applySettings(GridView gv) {
-        String tile_size = sharedPref.getString(
-                        getString(R.string.pref_note_tile_per_row_key),
-                        getString(R.string.pref_note_tile_per_row_default));
-        gv.setNumColumns(Integer.parseInt(tile_size));
-    }
-
     public void open(Note t) {
         startActivityForResult(t.getEditIntent(this), NOTE_EDITOR_RESULT);
     }
@@ -187,6 +200,8 @@ public final class MainActivity extends AppCompatActivity implements PopupMenu.O
         Log.d(TAG,"Activity ended, "+c+" "+r+" "+d);
         switch(c){
             case SettingsActivity.INTENT_CODE:
+                applySettings();
+                break;
             case NOTE_EDITOR_RESULT:
                 reload_list();
                 break;
@@ -265,4 +280,5 @@ public final class MainActivity extends AppCompatActivity implements PopupMenu.O
     private void openSettings(){
         startActivityForResult(new Intent(this,SettingsActivity.class),SettingsActivity.INTENT_CODE);
     }
+
 }
