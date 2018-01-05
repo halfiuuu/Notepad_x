@@ -118,4 +118,6 @@
     <string name="add_entry">Dodaj wpis</string>
     <string name="duplicate">Sklonuj</string>
     <string name="list_note">Lista zadań</string>
+    <string name="already_editing">Aktualnie edytujesz inne pole</string>
+    <string name="delete_entry">Usuń wpis</string>
 </resources>
