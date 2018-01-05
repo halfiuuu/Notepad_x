@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2018 anno Domini.
+  ~
+  ~ Code below is a part of
+  ~ https://github.com/halfiuuu/Notepad_x
+  ~ available for use under the
+  ~ GNU Affero General Public License v3.0
+  ~ as stated in
+  ~ https://github.com/halfiuuu/Notepad_x/blob/master/LICENSE
+  ~
+  ~ Created by Dawid Halfar
+  ~ contact possible via halfardawid@gmail.com
+  ~
+  ~ I'm not sure what else this thing should state... Whatever.
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <CheckBox
+        android:id="@+id/cclnd_check_box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:clickable="false"
+        android:focusable="false" />
+
+    <TextView
+        android:id="@+id/cclnd_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/cclnd_check_box"
+        android:paddingBottom="8dp"
+        android:paddingLeft="0dp"
+        android:paddingRight="8dp"
+        android:paddingTop="8dp"
+        android:text="@string/placeholder"
+        android:textAllCaps="false" />
+</RelativeLayout>

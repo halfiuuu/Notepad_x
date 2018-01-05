@@ -22,6 +22,6 @@ package halfardawid.notepadx.activity.check_list_editor;
 
 interface CheckListEntryCallbacks {
     boolean alreadyShowingEdit();
-    void setShowingEdit(CheckListEntry entry);
+    void setShowingEdit(CheckListEntryFragment entry);
     void clearShowing();
 }

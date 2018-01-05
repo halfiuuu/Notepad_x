@@ -191,6 +191,7 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
 
     @Override
     protected void onSaveInstanceState(Bundle s) {
+        fragmentsPurge();
         super.onSaveInstanceState(s);
         prepareForSave();
         try {
@@ -201,6 +202,10 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
         }
         s.putString(NOTE_UUID,note.getUUID());
         saveSettings(s);
+    }
+
+    protected void fragmentsPurge() {
+        //Just in case...
     }
 
     @Override

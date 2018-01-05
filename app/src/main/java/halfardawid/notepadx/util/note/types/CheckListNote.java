@@ -18,7 +18,13 @@ package halfardawid.notepadx.util.note.types;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -28,6 +34,7 @@ import org.json.JSONObject;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
+import java.util.zip.Inflater;
 
 import halfardawid.notepadx.R;
 import halfardawid.notepadx.activity.check_list_editor.CheckListActivity;
@@ -37,8 +44,10 @@ public class CheckListNote extends Note {
     public final static String TYPE="checklist";
     public final static int NAME_TYPE= R.string.list_note;
     public static final String DATAENTRIES = "DATA";
+    public static final String KEY_CHECK = "checked";
+    public static final String KEY_TEXT = "text";
 
-    private List<String> entries;
+    private List<CheckListEntry> entries;
 
     public CheckListNote(){
         super();    //Inb4: I know it's redundant
@@ -72,8 +81,11 @@ public class CheckListNote extends Note {
         initializeEntries();
         JSONObject jsonObject=new JSONObject();
         JSONArray jsonArray=new JSONArray();
-        for(String entry:entries){
-            jsonArray.put(entry);
+        for(CheckListEntry entry:entries){
+            JSONObject entryObject=new JSONObject();
+            entryObject.put(KEY_CHECK,entry.checked);
+            entryObject.put(KEY_TEXT,entry.text);
+            jsonArray.put(entryObject);
         }
         jsonObject.put(DATAENTRIES,jsonArray);
         return jsonObject.toString();
@@ -87,15 +99,31 @@ public class CheckListNote extends Note {
         int length = jsonArray.length();
         entries.clear();
         for(int i = 0; i< length; i++){
-            entries.add(jsonArray.getString(i));
+            JSONObject entryObject=jsonArray.getJSONObject(i);
+            entries.add(
+                    new CheckListEntry(
+                            entryObject.getString(KEY_TEXT),
+                            entryObject.getBoolean(KEY_CHECK)));
         }
     }
 
     @Override
     protected View getMiniatureContent(Context con) {
-        TextView textView = new TextView(con);
-        textView.setText(R.string.placeholder);
-        return textView;
+        LayoutInflater from = LayoutInflater.from(con);
+        View v=from.inflate(R.layout.content_checklistnote,null);
+        ViewGroup vg=(ViewGroup) v.findViewById(R.id.ccln_layout);
+        for (CheckListEntry entry:entries) {
+//            Log.d(TAG, String.valueOf(entry));
+//            TextView child = new TextView(con);
+//            child.setText(entry.text);
+//            vg.addView(child);
+            View detail=from.inflate(R.layout.content_checklistnote_detail,vg,false);
+            ((CheckBox) detail.findViewById(R.id.cclnd_check_box)).setChecked(entry.checked);
+            ((TextView) detail.findViewById(R.id.cclnd_text_view)).setText(entry.text);
+            Log.d(TAG, entry+"\n"+entry.text+"\n"+entry.checked+"\n"+((TextView) detail.findViewById(R.id.cclnd_text_view)).getText());
+            vg.addView(detail);
+        }
+        return v;
     }
 
     public static Intent getNewIntent(Context con){
@@ -106,15 +134,43 @@ public class CheckListNote extends Note {
         return entries.size();
     }
 
-    public String getEntry(int position) {
+    public CheckListEntry getEntry(int position) {
         return entries.get(position);
     }
 
-    public void addEntry(String s) {
+    public void addEntry(CheckListEntry s) {
         entries.add(s);
     }
 
-    public void setEntry(int index, String new_value) {
+    public void setEntry(int index, CheckListEntry new_value) {
         entries.set(index,new_value);
+    }
+
+    public void removeEntry(int index) {
+        entries.remove(index);
+    }
+
+    public boolean hasEntry(int index) {
+        return index<entries.size();
+    }
+
+    public static class CheckListEntry {
+        public String text;
+        public boolean checked;
+
+        public CheckListEntry(String text, boolean checked) {
+            this.text = text;
+            this.checked = checked;
+        }
+
+        public CheckListEntry() {
+            this.text="";
+            this.checked=false;
+        }
+
+        @Override
+        public String toString() {
+            return "["+checked+"]("+text+")";
+        }
     }
 }

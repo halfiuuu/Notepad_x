@@ -17,8 +17,10 @@
 package halfardawid.notepadx.activity.check_list_editor;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -26,6 +28,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -35,8 +38,9 @@ import android.widget.ViewSwitcher;
 import halfardawid.notepadx.R;
 import halfardawid.notepadx.util.note.types.CheckListNote;
 
-public class CheckListEntry extends Fragment implements ActionMode.Callback{
+public class CheckListEntryFragment extends Fragment implements ActionMode.Callback{
 
+    public static final String TAG = "CLE_FRAG";
     private CheckListNote note;
     private int index;
     private ViewSwitcher switcher;
@@ -70,18 +74,33 @@ public class CheckListEntry extends Fragment implements ActionMode.Callback{
         text_view.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if(!canShowEdit()){
-                    Toast.makeText(v.getContext(), R.string.already_editing, Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-                if(switcher==null) {
-                    return false;
-                }
-                setAsShowing();
-                return true;
+                return tryToShowEdit(v.getContext());
             }
 
         });
+        check_box.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                note.getEntry(index).checked=check_box.isChecked();
+            }
+        });
+    }
+
+    /**
+     * This should be used to invoke edit on fragment, only this!
+     * @param c
+     * @return Returns true if it managed to set as currently editing, otherwise false.
+     */
+    public boolean tryToShowEdit(Context c) {
+        if(!canShowEdit()){
+            Toast.makeText(c, R.string.already_editing, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(switcher==null) {
+            return false;
+        }
+        setAsShowing();
+        return true;
     }
 
     private boolean canShowEdit() {
@@ -96,21 +115,24 @@ public class CheckListEntry extends Fragment implements ActionMode.Callback{
     private void clearShowing(){
         switcher.showPrevious();
         callbacks.clearShowing();
-        refresh();
     }
 
     public void refresh() {
-        if(!views_initialized)
+        if(!views_initialized||note==null||!note.hasEntry(index))
             return;
-        String entry = note.getEntry(index);
-        text_view.setText(entry);
-        edit_text.setText(entry);
+        CheckListNote.CheckListEntry entry = note.getEntry(index);
+        //Log.d(TAG,String.format("Refreshing %s, to %s",index,entry));
+        check_box.setChecked(entry.checked);
+        text_view.setText(entry.text);
+        edit_text.setText(entry.text);
     }
 
     @Override
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
         MenuInflater inflater = mode.getMenuInflater();
         inflater.inflate(R.menu.mode_check_list_entry, menu);
+        if(edit_text!=null)
+            edit_text.requestFocus();
         return true;
     }
 
@@ -123,10 +145,14 @@ public class CheckListEntry extends Fragment implements ActionMode.Callback{
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
         switch (item.getItemId()) {
             case R.id.mcle_confirm:
-                note.setEntry(index,edit_text.getText().toString());
+                note.setEntry(index,new CheckListNote.CheckListEntry(
+                        getEditTextString(),
+                        check_box.isChecked()));
                 mode.finish();
                 return true;
             case R.id.mcle_delete:
+                note.removeEntry(index);
+                mode.finish();
                 return true;
         }
         return false;
@@ -135,5 +161,17 @@ public class CheckListEntry extends Fragment implements ActionMode.Callback{
     @Override
     public void onDestroyActionMode(ActionMode mode) {
         clearShowing();
+    }
+
+    public String getEditTextString() {
+        return edit_text.getText().toString();
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setEditText(String editText) {
+        edit_text.setText(editText);
     }
 }
