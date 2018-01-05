@@ -14,10 +14,16 @@
   ~
   ~ I'm not sure what else this thing should state... Whatever.
   -->
-<LinearLayout
+<halfardawid.notepadx.activity.generic.layouts.AutoScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="false"
+    android:focusableInTouchMode="false"
+    android:clickable="false">
+<LinearLayout
     android:id="@+id/ccln_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:overScrollMode="never"/>
+    android:orientation="vertical"/>
+</halfardawid.notepadx.activity.generic.layouts.AutoScrollView>

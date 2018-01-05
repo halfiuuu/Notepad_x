@@ -22,7 +22,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import org.json.JSONException;
@@ -30,6 +32,7 @@ import org.json.JSONException;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
 import java.util.UUID;
+import java.util.zip.Inflater;
 
 import halfardawid.notepadx.R;
 import halfardawid.notepadx.activity.sketch_editor.SketchActivity;
@@ -93,12 +96,13 @@ public class SketchNote extends Note {
     }
 
     @Override
-    protected View getMiniatureContent(Context con) {
+    protected View getMiniatureContent(Context con, ViewGroup parent) {
         Bitmap b=getBitmap();
         if(b==null)return null;
-        ImageView v=new ImageView(con);
-        v.setImageBitmap(getBitmap());
-        return v;
+        View view = LayoutInflater.from(con).inflate(R.layout.content_sketch, parent, false);
+        ImageView imageView= (ImageView) view.findViewById(R.id.cs_image);
+        imageView.setImageBitmap(getBitmap());
+        return view;
     }
 
     public void setBitmap(Bitmap bitmap) {

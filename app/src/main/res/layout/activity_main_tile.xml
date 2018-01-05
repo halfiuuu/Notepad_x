@@ -40,11 +40,9 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
+    <FrameLayout
         android:id="@+id/amt_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/amt_top_bar">
-
-    </RelativeLayout>
+        android:layout_below="@+id/amt_top_bar"/>
 </halfardawid.notepadx.activity.generic.layouts.SquareRelativeLayout>

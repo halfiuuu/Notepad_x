@@ -108,9 +108,9 @@ public class CheckListNote extends Note {
     }
 
     @Override
-    protected View getMiniatureContent(Context con) {
+    protected View getMiniatureContent(Context con,ViewGroup parent) {
         LayoutInflater from = LayoutInflater.from(con);
-        View v=from.inflate(R.layout.content_checklistnote,null);
+        View v=from.inflate(R.layout.content_checklistnote,parent,false);
         ViewGroup vg=(ViewGroup) v.findViewById(R.id.ccln_layout);
         for (CheckListEntry entry:entries) {
 //            Log.d(TAG, String.valueOf(entry));

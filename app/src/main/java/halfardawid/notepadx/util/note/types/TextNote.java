@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -83,9 +84,9 @@ public final class TextNote extends Note {
     }
 
     @Override
-    public View getMiniatureContent(Context con) {
+    public View getMiniatureContent(Context con, ViewGroup parent) {
         final LayoutInflater layoutInflater=LayoutInflater.from(con);
-        View v=layoutInflater.inflate(R.layout.content_textnote,null);
+        View v=layoutInflater.inflate(R.layout.content_textnote,parent,false);
         TextView tv=(TextView)v.findViewById(R.id.c_tn_text);
         tv.setText(getText());
         return v;

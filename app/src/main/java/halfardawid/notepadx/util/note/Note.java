@@ -23,6 +23,8 @@ import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -110,7 +112,7 @@ public abstract class Note {
     abstract public Intent getEditIntent(Context con);
     abstract protected String getData() throws JSONException;
     abstract protected void setData(String arg) throws JSONException;
-    abstract protected View getMiniatureContent(Context con);
+    abstract protected View getMiniatureContent(Context con, ViewGroup parent);
 
     public long getOrder(){
         return order;
@@ -127,8 +129,8 @@ public abstract class Note {
         View top_bar=rec.findViewById(R.id.amt_top_bar);
         if(hasTitle()!=(top_bar.getVisibility()==View.VISIBLE))top_bar.setVisibility(hasTitle()?View.VISIBLE:View.GONE);
         ((TextView)rec.findViewById(R.id.amt_title)).setText(getTitle());
-        View content=getMiniatureContent(con);
-        RelativeLayout rl=((RelativeLayout)rec.findViewById(R.id.amt_content));
+        FrameLayout rl=((FrameLayout)rec.findViewById(R.id.amt_content));
+        View content=getMiniatureContent(con,rl);
         rl.removeAllViewsInLayout();
         if(content!=null)rl.addView(content);
         return rec;
