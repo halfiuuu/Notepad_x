@@ -103,6 +103,8 @@
     <string name="delete_entry">Delete entry</string>
     <string name="auto_scroll">Auto-scroll</string>
     <string name="auto_scroll_summary">Enables auto-scrolling for long notes</string>
+    <string name="auto_scroll_speed">Auto-scroll speed</string>
+    <string name="auto_scroll_speed_summary">Regulates speed of auto-scrolling long notes</string>
     <string-array name="color_names">
         <item>Red</item>
         <item>Pink</item>
@@ -123,5 +125,12 @@
         <item>Brown</item>
         <item>Grey</item>
         <item>Blue Grey</item>
+    </string-array>
+    <string-array name="pref_note_list_auto_scroll_speed_entries">
+        <item>Slower than a snail</item>
+        <item>Slow</item>
+        <item>Medium</item>
+        <item>Fast</item>
+        <item>Too fast</item>
     </string-array>
 </resources>

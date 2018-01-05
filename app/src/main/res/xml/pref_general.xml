@@ -32,10 +32,20 @@
             android:title="@string/additional_buttons_main_list"
             android:summary="@string/additional_buttons_main_list_summary"/>
         <SwitchPreference
-        android:defaultValue="true"
-        android:key="@string/pref_note_list_auto_scroll"
-        android:title="@string/auto_scroll"
-        android:summary="@string/auto_scroll_summary"/>
+            android:defaultValue="true"
+            android:key="@string/pref_note_list_auto_scroll"
+            android:title="@string/auto_scroll"
+            android:summary="@string/auto_scroll_summary"/>
+        <ListPreference
+            android:title="@string/auto_scroll_speed"
+            android:summary="@string/auto_scroll_speed_summary"
+            android:key="@string/pref_note_list_auto_scroll_speed"
+            android:entries="@array/pref_note_list_auto_scroll_speed_entries"
+            android:entryValues="@array/pref_note_list_auto_scroll_speed_values"
+            android:defaultValue="@string/pref_note_list_auto_scroll_speed_default"
+            android:dependency="@string/pref_note_tile_per_row_key"
+            />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/placeholder">

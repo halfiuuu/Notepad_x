@@ -61,13 +61,23 @@ public class AutoScrollView extends ScrollView {
         if(getChildCount()!=1)return;
         int maxScrollAmount =getChildAt(0).getHeight()-getHeight();
         if(maxScrollAmount<0)return;
-        Log.d(getClass().getName(),"max scroll:"+maxScrollAmount);
-        ObjectAnimator objectAnimator = ObjectAnimator.ofInt(this, "scrollY", 0, maxScrollAmount);
-        objectAnimator.setRepeatMode(ValueAnimator.REVERSE);
-        objectAnimator.setRepeatCount(ValueAnimator.INFINITE);
-        objectAnimator.setDuration(maxScrollAmount*20);
-        objectAnimator.start();
-
+        //Log.d(getClass().getName(),"max scroll:"+maxScrollAmount);
+        //pref_note_list_auto_scroll_speed
+        try {
+            final int scroll_speed = Integer.parseInt(
+                    PreferenceManager.getDefaultSharedPreferences(//Now that's what i call a monster
+                            this.getContext()).getString(
+                            this.getContext().getString(
+                                    R.string.pref_note_list_auto_scroll_speed),
+                            this.getContext().getString(R.string.pref_note_list_auto_scroll_speed_default)));
+            ObjectAnimator objectAnimator = ObjectAnimator.ofInt(this, "scrollY", 0, maxScrollAmount);
+            objectAnimator.setRepeatMode(ValueAnimator.REVERSE);
+            objectAnimator.setRepeatCount(ValueAnimator.INFINITE);
+            objectAnimator.setDuration(maxScrollAmount * scroll_speed);
+            objectAnimator.start();
+        }catch (NumberFormatException e){
+            Log.wtf("Good job!","How did that happen!",e);//Impossible unless I'm a bloody moron.
+        }
     }
 
     @Override

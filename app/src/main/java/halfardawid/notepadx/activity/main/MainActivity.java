@@ -204,6 +204,7 @@ public final class MainActivity
         switch(c){
             case SettingsActivity.INTENT_CODE:
                 applySettings();
+                reload_list();
                 break;
             case NOTE_EDITOR_RESULT:
                 reload_list();
