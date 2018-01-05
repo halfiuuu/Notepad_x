@@ -14,18 +14,9 @@
  * I'm not sure what else this thing should state... Whatever.
  */
 
-package halfardawid.notepadx.activity.todo_list_editor;
+package halfardawid.notepadx.activity.check_list_editor;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.app.Fragment;
 
-import halfardawid.notepadx.R;
-
-public class ListActivity extends AppCompatActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list);
-    }
+public class CheckListEntry extends Fragment {
 }

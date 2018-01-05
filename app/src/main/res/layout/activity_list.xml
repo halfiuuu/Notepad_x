@@ -20,7 +20,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="halfardawid.notepadx.activity.todo_list_editor.ListActivity">
+    tools:context="halfardawid.notepadx.activity.check_list_editor.CheckListActivity">
 
     <LinearLayout
         android:id="@+id/al_main_list"

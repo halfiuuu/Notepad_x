@@ -47,6 +47,7 @@ import halfardawid.notepadx.R;
 import halfardawid.notepadx.activity.main.MainActivity;
 import halfardawid.notepadx.util.ColorUtils;
 import halfardawid.notepadx.util.exceptions.NoSuchNoteTypeException;
+import halfardawid.notepadx.util.note.types.CheckListNote;
 import halfardawid.notepadx.util.note.types.SketchNote;
 import halfardawid.notepadx.util.note.types.TextNote;
 /**
@@ -70,7 +71,11 @@ import halfardawid.notepadx.util.note.types.TextNote;
 
 public abstract class Note {
 
-    public static final java.lang.Class types[]={TextNote.class, SketchNote.class};
+    public static final java.lang.Class types[]={
+            TextNote.class,
+            SketchNote.class,
+            CheckListNote.class
+    };
     private String md5;
 
     public static NoteType[] getPossibleNotes(Context con){
@@ -103,8 +108,8 @@ public abstract class Note {
 
     abstract protected String getType();
     abstract public Intent getEditIntent(Context con);
-    abstract protected String getData();
-    abstract protected void setData(String arg);
+    abstract protected String getData() throws JSONException;
+    abstract protected void setData(String arg) throws JSONException;
     abstract protected View getMiniatureContent(Context con);
 
     public long getOrder(){
