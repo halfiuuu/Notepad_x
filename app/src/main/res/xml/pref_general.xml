@@ -31,6 +31,11 @@
             android:key="@string/pref_note_list_floating_add_button"
             android:title="@string/additional_buttons_main_list"
             android:summary="@string/additional_buttons_main_list_summary"/>
+        <SwitchPreference
+        android:defaultValue="true"
+        android:key="@string/pref_note_list_auto_scroll"
+        android:title="@string/auto_scroll"
+        android:summary="@string/auto_scroll_summary"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/placeholder">

@@ -120,4 +120,6 @@
     <string name="list_note">Lista zadań</string>
     <string name="already_editing">Aktualnie edytujesz inne pole</string>
     <string name="delete_entry">Usuń wpis</string>
+    <string name="auto_scroll">Automatyczy pasek przewijania</string>
+    <string name="auto_scroll_summary">Włącza automatyczny pasek przewijania dla długich notatek</string>
 </resources>

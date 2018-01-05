@@ -21,10 +21,13 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.ScrollView;
+
+import halfardawid.notepadx.R;
 
 public class AutoScrollView extends ScrollView {
     private boolean initiatedAnimations;
@@ -50,6 +53,11 @@ public class AutoScrollView extends ScrollView {
 
     private void initAnimations(){
         initiatedAnimations=true;
+        if(!PreferenceManager.getDefaultSharedPreferences(
+                this.getContext()).getBoolean(
+                this.getContext().getString(
+                        R.string.pref_note_list_auto_scroll),true))
+            return;
         if(getChildCount()!=1)return;
         int maxScrollAmount =getChildAt(0).getHeight()-getHeight();
         if(maxScrollAmount<0)return;
