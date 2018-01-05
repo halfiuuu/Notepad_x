@@ -16,29 +16,49 @@
 
 package halfardawid.notepadx.activity.generic.layouts;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.ScrollView;
 
 public class AutoScrollView extends ScrollView {
+    private boolean initiatedAnimations;
+
     public AutoScrollView(Context context) {
         super(context);
-        initAnimations();
     }
 
     public AutoScrollView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initAnimations();
     }
 
     public AutoScrollView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initAnimations();
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        if(!initiatedAnimations)
+            initAnimations();
     }
 
     private void initAnimations(){
+        initiatedAnimations=true;
+        if(getChildCount()!=1)return;
+        int maxScrollAmount =getChildAt(0).getHeight()-getHeight();
+        if(maxScrollAmount<0)return;
+        Log.d(getClass().getName(),"max scroll:"+maxScrollAmount);
+        ObjectAnimator objectAnimator = ObjectAnimator.ofInt(this, "scrollY", 0, maxScrollAmount);
+        objectAnimator.setRepeatMode(ValueAnimator.REVERSE);
+        objectAnimator.setRepeatCount(ValueAnimator.INFINITE);
+        objectAnimator.setDuration(maxScrollAmount*20);
+        objectAnimator.start();
 
     }
 

@@ -120,7 +120,7 @@ public class CheckListNote extends Note {
             View detail=from.inflate(R.layout.content_checklistnote_detail,vg,false);
             ((CheckBox) detail.findViewById(R.id.cclnd_check_box)).setChecked(entry.checked);
             ((TextView) detail.findViewById(R.id.cclnd_text_view)).setText(entry.text);
-            Log.d(TAG, entry+"\n"+entry.text+"\n"+entry.checked+"\n"+((TextView) detail.findViewById(R.id.cclnd_text_view)).getText());
+            //Log.d(TAG, entry+"\n"+entry.text+"\n"+entry.checked+"\n"+((TextView) detail.findViewById(R.id.cclnd_text_view)).getText());
             vg.addView(detail);
         }
         return v;
