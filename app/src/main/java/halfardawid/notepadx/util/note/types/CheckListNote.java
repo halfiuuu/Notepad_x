@@ -101,4 +101,20 @@ public class CheckListNote extends Note {
     public static Intent getNewIntent(Context con){
         return new Intent(con, CheckListActivity.class);
     }
+
+    public int getEntriesCount() {
+        return entries.size();
+    }
+
+    public String getEntry(int position) {
+        return entries.get(position);
+    }
+
+    public void addEntry(String s) {
+        entries.add(s);
+    }
+
+    public void setEntry(int index, String new_value) {
+        entries.set(index,new_value);
+    }
 }

@@ -31,5 +31,6 @@
         android:focusableInTouchMode="false"
         android:gravity="center_vertical|center_horizontal"
         android:padding="12dp"
-        android:text="Test" />
+        android:text="Test"
+        app:textAllCaps="true" />
 </RelativeLayout>

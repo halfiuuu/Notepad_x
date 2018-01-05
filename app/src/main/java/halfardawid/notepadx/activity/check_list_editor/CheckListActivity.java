@@ -16,23 +16,63 @@
 
 package halfardawid.notepadx.activity.check_list_editor;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import halfardawid.notepadx.R;
 import halfardawid.notepadx.activity.generic.GenericNoteActivity;
 import halfardawid.notepadx.util.note.types.CheckListNote;
 
-public class CheckListActivity extends GenericNoteActivity<CheckListNote> {
+public class CheckListActivity
+        extends GenericNoteActivity<CheckListNote>
+        implements CheckListEntryCallbacks{
+
+    List<CheckListEntry> fragments;
+    CheckListEntry currentlyEditing=null;
+    private View add_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list);
+        fragments=new ArrayList<>();
         loadIntentData(CheckListNote.class);
+        setContentView(R.layout.activity_checklist);
+        add_button = findViewById(R.id.acl_add_button);
+
+        //don't mind it
+        if(note.getEntriesCount()==0) {
+            note.addEntry("Ayyy lmao");
+            note.addEntry("Jeff plz buff road hog");
+            note.addEntry("Gimme dat leg boi");
+        }
+        refreshDataToView();
+    }
+
+    private void refreshNoteFields() {
+        while(fragments.size()!=note.getEntriesCount()){
+            if(fragments.size()>note.getEntriesCount()) {
+                int index = fragments.size() - 1;
+                CheckListEntry fragment = fragments.get(index);
+                fragments.remove(index);
+                getFragmentManager().beginTransaction().remove(fragment).commit();
+            }
+            else {
+                CheckListEntry entry = new CheckListEntry();
+                entry.initialize(note, fragments.size(),this);
+                getFragmentManager().beginTransaction().add(R.id.acl_main_list,entry).commit();
+                fragments.add(entry);
+            }
+        }
+        for(CheckListEntry fragment:fragments)
+            fragment.refresh();
     }
 
     @Override
@@ -47,7 +87,7 @@ public class CheckListActivity extends GenericNoteActivity<CheckListNote> {
 
     @Override
     public void inherentRefresh() {
-
+        refreshNoteFields();
     }
 
     @Override
@@ -60,6 +100,11 @@ public class CheckListActivity extends GenericNoteActivity<CheckListNote> {
 
     }
 
+    public void onAddClicked(View v){
+        note.addEntry("");
+        refreshNoteFields();
+    }
+
     @Override
     protected boolean menuButtonPressed(MenuItem item) {
         return false;
@@ -70,5 +115,23 @@ public class CheckListActivity extends GenericNoteActivity<CheckListNote> {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.generic_note_editor_menu, menu);
         return true;
+    }
+
+    @Override
+    public boolean alreadyShowingEdit() {
+        return currentlyEditing!=null;
+    }
+
+    @Override
+    public void setShowingEdit(CheckListEntry entry) {
+        currentlyEditing=entry;
+        add_button.setEnabled(false);
+        startActionMode(entry);
+    }
+
+    @Override
+    public void clearShowing() {
+        currentlyEditing=null;
+        add_button.setEnabled(true);
     }
 }

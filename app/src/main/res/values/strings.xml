@@ -99,6 +99,8 @@
     <string name="lorem_ipsum" translatable="false">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum sed eros nec mi rutrum gravida nec a ante. Morbi nec felis non nunc imperdiet interdum at at est. Duis volutpat sodales dapibus. Vestibulum ut purus imperdiet, dictum diam id, tempus ipsum. Vivamus porttitor sapien ante. Nulla facilisi. Vestibulum in feugiat tortor. Quisque ut sapien venenatis nisl mollis pharetra ut vitae nisl. Nulla fermentum justo at vulputate sagittis. Proin et velit lobortis leo malesuada dignissim. Nunc quis elit sodales, dignissim turpis nec, posuere leo. Nulla sapien tortor, consequat ut velit sed, hendrerit porta augue. Nulla ullamcorper quis felis non feugiat. </string>
     <string name="duplicate">Duplicate</string>
     <string name="list_note">Check list</string>
+    <string name="already_editing">Already editing</string>
+    <string name="delete_entry">Delete entry</string>
     <string-array name="color_names">
         <item>Red</item>
         <item>Pink</item>

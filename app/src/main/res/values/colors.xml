@@ -20,12 +20,13 @@
     <color name="colorPrimaryDark">#616161</color>
     <color name="colorAccent">#ffab40</color>
 
-    <color name="text_default">@android:color/secondary_text_light</color>
-    <color name="text_white">@android:color/secondary_text_dark</color>
+    <color name="text_default">@android:color/primary_text_light</color>
+    <color name="text_white">@android:color/primary_text_dark</color>
 
     <color name="placeholder_colorTile">#a1887f</color>
     <color name="placeholder_colorTile_top">#795548</color>
 
     <color name="checkers_0">#ffffff</color>
     <color name="checkers_1">#9e9a9a</color>
+    <color name="icon_color">#FFFFFFFF</color>
 </resources>

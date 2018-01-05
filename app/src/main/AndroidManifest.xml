@@ -58,7 +58,8 @@
         <activity
             android:name=".activity.sketch_editor.brushes.brush_pick.BrushesActivity"
             android:theme="@style/AppTheme.PopUpTheme" />
-        <activity android:name=".activity.check_list_editor.CheckListActivity"></activity>
+        <activity android:name=".activity.check_list_editor.CheckListActivity"
+            android:parentActivityName=".activity.main.MainActivity"/>
     </application>
 
 </manifest>
