@@ -25,14 +25,21 @@ import android.widget.ScrollView;
 public class AutoScrollView extends ScrollView {
     public AutoScrollView(Context context) {
         super(context);
+        initAnimations();
     }
 
     public AutoScrollView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        initAnimations();
     }
 
     public AutoScrollView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        initAnimations();
+    }
+
+    private void initAnimations(){
+
     }
 
     @Override
