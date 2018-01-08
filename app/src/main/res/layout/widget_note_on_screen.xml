@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2018 anno Domini.
+  ~
+  ~ Code below is a part of
+  ~ https://github.com/halfiuuu/Notepad_x
+  ~ available for use under the
+  ~ GNU Affero General Public License v3.0
+  ~ as stated in
+  ~ https://github.com/halfiuuu/Notepad_x/blob/master/LICENSE
+  ~
+  ~ Created by Dawid Halfar
+  ~ contact possible via halfardawid@gmail.com
+  ~
+  ~ I'm not sure what else this thing should state... Whatever.
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/wnos_root"
+    android:layout_height="match_parent"
+    android:background="@color/placeholder_colorTile">
+
+    <RelativeLayout
+        android:id="@+id/wnos_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/placeholder_colorTile_top"
+        android:padding="2dp">
+
+        <TextView
+            android:id="@+id/wnos_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/placeholder"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/wnos_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/wnos_top_bar">
+
+    </FrameLayout>
+
+</RelativeLayout>

@@ -23,8 +23,8 @@
     <color name="text_default">@android:color/primary_text_light</color>
     <color name="text_white">@android:color/primary_text_dark</color>
 
-    <color name="placeholder_colorTile">#a1887f</color>
-    <color name="placeholder_colorTile_top">#795548</color>
+    <color name="placeholder_colorTile">#B3E5FC</color>
+    <color name="placeholder_colorTile_top">#03A9F4</color>
 
     <color name="checkers_0">#ffffff</color>
     <color name="checkers_1">#9e9a9a</color>

@@ -22,7 +22,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -37,15 +36,10 @@ import android.widget.GridView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
-import org.json.JSONException;
-
-import java.io.IOException;
-import java.util.prefs.PreferenceChangeEvent;
-import java.util.prefs.PreferenceChangeListener;
-
 import halfardawid.notepadx.activity.general_settings.SettingsActivity;
 import halfardawid.notepadx.activity.generic.colorpicker.ColorPickerActivity;
 import halfardawid.notepadx.util.note.Note;
+import halfardawid.notepadx.util.note.NoteAdapter;
 import halfardawid.notepadx.util.note.NoteList;
 import halfardawid.notepadx.R;
 import halfardawid.notepadx.util.note.NoteType;

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2018 anno Domini.
+  ~
+  ~ Code below is a part of
+  ~ https://github.com/halfiuuu/Notepad_x
+  ~ available for use under the
+  ~ GNU Affero General Public License v3.0
+  ~ as stated in
+  ~ https://github.com/halfiuuu/Notepad_x/blob/master/LICENSE
+  ~
+  ~ Created by Dawid Halfar
+  ~ contact possible via halfardawid@gmail.com
+  ~
+  ~ I'm not sure what else this thing should state... Whatever.
+  -->
+
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="80dp"
+    android:minHeight="80dp"
+    android:updatePeriodMillis="86400000"
+    android:initialLayout="@layout/widget_note_on_screen"
+    android:resizeMode="horizontal|vertical"
+    android:configure="halfardawid.notepadx.widget.NoS_Configure"
+    android:widgetCategory="home_screen|keyguard">
+</appwidget-provider>

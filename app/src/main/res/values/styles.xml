@@ -60,4 +60,19 @@
         <item name="android:padding">8dp</item>
     </style>
 
+    <style name="note_list_grid_view_style">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_margin">@dimen/std_padding</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name="android:layout_marginRight">8dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:horizontalSpacing">@dimen/std_padding</item>
+        <item name="android:numColumns">auto_fit</item>
+        <item name="android:stretchMode">columnWidth</item>
+        <item name="android:verticalSpacing">@dimen/std_padding</item>
+    </style>
+
 </resources>

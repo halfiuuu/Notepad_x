@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 anno Domini.
+ * Copyright (c) 2018 anno Domini.
  *
  * Code below is a part of
  * https://github.com/halfiuuu/Notepad_x
@@ -14,7 +14,7 @@
  * I'm not sure what else this thing should state... Whatever.
  */
 
-package halfardawid.notepadx.activity.main;
+package halfardawid.notepadx.util.note;
 
 import android.content.Context;
 import android.view.View;
@@ -23,15 +23,16 @@ import android.widget.BaseAdapter;
 
 import java.util.List;
 
+import halfardawid.notepadx.activity.main.MainActivity;
 import halfardawid.notepadx.util.note.Note;
 import halfardawid.notepadx.util.note.NoteList;
 
 public class NoteAdapter extends BaseAdapter{
     public static final String TAG="NoteAdapter";
-    private MainActivity con;
+    private Context con;
     private NoteList notes;
 
-    public NoteAdapter(MainActivity con, NoteList notes){
+    public NoteAdapter(Context con, NoteList notes){
         this.con=con;
         this.notes=notes;
     }

@@ -25,9 +25,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,13 +38,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
 import halfardawid.notepadx.R;
-import halfardawid.notepadx.activity.main.MainActivity;
 import halfardawid.notepadx.util.ColorUtils;
 import halfardawid.notepadx.util.exceptions.NoSuchNoteTypeException;
 import halfardawid.notepadx.util.note.types.CheckListNote;
@@ -119,13 +115,13 @@ public abstract class Note {
     }
 
 
-    public View getMiniature(final MainActivity con, View rec){
+    public final View getMiniature(final Context con, View rec){
         if(rec==null){
             final LayoutInflater layoutInflater=LayoutInflater.from(con);
             rec=layoutInflater.inflate(R.layout.activity_main_tile,null);
         }
         final Note t=this;
-        applyColors(rec);
+        applyColorsMiniature(rec);
         View top_bar=rec.findViewById(R.id.amt_top_bar);
         if(hasTitle()!=(top_bar.getVisibility()==View.VISIBLE))top_bar.setVisibility(hasTitle()?View.VISIBLE:View.GONE);
         ((TextView)rec.findViewById(R.id.amt_title)).setText(getTitle());
@@ -136,7 +132,7 @@ public abstract class Note {
         return rec;
     }
 
-    private int applyColors(View rec) {
+    private int applyColorsMiniature(View rec) {
         Context context = rec.getContext();
         int cid= ColorUtils.recognizeColorString(context,color);
         ColorUtils.applyColors(rec,R.id.amt_whole,cid,R.array.color_light);
