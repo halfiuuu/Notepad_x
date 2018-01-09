@@ -74,6 +74,11 @@ public class NoS_Configure extends AppCompatActivity{
         Intent resultValue = new Intent();
         resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
         resultValue.putExtra(UUID,note.getUUID());
+        SharedPreferences.Editor editor =
+                getSharedPreferences(NoS_Receiver.WIDGET_PREFS, MODE_PRIVATE).edit();
+        editor.putString(NoS_Receiver.KEY+widgetId,note.getUUID());
+        editor.apply();
+        NoS_Receiver.getViews(this,appWidgetManager,widgetId,note);
         setResult(RESULT_OK, resultValue);
         finish();
     }
