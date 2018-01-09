@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RemoteViews;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -43,6 +44,14 @@ public final class TextNote extends Note {
     @SuppressWarnings("unused")
     public TextNote(UUID uuid, String data,String title) throws JSONException{
         super(uuid, data,title);
+    }
+
+    @Override
+    public RemoteViews getMiniatureWidget(Context context) {
+        RemoteViews views = new RemoteViews(context.getPackageName(),
+                R.layout.content_textnote_widget);
+        views.setTextViewText(R.id.ctw_text,getText());
+        return views;
     }
 
     @SuppressWarnings("unused")

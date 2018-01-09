@@ -26,10 +26,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RemoteViews;
 
 import org.json.JSONException;
 
 import java.io.ByteArrayOutputStream;
+import java.lang.annotation.Retention;
 import java.util.List;
 import java.util.UUID;
 import java.util.zip.Inflater;
@@ -51,6 +53,14 @@ public class SketchNote extends Note {
     @SuppressWarnings("unused")
     public SketchNote(UUID uuid, String data, String title) throws JSONException {
         super(uuid, data,title);
+    }
+
+    @Override
+    public RemoteViews getMiniatureWidget(Context context) {
+        RemoteViews views = new RemoteViews(context.getPackageName(),
+                R.layout.content_sketch_widget);
+        views.setImageViewBitmap(R.id.csw_image,getBitmap());
+        return views;
     }
 
     @SuppressWarnings("unused")

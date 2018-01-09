@@ -58,22 +58,31 @@
         <activity
             android:name=".activity.sketch_editor.brushes.brush_pick.BrushesActivity"
             android:theme="@style/AppTheme.PopUpTheme" />
-        <activity android:name=".activity.check_list_editor.CheckListActivity"
-            android:parentActivityName=".activity.main.MainActivity"/>
+        <activity
+            android:name=".activity.check_list_editor.CheckListActivity"
+            android:parentActivityName=".activity.main.MainActivity" />
+
         <receiver android:name=".widget.NoS_Receiver">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
+
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/note_on_screen_info" />
         </receiver>
-        <activity android:name=".widget.NoS_Configure"
+
+        <activity
+            android:name=".widget.NoS_Configure"
             android:label="@string/pick_note_to_display">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".activity.generic.WidgetEditorOpen"
+            android:exported="false"></service>
     </application>
 
 </manifest>

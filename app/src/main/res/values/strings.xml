@@ -106,6 +106,8 @@
     <string name="auto_scroll_speed">Auto-scroll speed</string>
     <string name="auto_scroll_speed_summary">Regulates speed of auto-scrolling long notes</string>
     <string name="pick_note_to_display">Pick note to display</string>
+    <string name="missing">Note missing</string>
+    <string name="loading_note">Loading note</string>
     <string-array name="color_names">
         <item>Red</item>
         <item>Pink</item>

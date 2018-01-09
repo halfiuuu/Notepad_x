@@ -131,4 +131,7 @@
     </string-array>
     <string name="auto_scroll_speed">Szybkość przesuwania automatycznego</string>
     <string name="auto_scroll_speed_summary">Reguluje prędkość przesuwania się paska podczas automatycznego przewijania</string>
+    <string name="missing">Brak notatki</string>
+    <string name="pick_note_to_display">Wybierz notatkę do pokazania</string>
+    <string name="loading_note">Ładowanie notatki</string>
 </resources>

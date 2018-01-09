@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import android.widget.RemoteViews;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -62,6 +63,26 @@ public class CheckListNote extends Note {
     public CheckListNote(UUID uuid, String data, String title) throws JSONException {
         super(uuid,data,title);
         initializeEntries();
+    }
+
+    @Override
+    public RemoteViews getMiniatureWidget(Context context) {
+        RemoteViews views = new RemoteViews(context.getPackageName(),
+                R.layout.content_textnote_widget);
+        views.setTextViewText(R.id.ctw_text, getEntriesAsText());
+        return views;
+    }
+
+    private String getEntriesAsText() {
+        StringBuilder stringBuilder=new StringBuilder();
+        boolean first=true;
+        for(CheckListEntry entry:entries){
+            if(first)first=false;
+            else stringBuilder.append("\n");
+            stringBuilder.append(entry.checked?"☑ ":"☐ ");
+            stringBuilder.append(entry.text);
+        }
+        return stringBuilder.toString();
     }
 
     @Override

@@ -16,15 +16,19 @@
 
 package halfardawid.notepadx.util.note;
 
+import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.RemoteViews;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -39,7 +43,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.UUID;
 
 import halfardawid.notepadx.R;
@@ -48,6 +54,8 @@ import halfardawid.notepadx.util.exceptions.NoSuchNoteTypeException;
 import halfardawid.notepadx.util.note.types.CheckListNote;
 import halfardawid.notepadx.util.note.types.SketchNote;
 import halfardawid.notepadx.util.note.types.TextNote;
+import halfardawid.notepadx.widget.NoS_Receiver;
+
 /**
  * note to self, i guess...
  *
@@ -74,6 +82,7 @@ public abstract class Note {
             SketchNote.class,
             CheckListNote.class
     };
+    public static final String CLOSE_ON_RETURN = "close_on_return";
     private String md5;
 
     public static NoteType[] getPossibleNotes(Context con){
@@ -152,6 +161,42 @@ public abstract class Note {
             fw.write(s);
             initializeMD5(s);
         }
+
+        updateWidget(context);
+    }
+
+    private void updateWidget(Context context) {
+        String found = checkIfHasWidget(context);
+        if (found == null) return;
+        int id;
+        try {
+            id = Integer.parseInt(found.replace(NoS_Receiver.KEY, ""));
+        }catch(NumberFormatException e){
+            Log.d(TAG,"widget update gone wrong",e);
+            return;
+        }
+        Intent intent = new Intent(context, NoS_Receiver.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        int[] ids = new int[]{id};
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        context.sendBroadcast(intent);
+    }
+
+    @Nullable
+    private String checkIfHasWidget(Context context) {
+        String found=null;
+        SharedPreferences sharedPreferences = NoS_Receiver.getSharedPreferences(context);
+        Map<String, ?> stringMap = sharedPreferences.getAll();
+        Set<String> keySet = stringMap.keySet();
+        for(String key:keySet){
+            String uuid = getUUID();
+            if(stringMap.get(key).equals(uuid)){
+                found=key;
+                break;
+            }
+        }
+        if(found==null) return null;
+        return found;
     }
 
     @NonNull
@@ -244,6 +289,7 @@ public abstract class Note {
     public final void deleteFile(Context context){
         if(uuid==null)return;
         getFile(context).delete();
+        updateWidget(context);
     }
 
     public final String getTitle(){
@@ -311,4 +357,6 @@ public abstract class Note {
         uuid=null;
         saveToFile(context);
     }
+
+    public abstract RemoteViews getMiniatureWidget(Context context);
 }
