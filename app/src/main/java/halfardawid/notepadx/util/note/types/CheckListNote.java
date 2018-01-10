@@ -79,7 +79,7 @@ public class CheckListNote extends Note {
         for(CheckListEntry entry:entries){
             if(first)first=false;
             else stringBuilder.append("\n");
-            stringBuilder.append(entry.checked?"☑ ":"☐ ");
+            stringBuilder.append(entry.checked?"✔ ":"✖ ");
             stringBuilder.append(entry.text);
         }
         return stringBuilder.toString();
