@@ -96,15 +96,15 @@ public class NoS_Receiver extends AppWidgetProvider {
         setTitle(note, views);
         addContent(context, note, views);
         applyColors(context, note, views);
-        applyIntent(context, note, views);
+        applyIntent(context, note, views,appWidgetId);
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 
-    private static void applyIntent(Context context, Note note, RemoteViews views) {
+    private static void applyIntent(Context context, Note note, RemoteViews views,int appWidgetId) {
         Intent intent=new Intent(context,WidgetEditorOpen.class);
         intent.putExtra(Note.UUID_EXTRA,note.getUUID());
         PendingIntent pendingIntent =
-                PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent.getBroadcast(context, appWidgetId, intent,PendingIntent.FLAG_UPDATE_CURRENT);
         views.setOnClickPendingIntent(R.id.wnos_root, pendingIntent);
     }
 

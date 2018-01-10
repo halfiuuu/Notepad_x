@@ -16,40 +16,29 @@
 
 package halfardawid.notepadx.activity.generic;
 
-import android.app.IntentService;
-import android.content.Intent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
-import org.json.JSONException;
-
-import java.io.FileNotFoundException;
-
 import halfardawid.notepadx.R;
-import halfardawid.notepadx.util.exceptions.NoSuchNoteTypeException;
 import halfardawid.notepadx.util.note.Note;
 
-public class WidgetEditorOpen extends IntentService {
-
-    public WidgetEditorOpen() {
-        super("WidgetEditorOpen");
-    }
-
+public class WidgetEditorOpen extends BroadcastReceiver {
     @Override
-    protected void onHandleIntent(Intent income) {
-        Toast.makeText(this, "yey", Toast.LENGTH_SHORT).show();
-        if(income==null)return;
+    public void onReceive(Context context, Intent income) {
+        if (income == null) return;
         Note note;
         try {
-            note = Note.loadNote(this,income.getStringExtra(Note.UUID_EXTRA));
+            note = Note.loadNote(context, income.getStringExtra(Note.UUID_EXTRA));
         } catch (Exception e) {
-            Log.wtf("WidgetService","failed",e);
-            Toast.makeText(this, R.string.sorry_error, Toast.LENGTH_SHORT).show();
+            Log.wtf("WidgetService", "failed", e);
+            Toast.makeText(context, R.string.sorry_error, Toast.LENGTH_SHORT).show();
             return;
         }
-        Intent intent = note.getEditIntent(this);
+        Intent intent = note.getEditIntent(context);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
+        context.startActivity(intent);
     }
 }
