@@ -31,7 +31,7 @@ import java.util.Map;
 import java.util.Set;
 
 import halfardawid.notepadx.R;
-import halfardawid.notepadx.activity.generic.WidgetEditorOpen;
+import halfardawid.notepadx.receiver.WidgetEditorOpen;
 import halfardawid.notepadx.util.ColorUtils;
 import halfardawid.notepadx.util.note.Note;
 
@@ -39,6 +39,13 @@ public class NoS_Receiver extends AppWidgetProvider {
 
     public static final String WIDGET_PREFS = "halfardawid.notepad.WIDGET_PREFS";
     public static final String KEY="UUID;";
+
+    public static void broadcastUpdate(Context context, int... ids) {
+        Intent intent = new Intent(context, NoS_Receiver.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        context.sendBroadcast(intent);
+    }
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -92,7 +99,17 @@ public class NoS_Receiver extends AppWidgetProvider {
     private void setDeleted(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
         RemoteViews views = new RemoteViews(context.getPackageName(),
                 R.layout.widget_note_on_screen_deleted);
+        applyConfigIntent(context, appWidgetId, views);
         appWidgetManager.updateAppWidget(appWidgetId, views);
+    }
+
+    private void applyConfigIntent(Context context, int appWidgetId, RemoteViews views) {
+        Intent intent=new Intent(context,WidgetEditorOpen.class);
+        intent.setAction(WidgetEditorOpen.CONFIGURE);
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,appWidgetId);
+        PendingIntent pendingIntent =
+                PendingIntent.getBroadcast(context, appWidgetId, intent,PendingIntent.FLAG_UPDATE_CURRENT);
+        views.setOnClickPendingIntent(R.id.wnosd_root, pendingIntent);
     }
 
     public static void getViews(Context context, AppWidgetManager appWidgetManager,
@@ -108,6 +125,7 @@ public class NoS_Receiver extends AppWidgetProvider {
 
     private static void applyIntent(Context context, Note note, RemoteViews views,int appWidgetId) {
         Intent intent=new Intent(context,WidgetEditorOpen.class);
+        intent.setAction(WidgetEditorOpen.EDIT_NOTE);
         intent.putExtra(Note.UUID_EXTRA,note.getUUID());
         PendingIntent pendingIntent =
                 PendingIntent.getBroadcast(context, appWidgetId, intent,PendingIntent.FLAG_UPDATE_CURRENT);

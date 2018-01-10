@@ -191,7 +191,6 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
 
     @Override
     protected void onSaveInstanceState(Bundle s) {
-        fragmentsPurge();
         super.onSaveInstanceState(s);
         prepareForSave();
         try {
@@ -211,6 +210,7 @@ abstract public class GenericNoteActivity<T extends Note> extends AppCompatActiv
     @Override
     protected void onRestoreInstanceState(Bundle s) {
         super.onRestoreInstanceState(s);
+        fragmentsPurge();
         try {
             String new_uuid=s.getString(NOTE_UUID);
             UUID uuid=(new_uuid!=null)?UUID.fromString(s.getString(NOTE_UUID)):null;

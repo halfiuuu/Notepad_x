@@ -28,7 +28,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.RemoteViews;
-import android.widget.Toast;
 
 import halfardawid.notepadx.R;
 import halfardawid.notepadx.util.note.Note;
@@ -77,8 +76,8 @@ public class NoS_Configure extends AppCompatActivity{
         SharedPreferences.Editor editor =NoS_Receiver.getSharedPreferences(this).edit();
         editor.putString(NoS_Receiver.KEY+widgetId,note.getUUID());
         editor.apply();
-        NoS_Receiver.getViews(this,appWidgetManager,widgetId,note);
         setResult(RESULT_OK, resultValue);
+        NoS_Receiver.broadcastUpdate(this,widgetId);
         finish();
     }
 

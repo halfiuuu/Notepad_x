@@ -81,7 +81,7 @@
         </activity>
 
         <receiver
-            android:name=".activity.generic.WidgetEditorOpen"/>
+            android:name=".receiver.WidgetEditorOpen"/>
     </application>
 
 </manifest>
