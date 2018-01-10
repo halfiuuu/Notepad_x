@@ -42,6 +42,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -166,36 +168,36 @@ public abstract class Note {
     }
 
     private void updateWidget(Context context) {
-        String found = checkIfHasWidget(context);
-        if (found == null) return;
-        int id;
-        try {
-            id = Integer.parseInt(found.replace(NoS_Receiver.KEY, ""));
-        }catch(NumberFormatException e){
-            Log.d(TAG,"widget update gone wrong",e);
-            return;
+        List<String> found = checkIfHasWidget(context);
+        int size = found.size();
+        if(size ==0)return;
+        int[] ids=new int[size];
+        for(int index=0;index<size;index++) {
+            try {
+                ids[index]=Integer.parseInt(found.get(index).replace(NoS_Receiver.KEY, ""));
+            } catch (NumberFormatException e) {
+                Log.d(TAG, "widget update gone wrong", e);
+                ids[index]=0;
+                return;
+            }
         }
         Intent intent = new Intent(context, NoS_Receiver.class);
         intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-        int[] ids = new int[]{id};
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
         context.sendBroadcast(intent);
     }
 
-    @Nullable
-    private String checkIfHasWidget(Context context) {
-        String found=null;
+    private List<String> checkIfHasWidget(Context context) {
+        List<String> found=new LinkedList<>();
         SharedPreferences sharedPreferences = NoS_Receiver.getSharedPreferences(context);
         Map<String, ?> stringMap = sharedPreferences.getAll();
         Set<String> keySet = stringMap.keySet();
         for(String key:keySet){
             String uuid = getUUID();
             if(stringMap.get(key).equals(uuid)){
-                found=key;
-                break;
+                found.add(key);
             }
         }
-        if(found==null) return null;
         return found;
     }
 

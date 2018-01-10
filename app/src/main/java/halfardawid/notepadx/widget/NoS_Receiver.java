@@ -44,9 +44,8 @@ public class NoS_Receiver extends AppWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         SharedPreferences sharedPreferences = getSharedPreferences(context);
         Map<String, ?> preferencesMap = sharedPreferences.getAll();
-        Set<String> used=new HashSet<>();
         for(int appWidgetId:appWidgetIds) {
-            updateWidget(preferencesMap,used , context, appWidgetManager, appWidgetId);
+            updateWidget(preferencesMap , context, appWidgetManager, appWidgetId);
         }
         super.onUpdate(context,appWidgetManager,appWidgetIds);
     }
@@ -72,21 +71,28 @@ public class NoS_Receiver extends AppWidgetProvider {
         super.onDeleted(context, appWidgetIds);
     }
 
-    private void updateWidget(Map<String, ?> preferences, Set<String> used,
+    private void updateWidget(Map<String, ?> preferences,
                               Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
         String key = KEY + appWidgetId;
         String uuid = (String) preferences.get(key);
+
+        //Forces widget to drop all views instead of recycling and causing unwanted,
+        //erased data from showing up instead of being erased
+        setDeleted(context, appWidgetManager, appWidgetId);
+
         Note note;
         try {
             note = Note.loadNote(context, uuid);
         } catch (Exception e) {
-            RemoteViews views = new RemoteViews(context.getPackageName(),
-                    R.layout.widget_note_on_screen_deleted);
-            appWidgetManager.updateAppWidget(appWidgetId, views);
             return;
         }
         getViews(context, appWidgetManager, appWidgetId, note);
-        used.add(key);
+    }
+
+    private void setDeleted(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
+        RemoteViews views = new RemoteViews(context.getPackageName(),
+                R.layout.widget_note_on_screen_deleted);
+        appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 
     public static void getViews(Context context, AppWidgetManager appWidgetManager,
@@ -112,8 +118,9 @@ public class NoS_Receiver extends AppWidgetProvider {
         String title = note.getTitle();
         if(title.equals(""))
             views.setViewVisibility(R.id.wnos_top_bar, View.GONE);
-        else
+        else {
             views.setTextViewText(R.id.wnos_title, title);
+        }
     }
 
     private static void addContent(Context context, Note note, RemoteViews views) {
